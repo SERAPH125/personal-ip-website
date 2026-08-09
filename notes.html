@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>知识库 · 南吴 NANWU</title>
+  <link rel="stylesheet" href="assets/hub.css?v=20260808u1" />
+  <script>document.documentElement.classList.add("notes-gsap");</script>
+</head>
+<body>
+  <a class="skip-link" href="#notes-page" data-od-id="skip-link">跳到主要内容</a>
+
+  <header class="site-nav" data-od-id="site-nav">
+    <div class="site-nav__inner">
+      <a class="brand" data-od-id="brand" href="index.html">南吴<span>NANWU</span></a>
+      <button class="nav-toggle" type="button" data-od-id="nav-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-links">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav-links" id="nav-links" data-od-id="nav-links" aria-label="主导航">
+        <a href="index.html" data-od-id="nav-home">首页</a>
+        <a href="works.html" data-od-id="nav-works">作品</a>
+        <a href="notes.html" class="is-active" data-od-id="nav-notes" aria-current="page">知识库</a>
+        <a href="about.html" data-od-id="nav-about">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page page--notes" id="notes-page" data-od-id="notes-page" tabindex="-1">
+    <header class="notes-hero" data-od-id="notes-hero">
+      <div class="notes-hero__copy" data-od-id="notes-hero-copy">
+        <h1 data-od-id="notes-title">知识库</h1>
+        <p class="lede" data-od-id="notes-lede">站内可读的文字经验：方法、观察与报告。视频仍去平台看。</p>
+        <p class="notes-count" data-od-id="notes-count" aria-live="polite">共 <strong>2</strong> 篇</p>
+      </div>
+    </header>
+
+    <div class="filters notes-filters" data-od-id="notes-filters" role="group" aria-label="按系列筛选">
+      <button type="button" class="filter-chip is-active" data-note-filter="all" aria-pressed="true" data-od-id="note-filter-all">全部</button>
+      <button type="button" class="filter-chip" data-note-filter="agent" aria-pressed="false" data-od-id="note-filter-agent">Agent 实战</button>
+      <button type="button" class="filter-chip" data-note-filter="industry" aria-pressed="false" data-od-id="note-filter-industry">行业观察</button>
+    </div>
+
+    <ul class="note-list" data-od-id="note-list">
+      <li data-note-series="agent">
+        <a class="note-card" href="notes/codex-5-levels.html" data-od-id="note-card-codex">
+          <div class="note-card__meta">
+            <span class="note-card__series">Agent 实战</span>
+            <span class="note-card__sep" aria-hidden="true">·</span>
+            <time datetime="2026-08-15">2026-08-15</time>
+          </div>
+          <h2 class="note-card__title">Codex 的 5 级用法</h2>
+          <p class="note-card__excerpt">第一级交指令，第五级交完整目标。真正拉开差距的，不是 Token 用量，而是有没有把它做成可持续的生产系统。</p>
+          <span class="note-card__more">
+            阅读全文
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </span>
+        </a>
+      </li>
+      <li data-note-series="industry">
+        <a class="note-card" href="notes/ai-refund-fraud-report.html" data-od-id="note-card-ai-refund">
+          <div class="note-card__meta">
+            <span class="note-card__series">行业观察</span>
+            <span class="note-card__sep" aria-hidden="true">·</span>
+            <time datetime="2026-07-27">2026-07-27</time>
+          </div>
+          <h2 class="note-card__title">AI 生成图片骗售后</h2>
+          <p class="note-card__excerpt">退款欺诈普遍存在；AI 伪图是真实且在扩散的新手段，但尚无可靠统计证明它已占售后很大比例。证据链优先于鉴图。</p>
+          <span class="note-card__more">
+            阅读全文
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="empty-filter" data-od-id="notes-empty" role="status">当前系列下暂无笔记。</div>
+
+    <p class="notes-foot" data-od-id="notes-foot">文字笔记可独立于视频存在。Agent 系列对应视频见 <a href="works.html?series=agent">作品 · Agent 实战</a>。</p>
+  </main>
+
+  <footer class="site-footer" data-od-id="site-footer">
+    <div class="site-footer__inner">
+      <span>南吴 NANWU · 内容枢纽</span>
+      <a href="about.html">关于与平台入口</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="assets/hub.js"></script>
+  <script src="assets/notes-motion.js?v=20260808b"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>作品 · 南吴 NANWU</title>
+  <link rel="stylesheet" href="assets/hub.css?v=20260808u1" />
+</head>
+<body>
+  <header class="site-nav" data-od-id="site-nav">
+    <div class="site-nav__inner">
+      <a class="brand" data-od-id="brand" href="index.html">南吴<span>NANWU</span></a>
+      <button class="nav-toggle" type="button" data-od-id="nav-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-links">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav-links" id="nav-links" data-od-id="nav-links" aria-label="主导航">
+        <a href="index.html" data-od-id="nav-home">首页</a>
+        <a href="works.html" class="is-active" data-od-id="nav-works" aria-current="page">作品</a>
+        <a href="notes.html" data-od-id="nav-notes">知识库</a>
+        <a href="about.html" data-od-id="nav-about">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page" data-od-id="works-page">
+    <p class="eyebrow eyebrow--muted" data-od-id="works-eyebrow">Works</p>
+    <h1 data-od-id="works-title">跨平台作品流</h1>
+    <p class="lede" data-od-id="works-lede">按平台或系列筛选，点击卡片跳转到对应平台观看。封面为占位视觉，正式版可替换为真实缩略图与真实外链。</p>
+
+    <div class="series-banner" data-od-id="series-banner" aria-live="polite">
+      <span>正在查看系列：<strong data-od-id="series-banner-label">—</strong></span>
+      <a href="works.html" data-od-id="series-banner-clear">清除系列筛选</a>
+    </div>
+
+    <div class="filters" data-od-id="works-filters" role="group" aria-label="按平台筛选" style="margin-top:20px">
+      <button type="button" class="filter-chip is-active" data-filter="all" aria-pressed="true" data-od-id="filter-all">全部</button>
+      <button type="button" class="filter-chip" data-filter="douyin" aria-pressed="false" data-od-id="filter-douyin">抖音</button>
+      <button type="button" class="filter-chip" data-filter="bilibili" aria-pressed="false" data-od-id="filter-bilibili">B站</button>
+      <button type="button" class="filter-chip" data-filter="youtube" aria-pressed="false" data-od-id="filter-youtube">YouTube</button>
+    </div>
+
+    <div class="video-grid" data-od-id="works-grid" data-render="auto"></div>
+    <div class="empty-filter" data-od-id="filter-empty">当前筛选下暂无条目（演示数据）。</div>
+  </main>
+
+  <footer class="site-footer" data-od-id="site-footer">
+    <div class="site-footer__inner">
+      <span>南吴 NANWU · 作品流</span>
+      <a href="about.html">去关于页关注</a>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" data-od-id="follow-modal" aria-hidden="true" role="dialog" aria-labelledby="follow-title">
+    <div class="modal">
+      <h2 id="follow-title">选择要关注的平台</h2>
+      <p>正式上线时替换为你的真实主页链接。</p>
+      <div class="platform-links">
+        <a class="platform-link" href="#" data-platform-out="抖音"><span>抖音</span><small>短评测 / 幕后</small></a>
+        <a class="platform-link" href="#" data-platform-out="B站"><span>B站</span><small>长视频 / 系列</small></a>
+        <a class="platform-link" href="#" data-platform-out="YouTube"><span>YouTube</span><small>国际向深度</small></a>
+      </div>
+      <button type="button" class="modal__close" data-action="close-follow">关闭</button>
+    </div>
+  </div>
+  <div class="toast" data-od-id="toast" role="status" aria-live="polite"></div>
+  <script src="assets/hub.js"></script>
+</body>
+</html>

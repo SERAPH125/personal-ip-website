@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>选型预览 · 背景特效 — 南吴 NANWU</title>
+  <meta name="robots" content="noindex" />
+  <style>
+    :root {
+      --bg: oklch(99% 0.002 240);
+      --surface: oklch(100% 0 0);
+      --fg: oklch(18% 0.012 250);
+      --muted: oklch(54% 0.012 250);
+      --border: oklch(92% 0.005 250);
+      --accent: oklch(58% 0.18 255);
+      --accent-soft: oklch(58% 0.18 255 / 0.12);
+      --accent-mist: oklch(72% 0.08 255 / 0.35);
+      --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+      --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+      --radius: 10px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--fg);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+    /* Top bar */
+    .preview-bar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid var(--border);
+      background: oklch(100% 0 0 / 0.88);
+      backdrop-filter: saturate(1.2) blur(12px);
+      -webkit-backdrop-filter: saturate(1.2) blur(12px);
+    }
+    .preview-bar__inner {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      padding: 14px 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px 16px;
+    }
+    .preview-bar__label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+    }
+    .preview-bar__hint {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .page {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+    .page__lead {
+      margin: 0 0 28px;
+      max-width: 42em;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .panel:nth-child(5) { grid-column: 1 / -1; }
+    }
+
+    /* Panel shell */
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 320px;
+    }
+    .panel__meta {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .panel__num {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .panel__title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .panel__desc {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .stage {
+      position: relative;
+      flex: 1;
+      min-height: 240px;
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .stage__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .stage__content {
+      position: relative;
+      z-index: 1;
+      padding: 28px 24px;
+      max-width: 28em;
+    }
+    .stage__content h3 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .stage__content p {
+      margin: 0 0 16px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .fake-btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 510;
+      color: var(--fg);
+    }
+    .fake-btn--accent {
+      border-color: transparent;
+      background: var(--accent);
+      color: oklch(99% 0.002 240);
+    }
+
+    /* —— 1 噪点 —— */
+    .fx-noise {
+      background: var(--bg);
+    }
+    .fx-noise::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.22;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+
+    /* —— 2 柔光漂移 —— */
+    .fx-glow {
+      background: var(--bg);
+    }
+    .fx-glow-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(52px);
+      opacity: 0.55;
+      will-change: transform;
+    }
+    .fx-glow-blob--a {
+      width: 46%;
+      height: 52%;
+      left: 6%;
+      top: 8%;
+      background: oklch(72% 0.1 255 / 0.48);
+      animation: blob-a 16s ease-in-out infinite alternate;
+    }
+    .fx-glow-blob--b {
+      width: 40%;
+      height: 44%;
+      right: 4%;
+      bottom: 6%;
+      background: oklch(78% 0.05 230 / 0.42);
+      animation: blob-b 20s ease-in-out infinite alternate;
+    }
+    @keyframes blob-a {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(28%, 22%) scale(1.12); }
+    }
+    @keyframes blob-b {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(-24%, -18%) scale(1.08); }
+    }
+
+    /* —— 3 静帧 mesh —— */
+    .fx-mesh {
+      background:
+        radial-gradient(at 18% 22%, oklch(78% 0.09 255 / 0.32) 0%, transparent 48%),
+        radial-gradient(at 82% 18%, oklch(88% 0.03 240 / 0.55) 0%, transparent 42%),
+        radial-gradient(at 72% 78%, oklch(70% 0.07 250 / 0.22) 0%, transparent 50%),
+        radial-gradient(at 28% 72%, oklch(92% 0.02 230 / 0.7) 0%, transparent 45%),
+        var(--bg);
+    }
+
+    /* —— 4 正交细网格 —— */
+    .fx-ortho {
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(to right, oklch(58% 0.18 255 / 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, oklch(58% 0.18 255 / 0.07) 1px, transparent 1px);
+      background-size: 24px 24px;
+      background-position: -1px -1px;
+    }
+
+    /* —— 5 透视网格 —— */
+    .fx-persp {
+      background: linear-gradient(180deg, var(--bg) 0%, oklch(97% 0.006 250) 100%);
+      overflow: hidden;
+    }
+    .fx-persp__floor {
+      position: absolute;
+      left: -20%;
+      right: -20%;
+      bottom: -35%;
+      height: 95%;
+      transform: perspective(420px) rotateX(58deg);
+      transform-origin: 50% 0%;
+      background-image:
+        linear-gradient(to right, oklch(58% 0.18 255 / 0.14) 1px, transparent 1px),
+        linear-gradient(to bottom, oklch(58% 0.18 255 / 0.14) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(to top, oklch(0% 0 0 / 0.55), transparent 88%);
+      -webkit-mask-image: linear-gradient(to top, oklch(0% 0 0 / 0.55), transparent 88%);
+      pointer-events: none;
+    }
+    .fx-persp__horizon {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 38%;
+      height: 1px;
+      background: oklch(58% 0.18 255 / 0.18);
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fx-glow,
+      .fx-glow-blob--a,
+      .fx-glow-blob--b {
+        animation: none !important;
+      }
+    }
+
+    .footer {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      padding: 0 0 48px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .footer a {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <header class="preview-bar">
+    <div class="preview-bar__inner">
+      <div class="preview-bar__label">选型预览 · 正式站已启用 U1</div>
+      <p class="preview-bar__hint">历史五套对照草稿；正式实现见 <a href="index.html">index.html</a> + <code>assets/hub.css</code>（点阵呼吸 + 柔光）。</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <p class="page__lead">
+      <strong>U1 已落地全站</strong>（Linear 点阵 + 径向柔光）：手法对齐
+      <a href="https://animationpatterns.art/animations/typed-halftone-background-drift/" target="_blank" rel="noopener noreferrer">Typed Halftone Background Drift</a>
+     （<code>@property</code> 相位）与
+      <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/At-rules/@property" target="_blank" rel="noopener noreferrer">MDN @property</a>。
+      下方五面板为选型期草稿，非正式站实现。色板对齐 <code>brand-spec</code>；禁止粒子枢纽 / 粒子海。
+    </p>
+
+    <div class="grid">
+      <!-- 1 -->
+      <article class="panel" id="opt-1">
+        <div class="panel__meta">
+          <span class="panel__num">方案 01</span>
+          <h2 class="panel__title">噪点</h2>
+          <p class="panel__desc">SVG <code>feTurbulence</code> 胶片颗粒叠在浅底上，打断大面积色块的 banding。</p>
+        </div>
+        <div class="stage" tabindex="0">
+          <div class="stage__bg fx-noise" aria-hidden="true"></div>
+          <div class="stage__content">
+            <h3>可读性试读</h3>
+            <p>细噪点应像纸张肌理，而不是脏污。标题与正文仍保持清晰对比。</p>
+            <span class="fake-btn">次要操作</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="panel" id="opt-2">
+        <div class="panel__meta">
+          <span class="panel__num">方案 02</span>
+          <h2 class="panel__title">柔光漂移</h2>
+          <p class="panel__desc">两团低饱和 cobalt / 冷灰柔光缓慢位移；系统开启「减少动态效果」时静帧。</p>
+        </div>
+        <div class="stage" tabindex="0">
+          <div class="stage__bg fx-glow" aria-hidden="true">
+            <span class="fx-glow-blob fx-glow-blob--a"></span>
+            <span class="fx-glow-blob fx-glow-blob--b"></span>
+          </div>
+          <div class="stage__content">
+            <h3>可读性试读</h3>
+            <p>氛围光在背后缓慢呼吸，前景文案与按钮不受遮挡。</p>
+            <span class="fake-btn fake-btn--accent">关注我</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="panel" id="opt-3">
+        <div class="panel__meta">
+          <span class="panel__num">方案 03</span>
+          <h2 class="panel__title">静帧 mesh</h2>
+          <p class="panel__desc">多层 <code>radial-gradient</code> 叠成静态色场 mesh，零动画、零粒子。</p>
+        </div>
+        <div class="stage" tabindex="0">
+          <div class="stage__bg fx-mesh" aria-hidden="true"></div>
+          <div class="stage__content">
+            <h3>可读性试读</h3>
+            <p>软色斑交汇处形成景深暗示，适合首页 hero 背后的安静衬底。</p>
+            <span class="fake-btn">浏览作品</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="panel" id="opt-4">
+        <div class="panel__meta">
+          <span class="panel__num">方案 04</span>
+          <h2 class="panel__title">正交细网格</h2>
+          <p class="panel__desc">24px 正交细线网格，工程图纸感；线色为极淡 cobalt。</p>
+        </div>
+        <div class="stage" tabindex="0">
+          <div class="stage__bg fx-ortho" aria-hidden="true"></div>
+          <div class="stage__content">
+            <h3>可读性试读</h3>
+            <p>网格提供结构感，但不抢文字。适合软件原生 / Linear 气质页面。</p>
+            <span class="fake-btn">查看系列</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="panel" id="opt-5">
+        <div class="panel__meta">
+          <span class="panel__num">方案 05</span>
+          <h2 class="panel__title">透视网格</h2>
+          <p class="panel__desc">CSS <code>perspective</code> + 旋转平面网格，形成向地平线收敛的地面感。</p>
+        </div>
+        <div class="stage" tabindex="0">
+          <div class="stage__bg fx-persp" aria-hidden="true">
+            <div class="fx-persp__floor"></div>
+            <div class="fx-persp__horizon"></div>
+          </div>
+          <div class="stage__content">
+            <h3>可读性试读</h3>
+            <p>地面网格退到下方与远方，正文区仍落在浅底上，保证对比。</p>
+            <span class="fake-btn fake-btn--accent">打开预览</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>
+      开源写法参考：SVG <code>feTurbulence</code> 胶片噪点（MDN / W3C SVG Filters）+ 多层
+      <code>radial-gradient</code> mesh（常见于 Stripe / Linear 风格生成器，如 grainy mesh CSS 写法）。
+      正式站文件未改动 body 背景；选型确认后按编号落地。
+    </p>
+  </footer>
+</body>
+</html>

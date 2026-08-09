@@ -1,0 +1,173 @@
+# 发布与运维 · 南吴 NANWU
+
+本站是**纯静态 HTML**（无构建、无 CMS、无站内播放）。更新 = 改文件 → Git 推送 → 托管自动上线。
+
+**源码仓库：** [SERAPH125/个人ip网站](https://github.com/SERAPH125/个人ip网站)
+
+**日常真相：** 改 `assets/hub.js` + 封面图 / 手写 `notes/*.html`，推仓库即可。
+
+---
+
+## 1. 托管选型（一步到位）
+
+本站无 build：Build command **留空**，输出目录 = **仓库根**（含 `index.html`）。
+
+| 平台 | 免费要点 | 适合你如果… | 首次上手 |
+|---|---|---|---|
+| **Cloudflare Pages**（推荐） | 免费档带宽/请求很慷慨；全球 CDN；自定义域名 + 自动 HTTPS | 要稳、要快、以后可能绑自己的域名 | Git 连仓库 → 无构建 → Deploy |
+| **GitHub Pages** | 与仓库一体；`username.github.io` 或自定义域名 | 仓库已在 GitHub、只要最简单静态托管 | Settings → Pages → Deploy from branch `/` |
+| **Netlify** | Deploy Preview（PR 预览）；拖拽/CLI 也可 | 想每次改动能先看预览站再合并 | 连 Git → Publish directory = `.` |
+
+**默认选 Cloudflare Pages。** 已有 GitHub 且不想多开账号 → GitHub Pages。需要 PR 预览 → Netlify。
+
+开源/官方依据：
+
+- [Cloudflare Pages · Git integration](https://developers.cloudflare.com/pages/get-started/git-integration/)（无构建可留空 build command）
+- [GitHub Pages](https://docs.github.com/pages)（分支根目录发布）
+- [Netlify · Deploy](https://docs.netlify.com/site-deploys/overview/)（Git 连续部署 + Preview）
+- 对比综述：[HostDuel · Static Site Hosting](https://hostduel.com/blog/static-site-hosting-comparison)、[TechStackVS 2026 对比](https://techstackvs.com/compare/vercel-vs-netlify-vs-cloudflare-pages-vs-github-pages)
+
+内容工作流：**继续手改 HTML/JS**，不要上博客 CMS。极简长文可参考 [HermanMartinus/bearblog](https://github.com/HermanMartinus/bearblog)；文档列表结构可参考 [withastro/starlight](https://github.com/withastro/starlight)——本站已手写对齐，无需迁框架。
+
+---
+
+## 2. 首次发布 Checklist（约 15–25 分钟）
+
+1. 把项目放进 **Git 仓库**（GitHub / GitLab）；**不要**提交 `.file-versions/`、`.od-skills/`、Open Design 内部产物（若暂存一并忽略）。
+2. 本地打开 `index.html`：点阵背景、精选封面、外链抖音正常。
+3. 在托管后台 **Connect Git** → Build command 空 → Output / Publish = `/` 或 `.`。
+4. 等部署完成 → 打开 `*.pages.dev` / `*.netlify.app` / `*.github.io` 验收四页：`index` / `works` / `notes` / `about`。
+5. （可选）绑自定义域名 → 按面板改 DNS（CNAME/A）→ 等 HTTPS 变绿。
+6. 记一条「回滚」：托管面板 Rollback 上一版，或 `git revert` 再推。
+
+**可发布文件：** `*.html`、`notes/`、`assets/`、`docs/`、`brand-spec.md`。  
+**不必上线：** `preview-bg-effects.html`（可选保留）、`.file-versions/`、`*.artifact.json`、草稿 Markdown。
+
+---
+
+## 3. 日常更新剧本
+
+每次做完：**本地预览 → `git add` 相关文件 → commit → push**。托管约 1–3 分钟刷新。
+
+### A. 加一条抖音作品（约 10–20 分钟）
+
+1. 准备短链 `https://v.douyin.com/...`；用浏览器/技能抓简介与封面（见 `README.md`「如何爬取封面」）。
+2. 封面下载到 `assets/covers/某名.jpg`（**禁止热链抖音 CDN**）。
+3. 打开 `assets/hub.js` → `videos[]` **数组最前面**插入一条（新片优先）：
+
+```js
+{
+  id: "v5",  // 新 id，勿重复
+  title: "标题",
+  platform: "douyin",
+  platformLabel: "抖音",
+  duration: "短视频",
+  series: "Agent 实战",       // 或 模型观察 / AI 视频
+  seriesSlug: "agent",        // agent | observe | aivideo
+  cover: "assets/covers/某名.jpg",
+  url: "https://v.douyin.com/xxxx/",
+  hook: "一句话钩子",
+  desc: "简介"
+}
+```
+
+4. 若要当**首页精选**：改 `index.html` 里 hero 标题、lede、封面 `img`、`href` 短链（精选是手写的，不自动读 `videos[0]`）。
+5. 「接着看」三卡若要换片：改 `index.html` 对应卡片的封面/标题/链接。
+6. （建议）`docs/README.md` 抖音表格加一行。
+7. Push → 线上 `works.html` 应出现新卡。
+
+### B. 加一篇知识库（约 15–30 分钟）
+
+1. 复制一篇已有文：`notes/codex-5-levels.html` → `notes/你的 slug.html`。
+2. 改标题、正文、系列文案；资源路径用 `../assets/...`。
+3. 在 `notes.html` 的 `<ul class="note-list">` **顶部**加一张卡片：`href="notes/你的 slug.html"`，`data-note-series="agent|industry"`。
+4. 更新 `notes.html` 里「共 **N** 篇」的数字。
+5. Push → 打开线上知识库列表与详情。
+
+### C. 改关于页 / 关注链接（约 5 分钟）
+
+1. `about.html`：平台区 `about-link-douyin|bilibili|youtube`。
+2. **同一文件**关注弹层：`follow-douyin|bilibili|youtube`（两处都要改）。
+3. B站/YouTube 从 `#` 换成真链后：加 `target="_blank" rel="noopener noreferrer"`；若有 `platform-link--pending` 虚线态，去掉 pending class。
+4. 其他页若也有关注弹层，搜 `follow-bilibili` / `follow-youtube` 一并改。
+
+### D. 换封面图（约 5–10 分钟）
+
+1. 新图放入 `assets/covers/`（建议新文件名，避免强缓存旧图）。
+2. `assets/hub.js` 对应条目的 `cover` 字段。
+3. 若是首页精选或「接着看」手写卡：同步改 `index.html` 的 `src`。
+4. Push。
+
+### E. 改样式 / Three 景深（少见）
+
+| 改什么 | 文件 |
+|---|---|
+| 全站样式、U1 背景 | `assets/hub.css` |
+| 首页封面景深逻辑 | `assets/home-cover-three.js` |
+| Three 库（勿乱升） | `assets/vendor/three.min.js`（锁 **r160** UMD） |
+| 知识库列表动效 | `assets/notes-motion.js` |
+
+改完 CSS 后做第 4 节缓存戳。
+
+---
+
+## 4. 缓存与 CDN
+
+| 资源 | 现状 | 注意 |
+|---|---|---|
+| `hub.css` | HTML 里 `?v=20260808…` | **改 CSS 后 bump 所有页的 `?v=`**（根目录 HTML + `notes/*.html`）。目前 `index` 与其它页戳可能不一致，以实际文件为准统一一次即可。 |
+| `hub.js` | 多数页无 `?v=` | 改作品数据后若用户仍见旧片：给 `<script src="assets/hub.js">` 加 `?v=日期` 并全站统一。 |
+| `three.min.js` | 本地 vendor，无 CDN | **勿**换成 three@0.161+ CDN（`three.min.js` 已删会 404）。升级须整包替换并自测首页景深。 |
+| 封面 JPG | 路径固定易被 CDN 缓存 | 换图优先**新文件名**，或改查询串。 |
+
+Cloudflare / Netlify 默认边缘缓存静态资源；回滚部署后用户仍可能看到旧 CSS——靠 `?v=` 戳解决，不必清全球缓存。
+
+---
+
+## 5. 域名与 HTTPS
+
+1. 托管面板 → Custom domains → 填 `nanwu.example.com`（示例）。
+2. DNS：按面板提示加 **CNAME**（指向 `*.pages.dev` / Netlify 域）或 GitHub Pages 的 A/CNAME。
+3. 等证书签发（常几分钟到几小时）；全站自动 HTTPS。
+4. 可选：强制 HTTPS、开启托管自带解析/代理（Cloudflare 橙云）。
+
+本站无后端、无 Cookie 会话；HTTPS 主要防劫持与浏览器安全提示。
+
+---
+
+## 6. 备份与回滚
+
+| 手段 | 做法 |
+|---|---|
+| **主备份** | Git 远程仓库（每次更新都 commit） |
+| **一键回滚** | Cloudflare / Netlify 控制台 → Deployments → Rollback |
+| **Git 回滚** | `git revert <坏提交>` → push（比 force-push 安全） |
+| **封面/文稿** | `assets/covers/` 与 `notes/` 随仓库；重要稿可另存 Markdown 源 |
+
+不要只靠本机文件夹；发布前确认 remote 已 push。
+
+---
+
+## 7. 不要做的事
+
+- **不要**上 WordPress / Ghost / 重型 CMS「图省事」（本站刻意无 CMS）。
+- **不要**为发文引入 Forest Admin、Headless CMS，除非你**明确**要非技术编辑后台。
+- **不要**站内嵌抖音播放器；继续外链。
+- **不要**热链抖音封面 CDN。
+- **不要**为背景换 Vanta / tsParticles / 全屏粒子。
+- **不要**把 Open Design 的 `.file-versions/`、内部 skill 缓存当生产依赖发布。
+- **不要**无必要升级 `three.min.js` 到删了 UMD 构建的大版本。
+
+以后若真要非技术同学改文：再评估「手写 HTML + PR」是否够用；不够再谈轻量 Git 编辑器（如 Front Matter CMS 一类），而非先上整站 CMS。
+
+---
+
+## 8. 两分钟自检（每次发布后）
+
+1. 首页精选封面可点 → 新开抖音。  
+2. `works.html` 新片在、筛选系列正确。  
+3. 知识库列表进得去详情。  
+4. 关于页抖音主页可开。  
+5. 手机窄屏导航可开合。
+
+下一步：选好托管 → 按 §2 连 Git 打出第一版预览 URL。
