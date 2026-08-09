@@ -393,8 +393,62 @@ h3 {
   font-size: 15px;
   margin-top: 12px;
 }
+.related-resource {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  margin-top: 18px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: oklch(100% 0 0 / 0.72);
+  color: var(--fg);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.related-resource:hover {
+  background: var(--surface);
+  border-color: oklch(86% 0.008 250);
+}
+.related-resource:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.related-resource__type {
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: oklch(96% 0.004 250);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.related-resource__title {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--fg);
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.related-resource__action {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.related-resource:hover .related-resource__title,
+.related-resource:focus-visible .related-resource__title {
+  text-decoration: underline;
+  text-decoration-color: oklch(70% 0.02 250);
+  text-underline-offset: 3px;
+}
 .hero__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 .hero--feature .hero__actions { margin-top: 24px; }
+.hero--feature .related-resource + .hero__actions { margin-top: 14px; }
 .hero-media {
   position: relative;
   border: 1px solid var(--border);
@@ -577,6 +631,13 @@ h3 {
   .out-chip { left: 10px; bottom: 10px; padding: 9px 12px; }
   .page { padding: 24px 0 64px; }
   .home-recent { padding-top: 28px; }
+}
+
+@media (max-width: 560px) {
+  .related-resource {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .related-resource__action { display: none; }
 }
 
 @media (max-width: 400px) {
@@ -1393,4 +1454,3 @@ html.notes-gsap:not(.notes-motion-ready) .notes-foot {
   padding-top: 24px;
   border-top: 1px solid var(--border);
 }
-

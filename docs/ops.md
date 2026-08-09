@@ -49,6 +49,22 @@
 
 每次做完：**本地预览 → `git add` 相关文件 → commit → push**。托管约 1–3 分钟刷新。
 
+### 推荐入口：把内容单交给 Codex
+
+日常不必亲自查找并同步多个 HTML/JS 文件。把以下内容单发给 Codex，由 Codex 按本章 A–D 的规则完成修改、验证和文档同步：
+
+```text
+新增视频
+标题：
+平台链接：
+系列：Agent 实战 / 模型观察 / AI 视频
+封面：（附件）
+首页位置：精选 / 接着看 / 仅作品页
+关联资源：无 / 知识文档链接 / 产品链接
+```
+
+约束：`关联资源` 为可选项；只有提供真实对应资源时才展示，每条视频最多 1 条。提交前至少运行相关结构测试与 `git diff --check`，发布后执行第 8 节自检。
+
 ### A. 加一条抖音作品（约 10–20 分钟）
 
 1. 准备短链 `https://v.douyin.com/...`；用浏览器/技能抓简介与封面（见 `README.md`「如何爬取封面」）。
@@ -169,5 +185,29 @@ Cloudflare / Netlify 默认边缘缓存静态资源；回滚部署后用户仍�
 3. 知识库列表进得去详情。  
 4. 关于页抖音主页可开。  
 5. 手机窄屏导航可开合。
+
+---
+
+## 9. 单数据源升级预案（已记录，暂不实施）
+
+**当前状态：** 仅记录方案；网站仍按第 3 节的现有手写流程运行，不改变部署方式。
+
+当作品超过约 20 条、每周更新多次，或出现多人编辑需求时，再把视频和关联资源收口到一个内容表。建议字段：
+
+```js
+{
+  id: "v5",
+  title: "标题",
+  url: "https://v.douyin.com/...",
+  cover: "assets/covers/example.jpg",
+  seriesSlug: "agent",
+  related: null
+  // 或：{ type: "知识文档", title: "标题", href: "notes/example.html" }
+}
+```
+
+升级目标：一条数据生成首页、作品页和关联资源卡；`related: null` 时不渲染占位。优先保持静态 HTML 输出，避免把核心内容进一步变成仅靠浏览器 JS 注入。
+
+完成单数据源后，若需要网页编辑后台，再评估开源 [Pages CMS](https://github.com/pagescms/pagescms)（直接管理 GitHub 仓库内容）或 [Decap CMS](https://github.com/decaporg/decap-cms)（Git-based `/admin` 编辑界面）；当前不安装 CMS。
 
 下一步：选好托管 → 按 §2 连 Git 打出第一版预览 URL。
