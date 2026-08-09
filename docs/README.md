@@ -1,6 +1,6 @@
 # 南吴 NANWU 内容枢纽 · 开发说明
 
-**源码仓库：** [SERAPH125/个人ip网站](https://github.com/SERAPH125/个人ip网站)
+**源码仓库：** [SERAPH125/personal-ip-website](https://github.com/SERAPH125/personal-ip-website)（项目名：个人ip网站）
 
 **发布与运维（日常怎么更新）：** 见 [`ops.md`](./ops.md) — 托管选型、首次发布、加作品/知识库剧本、缓存与回滚。
 

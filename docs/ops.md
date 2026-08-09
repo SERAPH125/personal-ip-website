@@ -2,7 +2,7 @@
 
 本站是**纯静态 HTML**（无构建、无 CMS、无站内播放）。更新 = 改文件 → Git 推送 → 托管自动上线。
 
-**源码仓库：** [SERAPH125/个人ip网站](https://github.com/SERAPH125/个人ip网站)
+**源码仓库：** [SERAPH125/personal-ip-website](https://github.com/SERAPH125/personal-ip-website)（项目名：个人ip网站）
 
 **日常真相：** 改 `assets/hub.js` + 封面图 / 手写 `notes/*.html`，推仓库即可。
 
