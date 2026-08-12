@@ -78,9 +78,16 @@
   const toggle = qs("[data-od-id='nav-toggle']");
   const links = qs("[data-od-id='nav-links']");
   if (toggle && links) {
-    toggle.addEventListener("click", function () {
-      const open = links.classList.toggle("is-open");
+    function setNavOpen(open) {
+      links.classList.toggle("is-open", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+    }
+    toggle.addEventListener("click", function () {
+      setNavOpen(!links.classList.contains("is-open"));
+    });
+    links.addEventListener("click", function (event) {
+      if (event.target.closest("a")) setNavOpen(false);
     });
   }
 
@@ -165,7 +172,7 @@
         return;
       }
       e.preventDefault();
-      showToast("原型演示：将跳转「" + name + "」主页（链接待替换）");
+      showToast("「" + name + "」链接暂不可用");
       closeFollow();
     });
   });
@@ -184,7 +191,7 @@
           return;
         }
         e.preventDefault();
-        showToast("原型演示：将在「" + platform + "」打开「" + title + "」（链接待替换）");
+        showToast("「" + title + "」的「" + platform + "」链接暂不可用");
       });
     });
   }

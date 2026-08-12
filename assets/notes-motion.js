@@ -4,7 +4,10 @@
  * Open source: https://github.com/greensock/gsap
  */
 (function () {
-  if (typeof gsap === "undefined") return;
+  if (typeof gsap === "undefined") {
+    document.documentElement.classList.remove("notes-gsap");
+    return;
+  }
 
   const page = document.querySelector("[data-od-id='notes-page']");
   const noteList = document.querySelector("[data-od-id='note-list']");

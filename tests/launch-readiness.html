@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Launch readiness tests</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; margin: 32px; color: #15171a; }
+    h1 { font-size: 24px; }
+    li { margin: 8px 0; }
+    .pass { color: #087f5b; }
+    .fail { color: #c92a2a; }
+    iframe { position: absolute; left: -10000px; width: 1280px; height: 800px; border: 0; }
+  </style>
+</head>
+<body data-status="running">
+  <h1>Launch readiness</h1>
+  <p id="summary" role="status">运行中…</p>
+  <ol id="results"></ol>
+
+  <script>
+    (async function () {
+      const results = document.querySelector("#results");
+      const summary = document.querySelector("#summary");
+      let failures = 0;
+
+      function assert(condition, message) {
+        if (!condition) throw new Error(message);
+      }
+
+      async function test(name, operation) {
+        const item = document.createElement("li");
+        try {
+          await operation();
+          item.className = "pass";
+          item.textContent = "PASS · " + name;
+        } catch (error) {
+          failures += 1;
+          item.className = "fail";
+          item.textContent = "FAIL · " + name + " — " + error.message;
+        }
+        results.appendChild(item);
+      }
+
+      function loadFrame(src) {
+        return new Promise(function (resolve, reject) {
+          const frame = document.createElement("iframe");
+          const timeout = setTimeout(function () {
+            reject(new Error("iframe load timeout: " + src));
+          }, 8000);
+          frame.addEventListener("load", function () {
+            clearTimeout(timeout);
+            resolve(frame);
+          }, { once: true });
+          frame.src = src;
+          document.body.appendChild(frame);
+        });
+      }
+
+      function isVisuallyRendered(element) {
+        const style = element.ownerDocument.defaultView.getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+      }
+
+      async function parsePage(path) {
+        const response = await fetch(path, { cache: "no-store" });
+        assert(response.ok, path + " returned " + response.status);
+        const html = await response.text();
+        return new DOMParser().parseFromString(html, "text/html");
+      }
+
+      await test("作品系列筛选只渲染匹配卡片", async function () {
+        const frame = await loadFrame("../works.html?series=agent");
+        const cards = Array.from(frame.contentDocument.querySelectorAll("[data-platform]"));
+        const visibleCards = cards.filter(isVisuallyRendered);
+        assert(visibleCards.length === 1, "expected 1 visible card, got " + visibleCards.length);
+        assert(visibleCards[0].getAttribute("data-series") === "agent", "visible card is not Agent 实战");
+        frame.remove();
+      });
+
+      await test("公开页面没有占位文案和空链接", async function () {
+        const pages = ["../index.html", "../works.html", "../about.html"];
+        const forbidden = /占位|待替换|正式上线|演示数据|正式版可替换/;
+        for (const path of pages) {
+          const doc = await parsePage(path);
+          assert(!forbidden.test(doc.body.textContent), path + " still exposes placeholder copy");
+          assert(doc.querySelectorAll('a[href="#"]').length === 0, path + " still exposes href=#");
+        }
+      });
+
+      await test("GSAP 不可用时知识库内容仍可见", async function () {
+        const frame = await loadFrame("fixtures/notes-without-gsap.html?v=20260812launch1");
+        const doc = frame.contentDocument;
+        assert(!doc.documentElement.classList.contains("notes-gsap"), "notes-gsap fallback class was not removed");
+        assert(isVisuallyRendered(doc.querySelector("[data-note-series]")), "note remains visually hidden");
+        frame.remove();
+      });
+
+      await test("移动菜单展开后名称变为关闭菜单", async function () {
+        const frame = await loadFrame("../index.html");
+        const toggle = frame.contentDocument.querySelector("[data-od-id='nav-toggle']");
+        toggle.click();
+        assert(toggle.getAttribute("aria-expanded") === "true", "menu did not expand");
+        assert(toggle.getAttribute("aria-label") === "关闭菜单", "accessible name is still " + toggle.getAttribute("aria-label"));
+        frame.remove();
+      });
+
+      await test("公开页面提供完整分享与索引元数据", async function () {
+        const pages = [
+          "../index.html",
+          "../works.html",
+          "../notes.html",
+          "../about.html",
+          "../notes/codex-5-levels.html",
+          "../notes/ai-refund-fraud-report.html"
+        ];
+        for (const path of pages) {
+          const doc = await parsePage(path);
+          assert(doc.querySelector('meta[name="description"]')?.content, path + " missing description");
+          assert(doc.querySelector('meta[property="og:title"]')?.content, path + " missing og:title");
+          assert(doc.querySelector('meta[property="og:description"]')?.content, path + " missing og:description");
+          assert(doc.querySelector('meta[property="og:image"]')?.content.startsWith("https://"), path + " missing absolute og:image");
+          assert(doc.querySelector('link[rel="canonical"]')?.href.startsWith("https://"), path + " missing canonical URL");
+          assert(doc.querySelector('link[rel~="icon"]')?.getAttribute("href"), path + " missing favicon");
+        }
+        const robots = await fetch("../robots.txt", { cache: "no-store" });
+        const sitemap = await fetch("../sitemap.xml", { cache: "no-store" });
+        assert(robots.ok, "robots.txt returned " + robots.status);
+        assert(sitemap.ok, "sitemap.xml returned " + sitemap.status);
+      });
+
+      document.body.dataset.status = failures ? "failed" : "passed";
+      summary.textContent = failures ? failures + " 项失败" : "全部通过";
+      document.title = failures ? "FAIL · Launch readiness" : "PASS · Launch readiness";
+    })();
+  </script>
+</body>
+</html>

@@ -10,7 +10,7 @@
 
 ## 1. 托管选型（一步到位）
 
-本站无 build：Build command **留空**，输出目录 = **仓库根**（含 `index.html`）。
+本站无 build，输出目录 = **仓库根**（含 `index.html`）。GitHub Pages 直接发布 `main` 分支 `/`；若改用 Cloudflare Pages，静态站 Build command 使用 `exit 0`。
 
 | 平台 | 免费要点 | 适合你如果… | 首次上手 |
 |---|---|---|---|
@@ -18,7 +18,7 @@
 | **GitHub Pages** | 与仓库一体；`username.github.io` 或自定义域名 | 仓库已在 GitHub、只要最简单静态托管 | Settings → Pages → Deploy from branch `/` |
 | **Netlify** | Deploy Preview（PR 预览）；拖拽/CLI 也可 | 想每次改动能先看预览站再合并 | 连 Git → Publish directory = `.` |
 
-**默认选 Cloudflare Pages。** 已有 GitHub 且不想多开账号 → GitHub Pages。需要 PR 预览 → Netlify。
+**当前发布目标：GitHub Pages。** 来源为 `main` 分支根目录，目标地址：`https://seraph125.github.io/personal-ip-website/`。需要 PR 预览时再评估 Netlify。
 
 开源/官方依据：
 
@@ -35,7 +35,7 @@
 
 1. 把项目放进 **Git 仓库**（GitHub / GitLab）；**不要**提交 `.file-versions/`、`.od-skills/`、Open Design 内部产物（若暂存一并忽略）。
 2. 本地打开 `index.html`：点阵背景、精选封面、外链抖音正常。
-3. 在托管后台 **Connect Git** → Build command 空 → Output / Publish = `/` 或 `.`。
+3. GitHub 仓库 Settings → Pages → Deploy from a branch → `main` + `/ (root)`。
 4. 等部署完成 → 打开 `*.pages.dev` / `*.netlify.app` / `*.github.io` 验收四页：`index` / `works` / `notes` / `about`。
 5. （可选）绑自定义域名 → 按面板改 DNS（CNAME/A）→ 等 HTTPS 变绿。
 6. 记一条「回滚」：托管面板 Rollback 上一版，或 `git revert` 再推。
@@ -102,10 +102,10 @@
 
 ### C. 改关于页 / 关注链接（约 5 分钟）
 
-1. `about.html`：平台区 `about-link-douyin|bilibili|youtube`。
-2. **同一文件**关注弹层：`follow-douyin|bilibili|youtube`（两处都要改）。
-3. B站/YouTube 从 `#` 换成真链后：加 `target="_blank" rel="noopener noreferrer"`；若有 `platform-link--pending` 虚线态，去掉 pending class。
-4. 其他页若也有关注弹层，搜 `follow-bilibili` / `follow-youtube` 一并改。
+1. 抖音主页同时维护 `about-link-douyin` 与各页 `follow-douyin`。
+2. B站/YouTube 目前不公开；拿到真实主页后再新增入口，禁止使用 `href="#"`。
+3. 所有外部主页链接加 `target="_blank" rel="noopener noreferrer"` 与准确的 `data-platform-out`。
+4. 全站搜索平台名，确认面板、弹层与说明文档同步。
 
 ### D. 换封面图（约 5–10 分钟）
 
@@ -131,8 +131,8 @@
 
 | 资源 | 现状 | 注意 |
 |---|---|---|
-| `hub.css` | HTML 里 `?v=20260808…` | **改 CSS 后 bump 所有页的 `?v=`**（根目录 HTML + `notes/*.html`）。目前 `index` 与其它页戳可能不一致，以实际文件为准统一一次即可。 |
-| `hub.js` | 多数页无 `?v=` | 改作品数据后若用户仍见旧片：给 `<script src="assets/hub.js">` 加 `?v=日期` 并全站统一。 |
+| `hub.css` | 全站 `?v=20260812launch1` | **改 CSS 后 bump 所有页的 `?v=`**（根目录 HTML + `notes/*.html`）。 |
+| `hub.js` | 全站 `?v=20260812launch1` | 改作品数据或交互后 bump 查询戳并全站统一。 |
 | `three.min.js` | 本地 vendor，无 CDN | **勿**换成 three@0.161+ CDN（`three.min.js` 已删会 404）。升级须整包替换并自测首页景深。 |
 | 封面 JPG | 路径固定易被 CDN 缓存 | 换图优先**新文件名**，或改查询串。 |
 
@@ -180,11 +180,11 @@ Cloudflare / Netlify 默认边缘缓存静态资源；回滚部署后用户仍�
 
 ## 8. 两分钟自检（每次发布后）
 
-1. 首页精选封面可点 → 新开抖音。  
-2. `works.html` 新片在、筛选系列正确。  
-3. 知识库列表进得去详情。  
-4. 关于页抖音主页可开。  
-5. 手机窄屏导航可开合。
+1. 打开 `tests/launch-readiness.html`，确认标题为 `PASS · Launch readiness`。
+2. 首页精选封面可点，作品系列筛选只显示匹配卡片。
+3. 知识库在 GSAP 失败时仍可见，列表可进入详情。
+4. 关于页抖音主页可开，公开页无空链接。
+5. 390px 宽度下导航可开合，按钮名称随状态更新。
 
 ---
 

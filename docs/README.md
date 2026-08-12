@@ -15,11 +15,11 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 | 文件 | 屏 | 说明 |
 |---|---|---|
 | `index.html` | 首页 | **最新片优先**：Codex 五级用法作精选；精选附一条关联知识文档；「接着看」三卡外链抖音 |
-| `works.html` | 作品流 | 4 条抖音真片 + 平台/系列筛选 |
+| `works.html` | 作品流 | 4 条抖音真片 + 系列筛选 |
 | `notes.html` | 知识库列表 | 文字经验入口；顶栏文案「知识库」 |
 | `notes/codex-5-levels.html` | 文章详情 | Codex 5 级用法文字版（自抖音口述扩写） |
 | `notes/ai-refund-fraud-report.html` | 文章详情 | AI 生成图片骗售后分析报告（源：`AI生成图片骗售后现象与商家应对分析报告.md`） |
-| `about.html` | 关于 | 系列：Agent 实战 / 模型观察 / AI 视频 |
+| `about.html` | 关于 | 系列：Agent 实战 / 模型观察 / AI 视频；抖音入口 |
 | `watch.html` | **已退役** | 保留文件；无入口 |
 
 共享：`assets/hub.css`、`assets/hub.js`；视觉契约见 `brand-spec.md`。
@@ -54,8 +54,8 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 ## 外链交互
 
 - 作品卡 / 精选：真实 `href` + `target="_blank"`；toast 提示「前往抖音观看」
-- 「关注我」→ 抖音主页已接真链；B站 / YouTube 仍占位（虚线态 + toast）
-- 封面加载失败会替换为「封面暂不可用」占位，不显示破图图标
+- 「关注我」→ 抖音主页已接真链；B站 / YouTube 在提供真实链接前不展示
+- 封面加载失败会显示「封面暂不可用」后备状态，不显示破图图标
 
 ## 首页打磨（impeccable polish）
 
@@ -130,7 +130,7 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 
 ## 待你确认
 
-1. B站 / YouTube 主页与对应长视频链接
+1. 提供 B站 / YouTube 真实主页与对应长视频链接后，再公开相应入口
 
 ## 开源参考
 
@@ -150,7 +150,12 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 3. 系统开「减少动态效果」→ 点阵相位停、柔光停，静帧保留  
 4. `preview-bg-effects.html` → 历史五套对照 + U1 正式版说明（正式站已启用 U1）  
 
-结构回归：`python3 -m unittest tests/test_home_related_resource.py -v`
+上线回归：
+
+1. 浏览器打开 `tests/launch-readiness.html`，标题应为 `PASS · Launch readiness`
+2. 运行 `python3 -m unittest discover -s tests -p 'test_*.py' -v`
+3. 运行 `node --check assets/hub.js` 与 `node --check assets/notes-motion.js`
+4. 检查 `robots.txt`、`sitemap.xml`、canonical、Open Graph 与 favicon
 
 ## 发布与运维
 

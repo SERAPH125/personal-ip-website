@@ -4,9 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>作品 · 南吴 NANWU</title>
-  <link rel="stylesheet" href="assets/hub.css?v=20260808u1" />
+  <meta name="description" content="浏览南吴 NANWU 的 AI 科技作品，按系列筛选并前往抖音观看完整视频。" />
+  <meta property="og:title" content="作品 · 南吴 NANWU" />
+  <meta property="og:description" content="按系列浏览 Agent 实战、模型观察与 AI 视频作品。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://seraph125.github.io/personal-ip-website/works.html" />
+  <meta property="og:image" content="https://seraph125.github.io/personal-ip-website/assets/home-latest-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="作品 · 南吴 NANWU" />
+  <meta name="twitter:description" content="按系列浏览 Agent 实战、模型观察与 AI 视频作品。" />
+  <meta name="twitter:image" content="https://seraph125.github.io/personal-ip-website/assets/home-latest-cover.jpg" />
+  <link rel="canonical" href="https://seraph125.github.io/personal-ip-website/works.html" />
+  <link rel="icon" type="image/jpeg" href="assets/covers/nanwu-avatar.jpg" />
+  <link rel="stylesheet" href="assets/hub.css?v=20260812launch1" />
 </head>
 <body>
+  <a class="skip-link" href="#works-page" data-od-id="skip-link">跳到主要内容</a>
+
   <header class="site-nav" data-od-id="site-nav">
     <div class="site-nav__inner">
       <a class="brand" data-od-id="brand" href="index.html">南吴<span>NANWU</span></a>
@@ -22,10 +36,10 @@
     </div>
   </header>
 
-  <main class="page" data-od-id="works-page">
+  <main class="page" id="works-page" data-od-id="works-page" tabindex="-1">
     <p class="eyebrow eyebrow--muted" data-od-id="works-eyebrow">Works</p>
-    <h1 data-od-id="works-title">跨平台作品流</h1>
-    <p class="lede" data-od-id="works-lede">按平台或系列筛选，点击卡片跳转到对应平台观看。封面为占位视觉，正式版可替换为真实缩略图与真实外链。</p>
+    <h1 data-od-id="works-title">作品流</h1>
+    <p class="lede" data-od-id="works-lede">按系列浏览，点击卡片前往抖音观看完整视频。</p>
 
     <div class="series-banner" data-od-id="series-banner" aria-live="polite">
       <span>正在查看系列：<strong data-od-id="series-banner-label">—</strong></span>
@@ -35,12 +49,10 @@
     <div class="filters" data-od-id="works-filters" role="group" aria-label="按平台筛选" style="margin-top:20px">
       <button type="button" class="filter-chip is-active" data-filter="all" aria-pressed="true" data-od-id="filter-all">全部</button>
       <button type="button" class="filter-chip" data-filter="douyin" aria-pressed="false" data-od-id="filter-douyin">抖音</button>
-      <button type="button" class="filter-chip" data-filter="bilibili" aria-pressed="false" data-od-id="filter-bilibili">B站</button>
-      <button type="button" class="filter-chip" data-filter="youtube" aria-pressed="false" data-od-id="filter-youtube">YouTube</button>
     </div>
 
     <div class="video-grid" data-od-id="works-grid" data-render="auto"></div>
-    <div class="empty-filter" data-od-id="filter-empty">当前筛选下暂无条目（演示数据）。</div>
+    <div class="empty-filter" data-od-id="filter-empty">当前筛选下暂无作品。</div>
   </main>
 
   <footer class="site-footer" data-od-id="site-footer">
@@ -50,19 +62,7 @@
     </div>
   </footer>
 
-  <div class="modal-backdrop" data-od-id="follow-modal" aria-hidden="true" role="dialog" aria-labelledby="follow-title">
-    <div class="modal">
-      <h2 id="follow-title">选择要关注的平台</h2>
-      <p>正式上线时替换为你的真实主页链接。</p>
-      <div class="platform-links">
-        <a class="platform-link" href="#" data-platform-out="抖音"><span>抖音</span><small>短评测 / 幕后</small></a>
-        <a class="platform-link" href="#" data-platform-out="B站"><span>B站</span><small>长视频 / 系列</small></a>
-        <a class="platform-link" href="#" data-platform-out="YouTube"><span>YouTube</span><small>国际向深度</small></a>
-      </div>
-      <button type="button" class="modal__close" data-action="close-follow">关闭</button>
-    </div>
-  </div>
   <div class="toast" data-od-id="toast" role="status" aria-live="polite"></div>
-  <script src="assets/hub.js"></script>
+  <script src="assets/hub.js?v=20260812launch1"></script>
 </body>
 </html>
