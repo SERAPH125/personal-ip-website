@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://seraph125.github.io/personal-ip-website/sitemap.xml

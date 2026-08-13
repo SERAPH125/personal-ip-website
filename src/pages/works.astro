@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import VideoCard from "../components/VideoCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { absoluteUrl } from "../lib/site";
+
+const videos = (await getCollection("notes", ({ data }) => !data.draft && Boolean(data.video))).sort(
+  (a, b) => a.data.sequence - b.data.sequence,
+);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "作品 · 南吴 NANWU",
+  url: absoluteUrl("works.html"),
+  description: "按系列浏览 Agent 实战、模型观察与 AI 视频作品。",
+  isPartOf: { "@id": `${absoluteUrl("")}#website` },
+};
+---
+
+<BaseLayout
+  title="作品"
+  description="浏览南吴 NANWU 的 AI 科技作品，按系列筛选并前往抖音观看完整视频。"
+  canonicalPath="works.html"
+  activeNav="works"
+  structuredData={schema}
+  footerLabel="南吴 NANWU · 作品流"
+  footerLinkLabel="去关于页关注"
+  mainId="works-page"
+>
+  <main class="page" id="works-page" data-od-id="works-page" tabindex="-1">
+    <p class="eyebrow eyebrow--muted">Works</p>
+    <h1>作品流</h1>
+    <p class="lede">按系列浏览，视频与文字版彼此相连。</p>
+
+    <div class="filters works-filters" role="group" aria-label="按系列筛选">
+      <button type="button" class="filter-chip is-active" data-series-filter="all" aria-pressed="true">全部</button>
+      <button type="button" class="filter-chip" data-series-filter="agent" aria-pressed="false">Agent 实战</button>
+      <button type="button" class="filter-chip" data-series-filter="observe" aria-pressed="false">模型观察</button>
+      <button type="button" class="filter-chip" data-series-filter="aivideo" aria-pressed="false">AI 视频</button>
+    </div>
+    <p class="filter-result" data-filter-count role="status" aria-live="polite">共 {videos.length} 条作品</p>
+
+    <div class="video-grid" data-od-id="works-grid">
+      {videos.map((entry) => <VideoCard entry={entry} />)}
+    </div>
+    <div class="empty-filter" data-od-id="filter-empty" role="status">当前系列下暂无作品。</div>
+  </main>
+</BaseLayout>

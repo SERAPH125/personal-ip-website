@@ -1,0 +1,79 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteNav from "../components/SiteNav.astro";
+import { absoluteUrl, SITE_NAME, withBase } from "../lib/site";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  image?: string;
+  pageType?: "website" | "article" | "profile";
+  activeNav?: "home" | "works" | "notes" | "about";
+  structuredData?: Record<string, unknown>;
+  footerLabel?: string;
+  footerLinkLabel?: string;
+  footerLinkHref?: string;
+  mainId?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  image = "assets/covers/codex-5levels.jpg",
+  pageType = "website",
+  activeNav,
+  structuredData,
+  footerLabel,
+  footerLinkLabel,
+  footerLinkHref,
+  mainId = "main-content",
+} = Astro.props;
+const canonical = absoluteUrl(canonicalPath);
+const socialImage = absoluteUrl(image);
+const fullTitle = title.includes(SITE_NAME) ? title : `${title} · ${SITE_NAME}`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={pageType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <link rel="canonical" href={canonical} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="南吴 NANWU 知识库"
+      href={absoluteUrl("rss.xml")}
+    />
+    <link rel="icon" type="image/jpeg" href={withBase("assets/covers/nanwu-avatar.jpg")} />
+    <link rel="stylesheet" href={withBase("assets/hub.css")} />
+    {structuredData && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href={`#${mainId}`} data-od-id="skip-link">跳到主要内容</a>
+    <SiteNav active={activeNav} />
+    <slot />
+    <SiteFooter
+      label={footerLabel}
+      linkLabel={footerLinkLabel}
+      linkHref={footerLinkHref}
+    />
+    <div class="toast" data-od-id="toast" role="status" aria-live="polite"></div>
+    <script is:inline src={withBase("assets/hub.js")} defer></script>
+  </body>
+</html>

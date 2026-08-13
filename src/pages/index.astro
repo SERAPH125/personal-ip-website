@@ -1,0 +1,101 @@
+---
+import { getCollection } from "astro:content";
+import VideoCard from "../components/VideoCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { absoluteUrl, articlePath, DOUYIN_PROFILE, withBase } from "../lib/site";
+
+const notes = (await getCollection("notes", ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.sequence - b.data.sequence,
+);
+const featured = notes.find((entry) => entry.data.featured) ?? notes[0];
+const recentVideos = notes.filter((entry) => entry.data.video && entry.id !== featured.id).slice(0, 3);
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${absoluteUrl("")}#website`,
+      url: absoluteUrl(""),
+      name: "南吴 NANWU",
+      description: "Agent 实战、模型观察、AI 视频与知识文章。",
+      inLanguage: "zh-CN",
+      publisher: { "@id": `${absoluteUrl("")}#creator` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${absoluteUrl("")}#creator`,
+      name: "南吴 NANWU",
+      url: absoluteUrl(""),
+      image: absoluteUrl("assets/covers/nanwu-avatar.jpg"),
+      sameAs: [DOUYIN_PROFILE],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="南吴 NANWU · AI 科技内容枢纽"
+  description="南吴 NANWU 的 AI 科技内容枢纽，汇集 Agent 实战、模型观察、AI 视频与知识文章。"
+  canonicalPath=""
+  image={featured.data.cover}
+  activeNav="home"
+  structuredData={schema}
+  mainId="home-page"
+>
+  <main class="page" id="home-page" data-od-id="home-page" tabindex="-1">
+    <section class="hero hero--feature" aria-labelledby="home-title">
+      <div class="hero-copy">
+        <p class="eyebrow creator-kicker">南吴 NANWU · AI 科技创作者</p>
+        <h1 id="home-title">把 AI 科技讲清楚，做成可复用的方法</h1>
+        <p class="lede">Agent 实战、模型观察、AI 视频——用实测拆清能力边界，也留下能直接复用的工作流。本期：{featured.data.cardTitle ?? featured.data.title}。</p>
+        <a class="related-resource" href={articlePath(featured.id)}>
+          <span class="related-resource__type">知识文档</span>
+          <span class="related-resource__title">{featured.data.cardTitle ?? featured.data.title}</span>
+          <span class="related-resource__action">阅读全文</span>
+        </a>
+        <div class="hero__actions">
+          <a class="btn btn--primary" data-od-id="cta-follow-home" href={DOUYIN_PROFILE} target="_blank" rel="noopener noreferrer" data-platform-out="抖音">去抖音关注</a>
+          <a class="btn btn--ghost" href={withBase("works.html")}>看全部作品</a>
+        </div>
+      </div>
+
+      {featured.data.video && (
+        <div class="hero-media hero-media--xl hero-media--depth">
+          <a
+            class="hero-media__link"
+            href={featured.data.video.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-video-out="抖音"
+            data-video-title={featured.data.video.title}
+            aria-label={`在抖音观看：${featured.data.video.title}`}
+          >
+            <img
+              class="hero-cover"
+              src={withBase(featured.data.cover)}
+              width="640"
+              height="360"
+              alt={featured.data.coverAlt}
+              decoding="async"
+              fetchpriority="high"
+              data-cover-fallback
+            />
+            <span class="out-chip">去抖音观看 <span aria-hidden="true">↗</span></span>
+          </a>
+        </div>
+      )}
+    </section>
+
+    <section class="home-recent" aria-labelledby="home-recent-title">
+      <div class="section-head section-head--solo">
+        <div>
+          <h2 id="home-recent-title">接着看</h2>
+          <p>三条近期片，视频与 Markdown 文章来自同一份内容数据</p>
+        </div>
+      </div>
+      <div class="video-grid">
+        {recentVideos.map((entry) => <VideoCard entry={entry} compact />)}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

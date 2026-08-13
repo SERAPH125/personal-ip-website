@@ -57,7 +57,7 @@ class RelatedResourceParser(HTMLParser):
 
 class HomeRelatedResourceTest(unittest.TestCase):
     def test_featured_video_exposes_an_independent_knowledge_link(self):
-        index_path = Path(__file__).resolve().parents[1] / "index.html"
+        index_path = Path(__file__).resolve().parents[1] / "dist" / "index.html"
         parser = RelatedResourceParser()
         parser.feed(index_path.read_text(encoding="utf-8"))
 
@@ -68,7 +68,10 @@ class HomeRelatedResourceTest(unittest.TestCase):
         link = featured_links[0]
         self.assertFalse(link["nested"])
         self.assertFalse(link["contains_nested"])
-        self.assertEqual(link["href"], "notes/codex-5-levels.html")
+        self.assertEqual(
+            link["href"],
+            "/personal-ip-website/notes/codex-5-levels.html",
+        )
         link_text = " ".join("".join(link["text"]).split())
         self.assertIn("知识文档", link_text)
         self.assertIn("Codex 的 5 级用法", link_text)

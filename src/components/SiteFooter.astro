@@ -1,0 +1,22 @@
+---
+import { withBase } from "../lib/site";
+
+interface Props {
+  label?: string;
+  linkLabel?: string;
+  linkHref?: string;
+}
+
+const {
+  label = "南吴 NANWU · 内容枢纽",
+  linkLabel = "关于与平台入口",
+  linkHref = "about.html",
+} = Astro.props;
+---
+
+<footer class="site-footer" data-od-id="site-footer">
+  <div class="site-footer__inner">
+    <span>{label}</span>
+    <a href={withBase(linkHref)}>{linkLabel}</a>
+  </div>
+</footer>

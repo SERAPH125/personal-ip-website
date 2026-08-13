@@ -1,0 +1,22 @@
+{
+  "name": "nanwu-content-hub",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "test": "npm run build && python3 -m unittest discover -s tests -p 'test_*.py' -v"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.2.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
+}

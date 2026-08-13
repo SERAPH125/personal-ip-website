@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { articlePath, seriesMeta, withBase } from "../lib/site";
+
+interface Props {
+  entry: CollectionEntry<"notes">;
+  compact?: boolean;
+}
+
+const { entry, compact = false } = Astro.props;
+const { data } = entry;
+const video = data.video;
+---
+
+{video && (
+  <article class="video-card" data-video-card={entry.id} data-series={data.series}>
+    <a
+      class="video-card__watch"
+      href={video.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-video-out="抖音"
+      data-video-title={video.title}
+      aria-label={`在抖音观看：${video.title}`}
+    >
+      <div class="video-card__thumb">
+        <img
+          class="video-cover"
+          src={withBase(data.cover)}
+          alt=""
+          width="640"
+          height="360"
+          loading={compact ? "lazy" : "eager"}
+          decoding="async"
+          data-cover-fallback
+        />
+        <span class="out-badge">抖音</span>
+      </div>
+      <div class="video-card__body">
+        <h2 class="video-card__title">{video.title}</h2>
+        <p class="video-card__meta">
+          <span class="platform-dot" data-p="douyin"></span>
+          {seriesMeta[data.series].label} · {video.hook}
+        </p>
+      </div>
+    </a>
+    {!compact && (
+      <div class="video-card__actions">
+        <a class="video-card__note-link" href={articlePath(entry.id)}>读文字版</a>
+        <span aria-hidden="true">·</span>
+        <a
+          href={video.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-video-out="抖音"
+          data-video-title={video.title}
+        >看视频</a>
+      </div>
+    )}
+  </article>
+)}

@@ -1,0 +1,161 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import {
+  absoluteUrl,
+  articlePath,
+  articleUrl,
+  formatDate,
+  seriesMeta,
+  withBase,
+} from "../lib/site";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  entry: CollectionEntry<"notes">;
+  headings: Heading[];
+  previous?: CollectionEntry<"notes">;
+  next?: CollectionEntry<"notes">;
+}
+
+const { entry, headings, previous, next } = Astro.props;
+const { data } = entry;
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const canonical = articleUrl(entry.id);
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#article`,
+      headline: data.title,
+      description: data.description,
+      datePublished: data.publishedAt.toISOString(),
+      dateModified: (data.updatedAt ?? data.publishedAt).toISOString(),
+      inLanguage: "zh-CN",
+      image: absoluteUrl(data.cover),
+      mainEntityOfPage: canonical,
+      author: {
+        "@type": "Person",
+        "@id": `${absoluteUrl("")}#creator`,
+        name: "南吴 NANWU",
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "知识库",
+          item: absoluteUrl("notes.html"),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: data.title,
+          item: canonical,
+        },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  canonicalPath={`notes/${entry.id}.html`}
+  image={data.cover}
+  pageType="article"
+  activeNav="notes"
+  structuredData={schema}
+  mainId="article-page"
+>
+  <main class="page page--article" id="article-page" data-od-id="article-page" tabindex="-1">
+    <nav class="article-crumb" aria-label="面包屑">
+      <a href={withBase("notes.html")}>知识库</a>
+      <span aria-hidden="true">/</span>
+      <span>{data.cardTitle ?? data.title}</span>
+    </nav>
+
+    <article class="article" data-od-id={`article-${entry.id}`}>
+      <div class="article__surface">
+        <header class="article__header" data-od-id="article-header">
+          <p class="article__meta">
+            <span>{seriesMeta[data.series].label}</span>
+            <span class="note-card__sep" aria-hidden="true">·</span>
+            <time datetime={data.publishedAt.toISOString().slice(0, 10)}>{formatDate(data.publishedAt)}</time>
+            <span class="note-card__sep" aria-hidden="true">·</span>
+            <span>Markdown</span>
+          </p>
+          <h1 data-od-id="article-title">{data.title}</h1>
+          <p class="article__lede" data-od-id="article-lede">{data.description}</p>
+        </header>
+
+        {data.video && (
+          <a
+            class="article__video"
+            href={data.video.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-video-out="抖音"
+            data-video-title={data.video.title}
+          >
+            <img
+              src={withBase(data.cover)}
+              width="640"
+              height="360"
+              alt={data.coverAlt}
+              decoding="async"
+              data-cover-fallback
+            />
+            <span class="article__video-copy">
+              <small>视频版 · 抖音</small>
+              <strong>{data.video.hook}</strong>
+              <span>打开视频 <span aria-hidden="true">↗</span></span>
+            </span>
+          </a>
+        )}
+
+        {toc.length > 1 && (
+          <nav class="article__toc" aria-label="本文目录">
+            <p>本文目录</p>
+            <ol>
+              {toc.map((heading) => (
+                <li class:list={{ "is-subheading": heading.depth === 3 }}>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+
+        <div class="article__body" data-od-id="article-body">
+          <slot />
+        </div>
+
+        <footer class="article__footer" data-od-id="article-footer">
+          <a class="btn btn--ghost" href={withBase("notes.html")}>返回知识库</a>
+          {previous && (
+            <a class="article__pager" href={articlePath(previous.id)}>
+              <span>上一篇</span>
+              <strong>{previous.data.cardTitle ?? previous.data.title}</strong>
+            </a>
+          )}
+          {next && (
+            <a class="article__pager article__pager--next" href={articlePath(next.id)}>
+              <span>下一篇</span>
+              <strong>{next.data.cardTitle ?? next.data.title}</strong>
+            </a>
+          )}
+        </footer>
+      </div>
+    </article>
+  </main>
+</BaseLayout>

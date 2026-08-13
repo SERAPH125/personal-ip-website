@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { absoluteUrl, DOUYIN_PROFILE, withBase } from "../lib/site";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  name: "关于南吴 NANWU",
+  url: absoluteUrl("about.html"),
+  mainEntity: {
+    "@type": "Person",
+    "@id": `${absoluteUrl("")}#creator`,
+    name: "南吴 NANWU",
+    sameAs: [DOUYIN_PROFILE],
+  },
+};
+const series = [
+  ["01", "Agent 实战", "Codex 分级用法、可复现工作流——把工具变成生产系统。", "agent"],
+  ["02", "模型观察", "新模型发布与能力边界——区分发布表述与实际证据。", "observe"],
+  ["03", "AI 视频", "分镜思维、Seedance 玩法与提示词——让画面自己说话。", "aivideo"],
+] as const;
+---
+
+<BaseLayout
+  title="关于"
+  description="认识南吴 NANWU：专注 Agent 实战、模型观察与 AI 视频的科技内容创作者。"
+  canonicalPath="about.html"
+  image="assets/covers/nanwu-avatar.jpg"
+  pageType="profile"
+  activeNav="about"
+  structuredData={schema}
+  footerLabel="南吴 NANWU · 关于"
+  footerLinkLabel="回作品流"
+  footerLinkHref="works.html"
+  mainId="about-page"
+>
+  <main class="page page--about" id="about-page" data-od-id="about-page" tabindex="-1">
+    <header class="about-intro about-intro--text">
+      <div class="about-intro__text">
+        <p class="eyebrow eyebrow--muted">About</p>
+        <h1>南吴 · 把 AI 科技讲清楚</h1>
+        <p>抖音主力更新。Agent 实战、模型观察、AI 视频——先选系列，再去关注。</p>
+      </div>
+    </header>
+
+    <section class="series series--priority" aria-labelledby="series-title">
+      <div class="series__head">
+        <h2 id="series-title">常更系列</h2>
+        <p>点进作品流并自动筛选；每条视频都尽量沉淀成可搜索、可引用的 Markdown 文章。</p>
+      </div>
+      <div class="series-list series-list--links">
+        {series.map(([number, title, description, key]) => (
+          <a class="series-link" href={`${withBase("works.html")}?series=${key}`}>
+            <span class="series-link__index" aria-hidden="true">{number}</span>
+            <span class="series-link__body">
+              <span class="series-link__title">{title}</span>
+              <span class="series-link__desc">{description}</span>
+            </span>
+            <span class="series-link__go" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <aside class="platform-panel platform-panel--about">
+      <h2>平台入口</h2>
+      <p>目前可在抖音观看与关注。</p>
+      <a class="btn btn--primary platform-cta" data-od-id="cta-follow-about" href={DOUYIN_PROFILE} target="_blank" rel="noopener noreferrer" data-platform-out="抖音">去抖音关注</a>
+      <div class="platform-links">
+        <a class="platform-link" href={DOUYIN_PROFILE} target="_blank" rel="noopener noreferrer" data-platform-out="抖音"><span>抖音</span><small>南吴 NANWU</small></a>
+      </div>
+    </aside>
+  </main>
+</BaseLayout>

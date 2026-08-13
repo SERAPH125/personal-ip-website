@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import NoteCard from "../components/NoteCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { absoluteUrl, withBase } from "../lib/site";
+
+const notes = (await getCollection("notes", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf() || a.data.sequence - b.data.sequence,
+);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "知识库 · 南吴 NANWU",
+  url: absoluteUrl("notes.html"),
+  description: "Agent 实战、模型观察、AI 视频与行业观察的可复用文字经验。",
+  isPartOf: { "@id": `${absoluteUrl("")}#website` },
+};
+---
+
+<BaseLayout
+  title="知识库"
+  description="南吴 NANWU 知识库：沉淀 Agent 实战、模型观察、AI 视频与行业观察。"
+  canonicalPath="notes.html"
+  activeNav="notes"
+  structuredData={schema}
+  mainId="notes-page"
+>
+  <main class="page page--notes" id="notes-page" data-od-id="notes-page" tabindex="-1">
+    <header class="notes-hero">
+      <div class="notes-hero__copy">
+        <p class="eyebrow eyebrow--muted">Knowledge Base</p>
+        <h1>知识库</h1>
+        <p class="lede">正文用 Markdown 编写，标题、日期、系列、封面与视频入口由 Astro 统一生成。</p>
+        <p class="notes-count">当前收录 <strong>{notes.length}</strong> 篇</p>
+      </div>
+    </header>
+
+    <ul class="note-list" data-od-id="note-list">
+      {notes.map((entry) => <NoteCard entry={entry} />)}
+    </ul>
+
+    <p class="notes-foot">每篇文字版都可独立阅读，也保留对应视频入口。想按系列浏览，可去 <a href={withBase("works.html")}>作品流</a>。</p>
+  </main>
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/site";
+---
+
+<BaseLayout
+  title="页面未找到"
+  description="这个页面不存在，返回南吴 NANWU 内容枢纽继续浏览。"
+  canonicalPath="404.html"
+  mainId="not-found-page"
+>
+  <main class="page retired-page" id="not-found-page" tabindex="-1">
+    <p class="eyebrow eyebrow--muted">404</p>
+    <h1>这里没有内容</h1>
+    <p class="lede">链接可能已经失效，或地址输入有误。</p>
+    <div class="watch-actions">
+      <a class="btn btn--primary" href={withBase("index.html")}>回到首页</a>
+      <a class="btn btn--ghost" href={withBase("notes.html")}>打开知识库</a>
+    </div>
+  </main>
+</BaseLayout>
