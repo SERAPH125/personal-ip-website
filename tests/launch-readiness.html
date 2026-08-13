@@ -79,6 +79,25 @@
         frame.remove();
       });
 
+      await test("知识库文章阅读列整体居中", async function () {
+        const pages = [
+          "../notes/codex-5-levels.html?v=20260813article1",
+          "../notes/ai-refund-fraud-report.html?v=20260813article1"
+        ];
+        for (const path of pages) {
+          const frame = await loadFrame(path);
+          const article = frame.contentDocument.querySelector(".article");
+          const articleRect = article.getBoundingClientRect();
+          const viewportCenter = frame.contentDocument.documentElement.clientWidth / 2;
+          const articleCenter = articleRect.left + articleRect.width / 2;
+          assert(
+            Math.abs(articleCenter - viewportCenter) <= 1,
+            path + " article center is offset by " + Math.round(articleCenter - viewportCenter) + "px"
+          );
+          frame.remove();
+        }
+      });
+
       await test("公开页面没有占位文案和空链接", async function () {
         const pages = ["../index.html", "../works.html", "../about.html"];
         const forbidden = /占位|待替换|正式上线|演示数据|正式版可替换/;
@@ -90,7 +109,7 @@
       });
 
       await test("GSAP 不可用时知识库内容仍可见", async function () {
-        const frame = await loadFrame("fixtures/notes-without-gsap.html?v=20260812launch1");
+        const frame = await loadFrame("fixtures/notes-without-gsap.html?v=20260813article1");
         const doc = frame.contentDocument;
         assert(!doc.documentElement.classList.contains("notes-gsap"), "notes-gsap fallback class was not removed");
         assert(isVisuallyRendered(doc.querySelector("[data-note-series]")), "note remains visually hidden");

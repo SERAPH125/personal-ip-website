@@ -1296,7 +1296,10 @@ html.notes-gsap:not(.notes-motion-ready) .notes-foot {
   .note-card__excerpt { font-size: 14px; }
 }
 
-.page--article { padding-bottom: 56px; }
+.page--article {
+  width: min(100% - 32px, 42rem);
+  padding-bottom: 56px;
+}
 .article-crumb {
   display: flex;
   flex-wrap: wrap;

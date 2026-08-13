@@ -81,6 +81,7 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
   1. `notes/codex-5-levels.html` — Agent 实战 · 与抖音精选同源，文末链回抖音（outbound）
   2. `notes/ai-refund-fraud-report.html` — 行业观察 · 自项目根目录 Markdown 报告入库；含证据表、来源外链
 - 新增文章：在 `notes/` 加 HTML，并在 `notes.html` 列表加一条卡片；长文表格用 `.article__table-wrap` 横向滚动
+- 文章详情使用居中的 `42rem` 阅读列；面包屑、标题、正文和文末操作保持同一条左边线
 - 列表打磨（impeccable）：去掉双语 eyebrow；系列筛选（`?series=agent|industry`）+ 空态；篇数实时更新；卡片 hover/active/focus；窄屏内边距收紧
 - 动效（gsap-performance）：`notes.html` 加载 GSAP 3.13 + `assets/notes-motion.js`
   - 只动 `y` / `autoAlpha`（不动画 height/padding）

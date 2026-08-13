@@ -35,7 +35,7 @@
 - About IA (locked): **series_first** — `agent` / `observe` / `aivideo`
 - Watch policy (locked): **outbound only** — 无站内播放；`watch.html` = `dead_file`
 - Home IA (locked): **latest_first + optional_related_resource** — 精选 Codex 篇；封面 `assets/home-latest-cover.jpg`；当前关联知识文档 `notes/codex-5-levels.html`
-- Notes IA (locked): **list_detail** — 顶栏「知识库」；列表 `notes.html` + 详情 `notes/*.html`；文章含 `codex-5-levels`（Agent）与 `ai-refund-fraud-report`（行业观察）；列表支持 `?series=agent|industry` 筛选
+- Notes IA (locked): **list_detail** — 顶栏「知识库」；列表 `notes.html` + 详情 `notes/*.html`；文章含 `codex-5-levels`（Agent）与 `ai-refund-fraud-report`（行业观察）；列表支持 `?series=agent|industry` 筛选；详情页采用居中的 `42rem` 阅读列
 - Notes motion: GSAP 入场 + 筛选（`assets/notes-motion.js`）；reduced-motion 关闭；hover 仅背景/字色，不动画 layout
 - Home WebGL (locked): **cover_depth** — 仅精选封面背后景深网格（`assets/home-cover-three.js` + 本地 `assets/vendor/three.min.js` r160 UMD）；不做枢纽/星座/全屏粒子；canvas `pointer-events: none`，点击仍外链抖音；**勿用** three@0.161+ 的 `three.min.js` CDN（已删除，404）
 - Launch policy: 公开页面不得出现空链接或未确认素材；六个公开页面提供 description、canonical、Open Graph、favicon，并由 `robots.txt` / `sitemap.xml` 索引
