@@ -6,7 +6,7 @@
 
 ## 目标
 
-AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 浏览作品 → **外链到平台观看** → 在关于页完成「关注」。
+AI 科技创作者的**内容枢纽**响应式 Web 站点：首页先说明「南吴是谁、做什么」→ 浏览系列作品 → 站内读文字版 / 外链看视频 → 直达抖音关注。
 
 **硬约束：** 站内不集成播放；作品点击直达对应平台。
 
@@ -14,10 +14,13 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 
 | 文件 | 屏 | 说明 |
 |---|---|---|
-| `index.html` | 首页 | **最新片优先**：Codex 五级用法作精选；精选附一条关联知识文档；「接着看」三卡外链抖音 |
-| `works.html` | 作品流 | 4 条抖音真片 + 系列筛选 |
-| `notes.html` | 知识库列表 | 文字经验入口；顶栏文案「知识库」 |
+| `index.html` | 首页 | **创作者定位优先**：南吴定位 + Codex 精选 + 关联知识文档；「接着看」三卡外链抖音 |
+| `works.html` | 作品流 | 4 条静态作品卡；按 `agent / observe / aivideo` 系列筛选；每卡有视频与文字双入口 |
+| `notes.html` | 知识库列表 | 5 篇文字经验；内容不足 12 篇时不加全文搜索 |
 | `notes/codex-5-levels.html` | 文章详情 | Codex 5 级用法文字版（自抖音口述扩写） |
+| `notes/fable-5-safety-lock.html` | 文章详情 | Fable 5 / Mythos 5 的安全机制与数字边界 |
+| `notes/ai-storyboard-perspective.html` | 文章详情 | AI 短片第一/第三视角与提示词模板 |
+| `notes/seedance-2-workflows.html` | 文章详情 | Seedance 2.0 四种工作流与提示词骨架 |
 | `notes/ai-refund-fraud-report.html` | 文章详情 | AI 生成图片骗售后分析报告（源：`AI生成图片骗售后现象与商家应对分析报告.md`） |
 | `about.html` | 关于 | 系列：Agent 实战 / 模型观察 / AI 视频；抖音入口 |
 | `watch.html` | **已退役** | 保留文件；无入口 |
@@ -28,7 +31,7 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 
 ## 已接入的抖音内容（南吴 NANWU）
 
-数据源：`assets/hub.js` → `videos[]`（标题、简介、封面、短链）。
+生产内容源：`works.html` 的静态卡片（标题、系列、封面、短链、对应文章）。静态输出保证 JavaScript 失败或爬虫不执行脚本时仍能读取核心内容；`assets/hub.js` 只负责筛选、导航、toast 与封面后备。
 
 | id | 标题摘要 | 短链 | 封面 |
 |---|---|---|---|
@@ -54,7 +57,9 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 ## 外链交互
 
 - 作品卡 / 精选：真实 `href` + `target="_blank"`；toast 提示「前往抖音观看」
-- 「关注我」→ 抖音主页已接真链；B站 / YouTube 在提供真实链接前不展示
+- 作品卡的「读文字版」为站内链接；视频链接与文章链接并列，禁止嵌套 `<a>`
+- 作品卡的两类操作均保持至少 44px 触控高度
+- 首页 / 关于页的「去抖音关注」直接打开抖音主页，不再弹二次选择层；B站 / YouTube 在提供真实链接前不展示
 - 封面加载失败会显示「封面暂不可用」后备状态，不显示破图图标
 
 ## 首页打磨（impeccable polish）
@@ -65,13 +70,13 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 - 去掉「接着看」旁重复的「全部作品」链接（保留 hero 次级按钮）
 - 封面只保留一个外链 chip，去掉第二枚浮层徽章
 - 卡片 meta 改为「系列 · hook」；去掉无信息量的「短视频」角标
-- 补：跳过链接、弹层焦点返回/Tab 陷阱、`:focus-visible`、`::selection`、窄屏按钮堆叠
+- 补：跳过链接、`:focus-visible`、`::selection`、窄屏按钮堆叠
 - **polish2（本轮）：**
-  - 去掉 hero kicker/eyebrow（信息并入 lede「抖音最新一期」）
+  - 首页首屏恢复创作者身份 eyebrow；H1 固定回答「南吴提供什么价值」，精选视频降为本期内容
   - 导航当前页背景态；页脚链接 hover/focus 对比不降
   - 「接着看」卡片：缩略图边框/阴影反馈；标题下划线；meta 不因 hover 变浅
   - 精选封面 `fetchpriority=high`；封面失败态撑满景深框
-  - 关注弹层 `aria-describedby`；关闭按钮成对 hover 色
+  - 关注 CTA 直达抖音主页，删除只包含一个平台的冗余弹层
   - 筛选 chip 触控高度 44px；主按钮 reduced-motion 取消按下位移
 
 ## 知识库（文字经验）
@@ -79,23 +84,14 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 - IA：`list_detail`（列表 + 详情），导航标签固定为「知识库」
 - 已有文章：
   1. `notes/codex-5-levels.html` — Agent 实战 · 与抖音精选同源，文末链回抖音（outbound）
-  2. `notes/ai-refund-fraud-report.html` — 行业观察 · 自项目根目录 Markdown 报告入库；含证据表、来源外链
-- 新增文章：在 `notes/` 加 HTML，并在 `notes.html` 列表加一条卡片；长文表格用 `.article__table-wrap` 横向滚动
+  2. `notes/fable-5-safety-lock.html` — 模型观察 · 区分发布表述、官方资料与数字边界
+  3. `notes/ai-storyboard-perspective.html` — AI 视频 · 两种视角与提示词模板
+  4. `notes/seedance-2-workflows.html` — AI 视频 · 四种工作流与素材职责
+  5. `notes/ai-refund-fraud-report.html` — 行业观察 · 含证据表、来源外链
+- 新增文章：在 `notes/` 加 HTML，在 `notes.html` 加卡片，在对应 `works.html` 卡片加文字版链接，并同步 `rss.xml` / `sitemap.xml` / JSON-LD；长文表格用 `.article__table-wrap` 横向滚动
 - 文章详情使用居中的 `42rem` 阅读列；面包屑、标题、正文和文末操作保持同一条左边线
-- 列表打磨（impeccable）：去掉双语 eyebrow；系列筛选（`?series=agent|industry`）+ 空态；篇数实时更新；卡片 hover/active/focus；窄屏内边距收紧
-- 动效（gsap-performance）：`notes.html` 加载 GSAP 3.13 + `assets/notes-motion.js`
-  - 只动 `y` / `autoAlpha`（不动画 height/padding）
-  - 入场：标题 → 筛选 → 卡片 stagger；筛选切换 kill 旧 timeline 再淡出/淡入
-  - `gsap.matchMedia` 尊重 `prefers-reduced-motion`（即时显示）
-  - `will-change` 仅在 `.notes-animating` 期间开启；卡片 hover 去掉按下位移，箭头用 transform
-- 首页 WebGL（`cover_depth`）：`assets/home-cover-three.js` + 本地 UMD `assets/vendor/three.min.js`（**three r160**）
-  - 仅衬精选封面：双层 `GridHelper` 景深，封面 inset **28px**（窄屏 18px）露出网格环带
-  - 网格 opacity near≈0.72 / far≈0.45；相机略俯视，环带可读
-  - 指针微倾角；`prefers-reduced-motion` → 静帧；DPR≤1.5；切后台停环
-  - 无 WebGL 时加 `.hero-media--no-webgl`，封面恢复满铺
-  - **坑：** `three@0.161+` 已删除 `build/three.min.js`；旧 CDN 会 404
-  - **坑：** inset 过小（曾 10px）时环带约 6% 面积 + 低对比 → 用户以为「没效果」
-  - **不做：** 枢纽星座、全屏 Vanta/粒子墙、知识库 WebGL
+- 5 篇阶段保持一眼能扫完的单列，不显示大号篇数和筛选区；约 12 篇时再接 [Pagefind](https://github.com/CloudCannon/pagefind) 静态全文索引
+- 首页封面景深已改为纯 CSS 网格与柔光，不加载 `three.min.js` / WebGL / RAF；保留 28px（窄屏 18px）环带
 
 ## 全站背景（U1 · 已落地）
 
@@ -123,7 +119,7 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 
 ## 刻意不做（首版）
 
-商务询盘、邮件订阅、博客 CMS、站内播放器、全屏 WebGL 粒子背景、粒子库背景。
+商务询盘、邮件订阅、博客 CMS、站内播放器、全屏 WebGL 粒子背景、粒子库背景、当前阶段的站内搜索与框架迁移。
 
 ## 品牌（已锁）
 
@@ -140,13 +136,15 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 - [withastro/starlight](https://github.com/withastro/starlight)（知识库列表/阅读结构）
 - [HermanMartinus/bearblog](https://github.com/HermanMartinus/bearblog)（极简长文）
 - [521w/douyin-mcp](https://github.com/521w/douyin-mcp)
-- [mrdoob/three.js](https://github.com/mrdoob/three.js)（封面景深网格）
+- [mrdoob/three.js](https://github.com/mrdoob/three.js)（对照后移除首屏完整库，改为 CSS 静态景深）
+- [CloudCannon/pagefind](https://github.com/CloudCannon/pagefind)（内容达到约 12 篇后的静态搜索预案）
+- [wonderunit/storyboarder](https://github.com/wonderunit/storyboarder)（AI 分镜文章的开源工作流参照）
 - [animationpatterns · Typed Halftone](https://animationpatterns.art/animations/typed-halftone-background-drift/)（U1 点阵 `@property` 相位）
 - [MDN · `@property`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/At-rules/@property)
 
 ## 本地预览
 
-1. 打开 `index.html` → 应见全站点阵+柔光；精选封面景深环带仍在；「知识文档」进入 Codex 文章；点封面新开抖音
+1. 打开 `index.html` → 首屏先见创作者定位；精选封面有 CSS 景深环带；「知识文档」进入 Codex 文章；关注直达抖音
 2. `works.html` / `notes.html` / `about.html` → 同款 `hub.css` 背景  
 3. 系统开「减少动态效果」→ 点阵相位停、柔光停，静帧保留  
 4. `preview-bg-effects.html` → 历史五套对照 + U1 正式版说明（正式站已启用 U1）  
@@ -155,8 +153,8 @@ AI 科技创作者的**内容枢纽**响应式 Web 原型：认识创作者 → 
 
 1. 浏览器打开 `tests/launch-readiness.html`，标题应为 `PASS · Launch readiness`
 2. 运行 `python3 -m unittest discover -s tests -p 'test_*.py' -v`
-3. 运行 `node --check assets/hub.js` 与 `node --check assets/notes-motion.js`
-4. 检查 `robots.txt`、`sitemap.xml`、canonical、Open Graph 与 favicon
+3. 运行 `node --check assets/hub.js`（Python 测试缓存由 `.gitignore` 排除）
+4. 检查 `robots.txt`、`sitemap.xml`、`rss.xml`、canonical、Open Graph、JSON-LD 与 favicon
 
 ## 发布与运维
 

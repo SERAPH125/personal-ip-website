@@ -4,7 +4,7 @@
 
 **源码仓库：** [SERAPH125/personal-ip-website](https://github.com/SERAPH125/personal-ip-website)（项目名：个人ip网站）
 
-**日常真相：** 改 `assets/hub.js` + 封面图 / 手写 `notes/*.html`，推仓库即可。
+**日常真相：** 作品卡写在 `works.html`，文章写在 `notes/*.html`；每次发文同步 `notes.html`、`rss.xml`、`sitemap.xml` 和 JSON-LD，推仓库即可。
 
 ---
 
@@ -34,7 +34,7 @@
 ## 2. 首次发布 Checklist（约 15–25 分钟）
 
 1. 把项目放进 **Git 仓库**（GitHub / GitLab）；**不要**提交 `.file-versions/`、`.od-skills/`、Open Design 内部产物（若暂存一并忽略）。
-2. 本地打开 `index.html`：点阵背景、精选封面、外链抖音正常。
+2. 本地打开 `index.html`：创作者定位、CSS 景深、知识文档与抖音外链正常。
 3. GitHub 仓库 Settings → Pages → Deploy from a branch → `main` + `/ (root)`。
 4. 等部署完成 → 打开 `*.pages.dev` / `*.netlify.app` / `*.github.io` 验收四页：`index` / `works` / `notes` / `about`。
 5. （可选）绑自定义域名 → 按面板改 DNS（CNAME/A）→ 等 HTTPS 变绿。
@@ -69,59 +69,55 @@
 
 1. 准备短链 `https://v.douyin.com/...`；用浏览器/技能抓简介与封面（见 `README.md`「如何爬取封面」）。
 2. 封面下载到 `assets/covers/某名.jpg`（**禁止热链抖音 CDN**）。
-3. 打开 `assets/hub.js` → `videos[]` **数组最前面**插入一条（新片优先）：
+3. 打开 `works.html` → 在 `.video-grid` **最前面**插入一张静态 `<article data-video-card>`；核心结构如下：
 
-```js
-{
-  id: "v5",  // 新 id，勿重复
-  title: "标题",
-  platform: "douyin",
-  platformLabel: "抖音",
-  duration: "短视频",
-  series: "Agent 实战",       // 或 模型观察 / AI 视频
-  seriesSlug: "agent",        // agent | observe | aivideo
-  cover: "assets/covers/某名.jpg",
-  url: "https://v.douyin.com/xxxx/",
-  hook: "一句话钩子",
-  desc: "简介"
-}
+```html
+<article class="video-card" data-video-card="v5" data-series="agent">
+  <a class="video-card__watch" href="https://v.douyin.com/xxxx/" target="_blank" rel="noopener noreferrer" data-video-out="抖音">
+    <!-- 封面 + 标题 + 系列摘要 -->
+  </a>
+  <div class="video-card__actions">
+    <a class="video-card__note-link" href="notes/example.html">读文字版</a>
+    <a href="https://v.douyin.com/xxxx/" target="_blank" rel="noopener noreferrer">看视频</a>
+  </div>
+</article>
 ```
 
 4. 若要当**首页精选**：改 `index.html` 里 hero 标题、lede、封面 `img`、`href` 短链（精选是手写的，不自动读 `videos[0]`）。
 5. 「接着看」三卡若要换片：改 `index.html` 对应卡片的封面/标题/链接。
-6. （建议）`docs/README.md` 抖音表格加一行。
+6. `docs/README.md` 抖音表格加一行；若暂时没有文字版，删除 `video-card__note-link`，不要放空链接。
 7. Push → 线上 `works.html` 应出现新卡。
 
 ### B. 加一篇知识库（约 15–30 分钟）
 
 1. 复制一篇已有文：`notes/codex-5-levels.html` → `notes/你的 slug.html`。
 2. 改标题、正文、系列文案；资源路径用 `../assets/...`。
-3. 在 `notes.html` 的 `<ul class="note-list">` **顶部**加一张卡片：`href="notes/你的 slug.html"`，`data-note-series="agent|industry"`。
-4. 更新 `notes.html` 里「共 **N** 篇」的数字。
-5. Push → 打开线上知识库列表与详情。
+3. 在 `notes.html` 的 `<ul class="note-list">` **顶部**加一张卡片：`href="notes/你的 slug.html"`，`data-note-series="agent|observe|aivideo|industry"`。
+4. 给对应 `works.html` 作品卡补「读文字版」；更新前后篇导航。
+5. 更新 `rss.xml`、`sitemap.xml`，并确认文章的 `BlogPosting + BreadcrumbList` JSON-LD 与发布日期。
+6. 更新 `docs/README.md`；Push 后打开线上知识库列表、详情与 RSS。
 
 ### C. 改关于页 / 关注链接（约 5 分钟）
 
-1. 抖音主页同时维护 `about-link-douyin` 与各页 `follow-douyin`。
+1. 抖音主页同时维护 `about-link-douyin`、首页与关于页的 `cta-follow-*` 直达链接。
 2. B站/YouTube 目前不公开；拿到真实主页后再新增入口，禁止使用 `href="#"`。
 3. 所有外部主页链接加 `target="_blank" rel="noopener noreferrer"` 与准确的 `data-platform-out`。
-4. 全站搜索平台名，确认面板、弹层与说明文档同步。
+4. 全站搜索平台名，确认入口与说明文档同步；当前没有关注弹层。
 
 ### D. 换封面图（约 5–10 分钟）
 
 1. 新图放入 `assets/covers/`（建议新文件名，避免强缓存旧图）。
-2. `assets/hub.js` 对应条目的 `cover` 字段。
-3. 若是首页精选或「接着看」手写卡：同步改 `index.html` 的 `src`。
+2. `works.html` 对应卡片的 `src`。
+3. 若是首页精选或「接着看」卡：同步改 `index.html` 的 `src`。
 4. Push。
 
-### E. 改样式 / Three 景深（少见）
+### E. 改样式 / 首页景深（少见）
 
 | 改什么 | 文件 |
 |---|---|
 | 全站样式、U1 背景 | `assets/hub.css` |
-| 首页封面景深逻辑 | `assets/home-cover-three.js` |
-| Three 库（勿乱升） | `assets/vendor/three.min.js`（锁 **r160** UMD） |
-| 知识库列表动效 | `assets/notes-motion.js` |
+| 首页封面景深 | `assets/hub.css` 的 `.hero-media--depth`（纯 CSS） |
+| 作品系列筛选 / 导航 / toast | `assets/hub.js` |
 
 改完 CSS 后做第 4 节缓存戳。
 
@@ -131,9 +127,8 @@
 
 | 资源 | 现状 | 注意 |
 |---|---|---|
-| `hub.css` | 全站 `?v=20260812launch1` | **改 CSS 后 bump 所有页的 `?v=`**（根目录 HTML + `notes/*.html`）。 |
-| `hub.js` | 全站 `?v=20260812launch1` | 改作品数据或交互后 bump 查询戳并全站统一。 |
-| `three.min.js` | 本地 vendor，无 CDN | **勿**换成 three@0.161+ CDN（`three.min.js` 已删会 404）。升级须整包替换并自测首页景深。 |
+| `hub.css` | 全站 `?v=20260813hub2` | **改 CSS 后 bump 所有页的 `?v=`**（根目录 HTML + `notes/*.html`）。 |
+| `hub.js` | 全站 `?v=20260813hub2` | 改筛选或外链交互后 bump 查询戳并全站统一。 |
 | 封面 JPG | 路径固定易被 CDN 缓存 | 换图优先**新文件名**，或改查询串。 |
 
 Cloudflare / Netlify 默认边缘缓存静态资源；回滚部署后用户仍可能看到旧 CSS——靠 `?v=` 戳解决，不必清全球缓存。
@@ -172,7 +167,8 @@ Cloudflare / Netlify 默认边缘缓存静态资源；回滚部署后用户仍�
 - **不要**热链抖音封面 CDN。
 - **不要**为背景换 Vanta / tsParticles / 全屏粒子。
 - **不要**把 Open Design 的 `.file-versions/`、内部 skill 缓存当生产依赖发布。
-- **不要**无必要升级 `three.min.js` 到删了 UMD 构建的大版本。
+- **不要**把已移除的 Three.js / WebGL 首屏依赖重新接回；当前 CSS 景深无运行时成本。
+- **不要**在少于约 12 篇文章时提前加入全文搜索；达到阈值后优先用 Pagefind，不上搜索后端。
 
 以后若真要非技术同学改文：再评估「手写 HTML + PR」是否够用；不够再谈轻量 Git 编辑器（如 Front Matter CMS 一类），而非先上整站 CMS。
 
@@ -182,17 +178,17 @@ Cloudflare / Netlify 默认边缘缓存静态资源；回滚部署后用户仍�
 
 1. 打开 `tests/launch-readiness.html`，确认标题为 `PASS · Launch readiness`。
 2. 首页精选封面可点，作品系列筛选只显示匹配卡片。
-3. 知识库在 GSAP 失败时仍可见，列表可进入详情。
-4. 关于页抖音主页可开，公开页无空链接。
+3. 知识库共 5 篇，全部可进入详情；RSS 能打开并包含 5 个 item。
+4. 首页 / 关于页关注入口直达抖音，公开页无空链接。
 5. 390px 宽度下导航可开合，按钮名称随状态更新。
 
 ---
 
 ## 9. 单数据源升级预案（已记录，暂不实施）
 
-**当前状态：** 仅记录方案；网站仍按第 3 节的现有手写流程运行，不改变部署方式。
+**当前状态：** 核心作品已经静态写入 `works.html`，避免仅靠浏览器 JS 注入；内容量仍小，不迁移框架。
 
-当作品超过约 20 条、每周更新多次，或出现多人编辑需求时，再把视频和关联资源收口到一个内容表。建议字段：
+当作品超过约 20 条、每周更新多次，或出现多人编辑需求时，再用 Astro content collections / Eleventy 把视频和关联资源收口到一个内容表并生成静态 HTML。建议字段：
 
 ```js
 {
@@ -206,7 +202,7 @@ Cloudflare / Netlify 默认边缘缓存静态资源；回滚部署后用户仍�
 }
 ```
 
-升级目标：一条数据生成首页、作品页和关联资源卡；`related: null` 时不渲染占位。优先保持静态 HTML 输出，避免把核心内容进一步变成仅靠浏览器 JS 注入。
+升级目标：一条数据生成首页、作品页、知识库、RSS、sitemap 与 JSON-LD；`related: null` 时不渲染占位。保持静态 HTML 输出，避免核心内容仅靠浏览器 JS 注入。
 
 完成单数据源后，若需要网页编辑后台，再评估开源 [Pages CMS](https://github.com/pagescms/pagescms)（直接管理 GitHub 仓库内容）或 [Decap CMS](https://github.com/decaporg/decap-cms)（Git-based `/admin` 编辑界面）；当前不安装 CMS。
 

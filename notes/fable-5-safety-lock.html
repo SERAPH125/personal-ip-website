@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fable 5：Mythos 戴上「安全锁」之后 · 知识库 · 南吴 NANWU</title>
+  <meta name="description" content="Fable 5 与 Mythos 5 的关系、安全分类器与回退机制，以及“超过 95%”这个数字真正代表什么。" />
+  <meta property="og:title" content="Fable 5：Mythos 戴上「安全锁」之后 · 南吴 NANWU" />
+  <meta property="og:description" content="同一个底层模型，两种开放方式；95% 指早期会话未触发回退。" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://seraph125.github.io/personal-ip-website/notes/fable-5-safety-lock.html" />
+  <meta property="og:image" content="https://seraph125.github.io/personal-ip-website/assets/covers/fable-5.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Fable 5：Mythos 戴上「安全锁」之后 · 南吴 NANWU" />
+  <meta name="twitter:description" content="同一个底层模型，两种开放方式；95% 指早期会话未触发回退。" />
+  <meta name="twitter:image" content="https://seraph125.github.io/personal-ip-website/assets/covers/fable-5.jpg" />
+  <link rel="canonical" href="https://seraph125.github.io/personal-ip-website/notes/fable-5-safety-lock.html" />
+  <link rel="alternate" type="application/rss+xml" title="南吴 NANWU 知识库" href="https://seraph125.github.io/personal-ip-website/rss.xml" />
+  <link rel="icon" type="image/jpeg" href="../assets/covers/nanwu-avatar.jpg" />
+  <link rel="stylesheet" href="../assets/hub.css?v=20260813hub2" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "headline": "Fable 5：Mythos 戴上安全锁之后",
+        "description": "Fable 5 与 Mythos 5 的关系、安全分类器与回退机制，以及超过 95% 这个数字真正代表什么。",
+        "url": "https://seraph125.github.io/personal-ip-website/notes/fable-5-safety-lock.html",
+        "mainEntityOfPage": "https://seraph125.github.io/personal-ip-website/notes/fable-5-safety-lock.html",
+        "image": "https://seraph125.github.io/personal-ip-website/assets/covers/fable-5.jpg",
+        "datePublished": "2026-08-13",
+        "dateModified": "2026-08-13",
+        "inLanguage": "zh-CN",
+        "author": { "@id": "https://seraph125.github.io/personal-ip-website/#creator" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "知识库", "item": "https://seraph125.github.io/personal-ip-website/notes.html" },
+          { "@type": "ListItem", "position": 2, "name": "Fable 5：Mythos 戴上安全锁之后", "item": "https://seraph125.github.io/personal-ip-website/notes/fable-5-safety-lock.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#article-page" data-od-id="skip-link">跳到主要内容</a>
+  <header class="site-nav" data-od-id="site-nav">
+    <div class="site-nav__inner">
+      <a class="brand" data-od-id="brand" href="../index.html">南吴<span>NANWU</span></a>
+      <button class="nav-toggle" type="button" data-od-id="nav-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-links"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <nav class="nav-links" id="nav-links" data-od-id="nav-links" aria-label="主导航">
+        <a href="../index.html" data-od-id="nav-home">首页</a>
+        <a href="../works.html" data-od-id="nav-works">作品</a>
+        <a href="../notes.html" class="is-active" data-od-id="nav-notes" aria-current="page">知识库</a>
+        <a href="../about.html" data-od-id="nav-about">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page page--article" id="article-page" data-od-id="article-page" tabindex="-1">
+    <nav class="article-crumb" aria-label="面包屑" data-od-id="article-crumb"><a href="../notes.html">知识库</a><span aria-hidden="true">/</span><span>Fable 5：Mythos 戴上「安全锁」之后</span></nav>
+    <article class="article" data-od-id="article-fable">
+      <header class="article__header" data-od-id="article-header">
+        <p class="article__meta"><span>模型观察</span><span class="note-card__sep" aria-hidden="true">·</span><time datetime="2026-08-13">2026-08-13</time></p>
+        <h1 data-od-id="article-title">Fable 5：Mythos 戴上「安全锁」之后</h1>
+        <p class="article__lede" data-od-id="article-lede">Fable 5 与 Mythos 5 使用同一个底层模型，但公开版增加了安全分类器与回退机制。超过 95% 的早期会话没有触发回退；这个数字指会话占比，不是“能力得分 95%”。</p>
+        <p class="article__video-link"><a href="https://v.douyin.com/sAoQQVUBtaM/" target="_blank" rel="noopener noreferrer" data-video-out="抖音" data-video-title="Fable 5 来了：Mythos 戴上安全锁的版本">在抖音看视频版</a></p>
+      </header>
+
+      <div class="article__body" data-od-id="article-body">
+        <h2>先说结论：同一个底模，两种开放方式</h2>
+        <p>Fable 5 不是把 Mythos 简单改了一个名字，也不宜粗暴理解成“阉割版”。Anthropic 的公开材料说明，两者使用相同的底层模型权重，主要差别在访问范围和安全机制。</p>
+        <p>Fable 5 面向普通用户与开发者开放；Mythos 5 则保留给 Project Glasswing 中经过审核的网络防御与关键基础设施合作方。可以把它们理解成同一台发动机的两种配置：Fable 5 多了一套会介入敏感请求的“安全锁”。</p>
+
+        <h2>Mythos 为什么没有一开始就公开</h2>
+        <p>Anthropic 先把 Mythos Preview 提供给有限的防御合作方，用来寻找和修复关键软件漏洞。官方披露的案例包括一个存在多年、后来得到修复的 OpenBSD 漏洞。</p>
+        <p>“发现漏洞、复现漏洞、执行多阶段任务”既能帮助防御者，也可能被攻击者利用。风险来自这种一体两面的能力，而不是“会不会写代码”这一件事。因此，在更广泛开放前增加额外防护，是产品边界的一部分。</p>
+
+        <h2>「安全锁」到底怎么工作</h2>
+        <p>Fable 5 的安全层包含独立分类器，用来识别潜在滥用或绕过防护的请求，重点覆盖网络安全、生物与化学，以及模型蒸馏等高风险领域。请求触发分类器后，系统可能拒绝处理，或切换到其他模型完成部分任务。</p>
+        <p>这套机制不保证零误判。官方也承认分类器会偏保守，正常的编程、调试或研究请求仍可能被拦下。对于 API 开发者，真正需要处理的是拒绝状态、回退路径与用户提示，而不只是换一个模型名。</p>
+
+        <h2>「超过 95%」真正指什么</h2>
+        <p>短视频里把信息概括成“同一个底层模型，95% 的日常场景能力一致”，便于理解，但文章里需要补上限定：官方公布的是早期使用数据——超过 95% 的 Fable 5 会话没有触发模型回退。</p>
+        <p>因此，95% 指“未触发回退的会话占比”，不是能力测试得了 95 分，也不能推导出两个产品在任何任务上都有 95% 的答案一致率。相同的底模，并不等于完全相同的使用体验。</p>
+
+        <h2>适用范围与不确定性</h2>
+        <p>“安全锁”是便于理解的比喻，不是某个单一组件的正式名称。分类器、回退规则、套餐额度与可用地区都可能继续变化；“超过 95%”也是发布初期的总体数据，不能保证每类用户、每个时期都保持相同比例。</p>
+        <p>本文解释的是公开产品设计与使用边界，不构成对模型安全性或基准成绩的独立验证。涉及当前价格、区域和 API 行为时，应以官方文档的最新页面为准。</p>
+
+        <h2>资料来源</h2>
+        <ul>
+          <li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" target="_blank" rel="noopener noreferrer">Anthropic：Claude Fable 5 and Claude Mythos 5</a></li>
+          <li><a href="https://www.anthropic.com/research/claude-fable-5-mythos-5" target="_blank" rel="noopener noreferrer">Anthropic：Fable 5 safeguards research</a></li>
+          <li><a href="https://www.anthropic.com/research/mythos-preview" target="_blank" rel="noopener noreferrer">Anthropic：Assessing Claude Mythos Preview</a></li>
+        </ul>
+      </div>
+
+      <footer class="article__footer" data-od-id="article-footer">
+        <a class="btn btn--ghost" href="../notes.html">返回知识库</a>
+        <a class="btn btn--ghost" href="../notes/codex-5-levels.html">上一篇 · Codex 5 级</a>
+        <a class="btn btn--ghost" href="../notes/ai-storyboard-perspective.html">下一篇 · 分镜视角</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer" data-od-id="site-footer"><div class="site-footer__inner"><span>南吴 NANWU · 内容枢纽</span><a href="../about.html">关于与平台入口</a></div></footer>
+  <div class="toast" data-od-id="toast" role="status" aria-live="polite"></div>
+  <script src="../assets/hub.js?v=20260813hub2"></script>
+</body>
+</html>

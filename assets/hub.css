@@ -30,7 +30,7 @@ html { scroll-behavior: auto; }
  *   - https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/At-rules/@property
  *   - https://linear.app (dot opacity + radial mist; not particles)
  * Hard rules: no Vanta / tsParticles / hub-constellation; stay under content (z:0);
- * cover_depth (home-cover-three) remains the only WebGL accent.
+ * Homepage depth frame is CSS-only so the first view stays lightweight.
  */
 @property --site-dot-x {
   syntax: "<length>";
@@ -462,16 +462,23 @@ h3 {
   min-height: 280px;
 }
 .hero-media--depth {
-  background: linear-gradient(165deg, oklch(94% 0.02 255), oklch(97% 0.006 250) 55%, oklch(95% 0.01 250));
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 78% 18%, oklch(82% 0.07 247 / 0.62), transparent 28%),
+    radial-gradient(circle at 18% 78%, oklch(86% 0.045 205 / 0.48), transparent 32%),
+    linear-gradient(155deg, oklch(93% 0.024 252), oklch(97% 0.008 248) 58%, oklch(94% 0.016 235));
 }
-.hero-media__depth-canvas {
+.hero-media--depth::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: -16%;
   z-index: 0;
   pointer-events: none;
-  display: block;
+  background-image:
+    linear-gradient(oklch(55% 0.045 248 / 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(55% 0.045 248 / 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  transform: rotate(-5deg) scale(1.08);
 }
 .hero-media__link,
 .hero-media a {
@@ -494,15 +501,6 @@ h3 {
 }
 .hero-media--depth .hero-media__link:hover {
   box-shadow: 0 14px 32px oklch(18% 0.012 250 / 0.16);
-}
-.hero-media--no-webgl .hero-media__depth-canvas {
-  display: none;
-}
-.hero-media--no-webgl.hero-media--depth .hero-media__link {
-  position: relative;
-  inset: auto;
-  height: 100%;
-  box-shadow: none;
 }
 .hero-cover {
   width: 100%;
@@ -624,6 +622,7 @@ h3 {
   .hero--feature { grid-template-columns: 1fr; gap: 18px; padding: 8px 0 32px; align-items: start; }
   .hero-media,
   .hero-media--xl { order: -1; min-height: 0; }
+  .hero--feature .hero-media { order: 0; }
   .hero--feature .hero-copy h1 { max-width: none; }
   .hero--feature .lede { max-width: none; }
   .hero__actions { margin-top: 18px; }
@@ -650,6 +649,7 @@ h3 {
   display: flex; flex-wrap: wrap; gap: 8px;
   margin: 0 0 20px;
 }
+.works-filters { margin-top: 20px; }
 .filter-chip {
   min-height: 44px;
   padding: 0 14px;
@@ -685,6 +685,17 @@ h3 {
   transition: background 0.15s ease;
 }
 .video-card[hidden] { display: none; }
+.video-card__watch {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: inherit;
+  border-radius: var(--radius);
+}
+.video-card__watch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 .video-card__thumb {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -747,6 +758,7 @@ h3 {
   color: var(--fg);
   text-decoration-color: transparent;
   transition: text-decoration-color 0.15s ease;
+  margin: 0;
 }
 .video-card__meta {
   font-size: 12px;
@@ -754,6 +766,30 @@ h3 {
   letter-spacing: 0.02em;
   display: flex; gap: 8px; align-items: center;
   line-height: 1.5;
+  margin: 0;
+}
+.video-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 2px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.video-card__actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 3px;
+}
+.video-card__actions a:hover { text-decoration-color: var(--fg); }
+.video-card__actions a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .platform-dot {
   width: 6px; height: 6px; border-radius: 50%;

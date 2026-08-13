@@ -2,3 +2,5 @@
 .file-versions/
 .od-skills/
 *.artifact.json
+__pycache__/
+*.py[cod]

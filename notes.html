@@ -15,9 +15,19 @@
   <meta name="twitter:description" content="Agent 实战、AI 行业观察与可复用的方法报告。" />
   <meta name="twitter:image" content="https://seraph125.github.io/personal-ip-website/assets/home-latest-cover.jpg" />
   <link rel="canonical" href="https://seraph125.github.io/personal-ip-website/notes.html" />
+  <link rel="alternate" type="application/rss+xml" title="南吴 NANWU 知识库" href="https://seraph125.github.io/personal-ip-website/rss.xml" />
   <link rel="icon" type="image/jpeg" href="assets/covers/nanwu-avatar.jpg" />
-  <link rel="stylesheet" href="assets/hub.css?v=20260813article1" />
-  <script>document.documentElement.classList.add("notes-gsap");</script>
+  <link rel="stylesheet" href="assets/hub.css?v=20260813hub2" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "知识库 · 南吴 NANWU",
+    "url": "https://seraph125.github.io/personal-ip-website/notes.html",
+    "description": "Agent 实战、模型观察、AI 视频与行业观察的可复用文字经验。",
+    "isPartOf": { "@id": "https://seraph125.github.io/personal-ip-website/#website" }
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#notes-page" data-od-id="skip-link">跳到主要内容</a>
@@ -41,18 +51,47 @@
     <header class="notes-hero" data-od-id="notes-hero">
       <div class="notes-hero__copy" data-od-id="notes-hero-copy">
         <h1 data-od-id="notes-title">知识库</h1>
-        <p class="lede" data-od-id="notes-lede">站内可读的文字经验：方法、观察与报告。视频仍去平台看。</p>
-        <p class="notes-count" data-od-id="notes-count" aria-live="polite">共 <strong>2</strong> 篇</p>
+        <p class="lede" data-od-id="notes-lede">把视频里的方法、观察与提示词整理成站内可读版本。每篇都能独立阅读，也能跳到对应视频。</p>
       </div>
     </header>
 
-    <div class="filters notes-filters" data-od-id="notes-filters" role="group" aria-label="按系列筛选">
-      <button type="button" class="filter-chip is-active" data-note-filter="all" aria-pressed="true" data-od-id="note-filter-all">全部</button>
-      <button type="button" class="filter-chip" data-note-filter="agent" aria-pressed="false" data-od-id="note-filter-agent">Agent 实战</button>
-      <button type="button" class="filter-chip" data-note-filter="industry" aria-pressed="false" data-od-id="note-filter-industry">行业观察</button>
-    </div>
-
     <ul class="note-list" data-od-id="note-list">
+      <li data-note-series="aivideo">
+        <a class="note-card" href="notes/seedance-2-workflows.html" data-od-id="note-card-seedance">
+          <div class="note-card__meta">
+            <span class="note-card__series">AI 视频</span>
+            <span class="note-card__sep" aria-hidden="true">·</span>
+            <time datetime="2026-08-13">2026-08-13</time>
+          </div>
+          <h2 class="note-card__title">Seedance 2.0 四种玩法，附提示词</h2>
+          <p class="note-card__excerpt">替换场景、复刻动作、分镜成片与角色乱斗。四种玩法共用一个原则：先写清每份参考素材负责什么。</p>
+          <span class="note-card__more">阅读全文 <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+      </li>
+      <li data-note-series="aivideo">
+        <a class="note-card" href="notes/ai-storyboard-perspective.html" data-od-id="note-card-storyboard">
+          <div class="note-card__meta">
+            <span class="note-card__series">AI 视频</span>
+            <span class="note-card__sep" aria-hidden="true">·</span>
+            <time datetime="2026-08-13">2026-08-13</time>
+          </div>
+          <h2 class="note-card__title">AI 短片没代入感？先选对观看视角</h2>
+          <p class="note-card__excerpt">用角色参考图与分镜图锁定同一世界，再明确第三视角或第一视角，让每个镜头都有清楚的观看位置与叙事任务。</p>
+          <span class="note-card__more">阅读全文 <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+      </li>
+      <li data-note-series="observe">
+        <a class="note-card" href="notes/fable-5-safety-lock.html" data-od-id="note-card-fable">
+          <div class="note-card__meta">
+            <span class="note-card__series">模型观察</span>
+            <span class="note-card__sep" aria-hidden="true">·</span>
+            <time datetime="2026-08-13">2026-08-13</time>
+          </div>
+          <h2 class="note-card__title">Fable 5：Mythos 戴上「安全锁」之后</h2>
+          <p class="note-card__excerpt">同一个底层模型，两种开放方式。95% 指早期会话未触发回退，不是“能力得分 95%”。</p>
+          <span class="note-card__more">阅读全文 <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+      </li>
       <li data-note-series="agent">
         <a class="note-card" href="notes/codex-5-levels.html" data-od-id="note-card-codex">
           <div class="note-card__meta">
@@ -85,9 +124,7 @@
       </li>
     </ul>
 
-    <div class="empty-filter" data-od-id="notes-empty" role="status">当前系列下暂无笔记。</div>
-
-    <p class="notes-foot" data-od-id="notes-foot">文字笔记可独立于视频存在。Agent 系列对应视频见 <a href="works.html?series=agent">作品 · Agent 实战</a>。</p>
+    <p class="notes-foot" data-od-id="notes-foot">每篇文字版都可独立阅读，也保留对应视频入口。想按系列浏览，可去 <a href="works.html">作品流</a>。</p>
   </main>
 
   <footer class="site-footer" data-od-id="site-footer">
@@ -97,8 +134,6 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="assets/hub.js?v=20260812launch1"></script>
-  <script src="assets/notes-motion.js?v=20260812launch1"></script>
+  <script src="assets/hub.js?v=20260813hub2"></script>
 </body>
 </html>
