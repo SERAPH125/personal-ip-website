@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# 从一句话到 60 秒成片：AI 视频生产工作流
-
 直接让模型“生成一条 60 秒、有起承转合的电影短片”，听起来省事，实际往往最费时间。人物、场景、节奏和动作都交给一次生成，任何一个环节失败，都可能让整条结果无法使用。
 
 更可靠的方法，是把 AI 当成素材部门，把导演和剪辑的决定留在工作流里。
@@ -113,4 +111,3 @@ learning:
 - [Runway：Gen-4 视频提示指南](https://help.runwayml.com/hc/en-us/articles/39789879462419-Gen-4-Video-Prompting-Guide)
 - [DaVinci Resolve 官方培训](https://www.blackmagicdesign.com/products/davinciresolve/training)
 - [FFmpeg 官方文档](https://www.ffmpeg.org/documentation.html)
-

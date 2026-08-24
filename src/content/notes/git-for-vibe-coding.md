@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# 不会 Git 也敢 Vibe Coding？先学会保存、比较和撤回
-
 Vibe Coding 最容易制造一种错觉：代码是 AI 写的，所以版本管理也可以交给 AI。
 
 真正出问题时，你会发现自己最需要回答的不是「这段代码什么意思」，而是：
@@ -123,4 +121,3 @@ Vibe Coding 可以让你更快向前，但 Git 决定你能不能安全回头。
 - [Pro Git：Git 的三个状态](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git)
 - [Pro Git：撤销操作](https://git-scm.com/book/en/v2/Git-Basics-Undoing-Things.html)
 - [Pro Git 完整教程](https://git-scm.com/book/en/v2.html)
-

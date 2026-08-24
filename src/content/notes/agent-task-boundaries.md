@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# 该让 Coding Agent 做什么，不该让它做什么
-
 当 AI 只能回答问题时，答错了最多浪费一点时间。当 Coding Agent 可以修改文件、运行命令、安装依赖和连接外部系统时，答错可能直接改变真实世界。
 
 所以使用 Agent 的第一道问题不应该是「它会不会做」，而是：**这件事适不适合交给它做？**
@@ -102,4 +100,3 @@ Agent 可以替你执行步骤，但不能替你决定哪些风险值得承担�
 - [GitHub：云端与本地沙箱](https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes)
 - [OpenAI：Codex Windows 沙箱实践](https://openai.com/index/building-codex-windows-sandbox/)
 - [Anthropic：Claude Code 沙箱](https://www.anthropic.com/engineering/claude-code-sandboxing)
-

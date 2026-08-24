@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# AI 视频提示词怎么写：把画面拆成七个可控变量
-
 AI 视频提示词最常见的问题，不是写得太短，而是把很多愿望挤在同一句话里：既要电影感，又要人物复杂表演，还要镜头连续变化，最后模型不知道先完成哪一件事。
 
 一个更实用的写法，是把镜头拆成七个变量：
@@ -97,4 +95,3 @@ AI 视频提示词最常见的问题，不是写得太短，而是把很多愿�
 - [Runway：Gen-4 视频提示指南](https://help.runwayml.com/hc/en-us/articles/39789879462419-Gen-4-Video-Prompting-Guide)
 - [Runway：图生视频提示指南](https://help.runwayml.com/hc/en-us/articles/48324313115155-Image-to-Video-Prompting-Guide)
 - [Google DeepMind：Veo](https://deepmind.google/models/veo/)
-

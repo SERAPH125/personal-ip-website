@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# AI 写完代码之后：普通人也能执行的七步验收
-
 AI 写代码最快的阶段，往往是生成的那几分钟。真正决定项目质量的，是生成之后有没有认真验收。
 
 最危险的交付方式是：页面打开了，截图好看，于是直接发布。
@@ -108,4 +106,3 @@ AI 可以帮你完成这张表，但最终判断不能外包。验收不是在�
 - [GitHub：Coding Agent 任务最佳实践](https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent-to-work-on-tasks/best-practices-for-using-copilot-to-work-on-tasks)
 - [GitHub：自定义仓库指令](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions-in-your-ide/add-repository-instructions-in-your-ide)
 - [Pro Git：查看和撤销修改](https://git-scm.com/book/en/v2/Git-Basics-Undoing-Things.html)
-

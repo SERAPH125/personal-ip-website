@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# 云端还是本地？AI 视频工具选择指南
-
 AI 视频工具更新很快。今天的排行榜，几个月后可能已经失去参考价值。比“哪个模型最强”更值得先问的是：**我的任务需要什么控制，我愿意承担什么成本？**
 
 云端产品和本地工作流各有价值，没有一种选择适合所有人。
@@ -105,4 +103,3 @@ Wan2.2 使用 Apache-2.0，ComfyUI 使用 GPL-3.0，Diffusers 使用 Apache-2.0�
 - [ComfyUI：Wan2.2 教程](https://docs.comfy.org/tutorials/video/wan/wan2_2)
 - [Diffusers GitHub 仓库](https://github.com/huggingface/diffusers)
 - [HunyuanVideo-1.5 GitHub 仓库与许可证](https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5)
-

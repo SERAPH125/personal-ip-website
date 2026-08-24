@@ -1,0 +1,81 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { absoluteUrl, articlePath, learningTrackMeta } from "../lib/site";
+
+const learningEntries = await getCollection("notes", ({ data }) => !data.draft && Boolean(data.learning));
+const trackKeys = ["vibe-coding", "ai-video"] as const;
+const tracks = trackKeys.map((key) => ({
+  key,
+  ...learningTrackMeta[key],
+  entries: learningEntries
+    .filter((entry) => entry.data.learning?.track === key)
+    .sort((a, b) => (a.data.learning?.step ?? 0) - (b.data.learning?.step ?? 0)),
+}));
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "AI 学习路线 · 南吴 NANWU",
+  url: absoluteUrl("learn.html"),
+  description: "面向所有人的 Vibe Coding 与 AI 视频学习路线，从入门方法走到可复用工作流。",
+  isPartOf: { "@id": `${absoluteUrl("")}#website` },
+};
+---
+
+<BaseLayout
+  title="AI 学习路线"
+  description="面向所有人的 Vibe Coding 与 AI 视频学习路线，从入门方法走到可复用工作流。"
+  canonicalPath="learn.html"
+  activeNav="learn"
+  structuredData={schema}
+  mainId="learn-page"
+>
+  <main class="page page--learn" id="learn-page" data-od-id="learn-page" tabindex="-1">
+    <header class="learn-hero">
+      <p class="eyebrow eyebrow--muted">Learning Paths</p>
+      <h1>AI 学习路线</h1>
+      <p class="lede">不需要先懂技术。选一条路线，按顺序完成 6 个步骤，把零散知识变成能反复使用的方法。</p>
+      <p class="learn-hero__count">当前 2 条路线 · 12 篇</p>
+    </header>
+
+    <nav class="learning-overview" aria-label="选择学习路线">
+      {tracks.map((track) => (
+        <a class="learning-overview__card" href={`#${track.key}`}>
+          <span>{track.eyebrow}</span>
+          <strong>{track.label}</strong>
+          <small>{track.description}</small>
+          <em>查看 6 个步骤 <span aria-hidden="true">↓</span></em>
+        </a>
+      ))}
+    </nav>
+
+    {tracks.map((track) => (
+      <section class="learning-track" id={track.key} data-learning-track={track.key} aria-labelledby={`${track.key}-title`}>
+        <header class="learning-track__head">
+          <div>
+            <p class="eyebrow">{track.eyebrow}</p>
+            <h2 id={`${track.key}-title`}>{track.label} 学习路线</h2>
+          </div>
+          <p>{track.description}</p>
+        </header>
+
+        <ol class="learning-list">
+          {track.entries.map((entry) => (
+            <li data-learning-track={track.key} data-learning-step={entry.data.learning?.step}>
+              <a class="learning-step" href={articlePath(entry.id)}>
+                <span class="learning-step__number" aria-hidden="true">
+                  {String(entry.data.learning?.step).padStart(2, "0")}
+                </span>
+                <span class="learning-step__copy">
+                  <strong>{entry.data.title}</strong>
+                  <small>{entry.data.description}</small>
+                </span>
+                <span class="learning-step__more">开始学习 <span aria-hidden="true">→</span></span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </main>
+</BaseLayout>

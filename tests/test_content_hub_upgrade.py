@@ -19,7 +19,43 @@ ARTICLE_PATHS = [
     "notes/seedance-2-workflows.html",
     "notes/codex-5-levels.html",
     "notes/ai-refund-fraud-report.html",
+    "notes/vibe-coding-roadmap.html",
+    "notes/writing-agent-tasks.html",
+    "notes/git-for-vibe-coding.html",
+    "notes/ai-code-acceptance-checklist.html",
+    "notes/agent-task-boundaries.html",
+    "notes/ai-coding-productivity.html",
+    "notes/ai-video-roadmap.html",
+    "notes/ai-video-prompt-formula.html",
+    "notes/character-consistency.html",
+    "notes/ai-video-production-workflow.html",
+    "notes/cloud-vs-local-ai-video.html",
+    "notes/ai-video-rights-checklist.html",
 ]
+VIDEO_ARTICLE_PATHS = {
+    "notes/fable-5-safety-lock.html",
+    "notes/ai-storyboard-perspective.html",
+    "notes/seedance-2-workflows.html",
+    "notes/codex-5-levels.html",
+}
+LEARNING_PATHS = {
+    "vibe-coding": {
+        1: "notes/vibe-coding-roadmap.html",
+        2: "notes/writing-agent-tasks.html",
+        3: "notes/git-for-vibe-coding.html",
+        4: "notes/ai-code-acceptance-checklist.html",
+        5: "notes/agent-task-boundaries.html",
+        6: "notes/ai-coding-productivity.html",
+    },
+    "ai-video": {
+        1: "notes/ai-video-roadmap.html",
+        2: "notes/ai-video-prompt-formula.html",
+        3: "notes/character-consistency.html",
+        4: "notes/ai-video-production-workflow.html",
+        5: "notes/cloud-vs-local-ai-video.html",
+        6: "notes/ai-video-rights-checklist.html",
+    },
+}
 
 
 class DocumentParser(HTMLParser):
@@ -74,7 +110,14 @@ def schema_types(payload):
 
 class ContentHubUpgradeTests(unittest.TestCase):
     def test_build_preserves_every_public_file_style_url(self):
-        public_pages = ["index.html", "works.html", "notes.html", "about.html", *ARTICLE_PATHS]
+        public_pages = [
+            "index.html",
+            "works.html",
+            "learn.html",
+            "notes.html",
+            "about.html",
+            *ARTICLE_PATHS,
+        ]
         for relative_path in public_pages:
             self.assertTrue((DIST / relative_path).is_file(), relative_path)
         for relative_path in ARTICLE_PATHS:
@@ -123,10 +166,10 @@ class ContentHubUpgradeTests(unittest.TestCase):
         }
         self.assertEqual(
             note_links,
-            {BASE_PATH + path for path in ARTICLE_PATHS if "refund" not in path},
+            {BASE_PATH + path for path in VIDEO_ARTICLE_PATHS},
         )
 
-    def test_knowledge_base_lists_five_real_articles_without_premature_search(self):
+    def test_knowledge_base_lists_seventeen_real_articles_without_search(self):
         notes = parse("notes.html")
         article_links = {
             attrs.get("href")
@@ -138,8 +181,66 @@ class ContentHubUpgradeTests(unittest.TestCase):
         for relative_path in ARTICLE_PATHS:
             self.assertTrue((DIST / relative_path).is_file(), relative_path + " does not exist")
 
+    def test_learning_hub_orders_two_complete_tracks(self):
+        self.assertTrue((DIST / "learn.html").is_file(), "learn.html does not exist")
+        learning = parse("learn.html")
+        sections = [
+            attrs.get("data-learning-track")
+            for tag, attrs in learning.tags
+            if tag == "section" and attrs.get("data-learning-track")
+        ]
+        self.assertEqual(sections, ["vibe-coding", "ai-video"])
+
+        steps = [
+            (attrs.get("data-learning-track"), int(attrs["data-learning-step"]))
+            for tag, attrs in learning.tags
+            if tag == "li" and attrs.get("data-learning-step")
+        ]
+        self.assertEqual(
+            steps,
+            [
+                (track, step)
+                for track in ("vibe-coding", "ai-video")
+                for step in range(1, 7)
+            ],
+        )
+
+        links = {attrs.get("href") for attrs in learning.attrs_for("a")}
+        for track in LEARNING_PATHS.values():
+            for path in track.values():
+                self.assertIn(BASE_PATH + path, links)
+
+        current_links = [
+            attrs
+            for attrs in learning.attrs_for("a")
+            if attrs.get("aria-current") == "page"
+        ]
+        self.assertEqual(len(current_links), 1)
+        self.assertEqual(current_links[0].get("href"), BASE_PATH + "learn.html")
+
+    def test_primary_navigation_includes_learning_hub_everywhere(self):
+        public_pages = [
+            "index.html",
+            "works.html",
+            "learn.html",
+            "notes.html",
+            "about.html",
+            *ARTICLE_PATHS,
+        ]
+        for relative_path in public_pages:
+            self.assertTrue((DIST / relative_path).is_file(), relative_path)
+            links = {attrs.get("href") for attrs in parse(relative_path).attrs_for("a")}
+            self.assertIn(BASE_PATH + "learn.html", links, relative_path)
+
     def test_public_pages_advertise_rss_and_use_structured_data(self):
-        public_pages = ["index.html", "works.html", "notes.html", "about.html", *ARTICLE_PATHS]
+        public_pages = [
+            "index.html",
+            "works.html",
+            "learn.html",
+            "notes.html",
+            "about.html",
+            *ARTICLE_PATHS,
+        ]
         for relative_path in public_pages:
             page = parse(relative_path)
             feed_links = [
@@ -177,10 +278,10 @@ class ContentHubUpgradeTests(unittest.TestCase):
                 self.assertTrue(posting.get(field), relative_path + " missing " + field)
             self.assertTrue(posting["image"].startswith("https://"))
 
-    def test_rss_and_sitemap_include_all_five_articles(self):
+    def test_rss_and_sitemap_include_all_seventeen_articles(self):
         rss = ET.parse(DIST / "rss.xml").getroot()
         items = rss.findall("./channel/item")
-        self.assertEqual(len(items), 5)
+        self.assertEqual(len(items), 17)
         rss_links = {item.findtext("link") for item in items}
 
         sitemap = ET.parse(DIST / "sitemap-0.xml").getroot()
@@ -191,6 +292,10 @@ class ContentHubUpgradeTests(unittest.TestCase):
             url = "https://seraph125.github.io/personal-ip-website/" + relative_path
             self.assertIn(url, rss_links)
             self.assertIn(url, sitemap_links)
+        self.assertIn(
+            "https://seraph125.github.io/personal-ip-website/learn.html",
+            sitemap_links,
+        )
 
     def test_articles_have_markdown_reading_structure_and_exact_canonical(self):
         for relative_path in ARTICLE_PATHS:
@@ -247,11 +352,18 @@ class ContentHubUpgradeTests(unittest.TestCase):
                 for attrs in links
                 if "article__video" in attrs.get("class", "").split()
             ]
-            expected = 0 if "refund" in relative_path else 1
+            expected = 1 if relative_path in VIDEO_ARTICLE_PATHS else 0
             self.assertEqual(len(video_links), expected, relative_path)
 
     def test_all_built_internal_links_and_assets_exist(self):
-        public_pages = ["index.html", "works.html", "notes.html", "about.html", *ARTICLE_PATHS]
+        public_pages = [
+            "index.html",
+            "works.html",
+            "learn.html",
+            "notes.html",
+            "about.html",
+            *ARTICLE_PATHS,
+        ]
         for relative_path in public_pages:
             page = parse(relative_path)
             references = []

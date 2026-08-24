@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# AI 视频发布前，先过这张版权与来源清单
-
 AI 能生成画面，不代表画面中的每一项都自动获得了发布许可。
 
 一条 AI 视频可能同时涉及参考图片、人物肖像、声音、角色设定、音乐、字体、模型许可证和平台条款。真正稳妥的做法，是在制作开始时记录来源，而不是发布前才凭记忆补救。
@@ -105,4 +103,3 @@ C2PA 为图片、视频等内容提供可验证的来源和编辑记录标准。
 - [OpenAI：负责任地推出 Sora](https://openai.com/index/launching-sora-responsibly/)
 - [Wan2.2 GitHub 仓库](https://github.com/Wan-Video/Wan2.2)
 - [HunyuanVideo-1.5 GitHub 仓库与许可证](https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5)
-

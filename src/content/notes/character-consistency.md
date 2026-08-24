@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# AI 视频角色一致性：不要只靠一张参考图
-
 “同一个角色到了下一镜头就像换了一个人”，是 AI 视频最常见的问题之一。
 
 很多人会不断增加参考图，但图片越多不一定越稳定。如果每张图的年龄、发型、服装、光线和画风都不同，模型收到的不是更多证据，而是更多冲突。
@@ -94,4 +92,3 @@ learning:
 - [Runway：图生视频提示指南](https://help.runwayml.com/hc/en-us/articles/48324313115155-Image-to-Video-Prompting-Guide)
 - [ByteDance Seed：Seedance 2.0](https://seed.bytedance.com/seedance2_0)
 - [OpenAI：负责任地推出 Sora](https://openai.com/index/launching-sora-responsibly/)
-

@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# AI 视频学习路线：先学镜头，再学模型
-
 很多人学习 AI 视频的第一步，是把热门工具全部注册一遍。结果常常是：按钮认识了不少，真正想做一个 30 秒短片时，仍然不知道从哪里开始。
 
 原因并不复杂。AI 视频工具一直在变，但决定作品是否成立的底层能力没有那么快变化：故事、镜头、运动、连续性、剪辑和声音。
@@ -92,4 +90,3 @@ learning:
 - [Runway：Gen-4 视频提示指南](https://help.runwayml.com/hc/en-us/articles/39789879462419-Gen-4-Video-Prompting-Guide)
 - [Runway：图生视频提示指南](https://help.runwayml.com/hc/en-us/articles/48324313115155-Image-to-Video-Prompting-Guide)
 - [DaVinci Resolve 官方培训](https://www.blackmagicdesign.com/products/davinciresolve/training)
-

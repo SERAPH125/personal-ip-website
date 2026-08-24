@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# Vibe Coding 学习路线：从一句话出活，到稳定上线
-
 我之前把 Codex 的用法拆成五级：指令、任务、作业单、工作流和完整目标。
 
 分级解决的是「AI 能帮你做到哪一步」，但还剩下一个问题：**一个没有编程基础的人，到底应该按什么顺序学？**
@@ -135,4 +133,3 @@ Vibe Coding 的路线可以压缩成五句话：
 - [GitHub：Coding Agent 任务最佳实践](https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent-to-work-on-tasks/best-practices-for-using-copilot-to-work-on-tasks)
 - [GitHub Spec Kit：规格驱动开发](https://github.github.com/spec-kit/)
 - [GitHub：Agent 沙箱说明](https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes)
-

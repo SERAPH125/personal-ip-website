@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# 从「帮我做个网站」到可执行任务：让 Coding Agent 少返工的写法
-
 很多人第一次用 Coding Agent，会把愿望直接当任务：
 
 > 帮我做一个高级、好看、有科技感的网站。
@@ -120,4 +118,3 @@ Agent 最容易在三种地方扩大范围：
 - [GitHub：Coding Agent 任务最佳实践](https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent-to-work-on-tasks/best-practices-for-using-copilot-to-work-on-tasks)
 - [GitHub：Prompt engineering for Copilot](https://docs.github.com/en/copilot/concepts/prompting/prompt-engineering)
 - [GitHub Spec Kit](https://github.github.com/spec-kit/)
-

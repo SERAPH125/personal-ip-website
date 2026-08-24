@@ -16,8 +16,6 @@ learning:
 ---
 
 
-# AI 编程到底提效了吗？为什么真实研究给出不同答案
-
 关于 AI 编程，最常见的数字往往来自问卷：开发者觉得自己快了多少，企业认为节省了多少时间。
 
 但「感觉更快」和「实际更快」可能不是一回事。
@@ -88,4 +86,3 @@ AI 可能让新人更快获得一个可以运行的起点，也可能让熟悉�
 - [METR：2025 年资深开源开发者随机对照研究](https://metr.org/Early_2025_AI_Experienced_OS_Devs_Study-paper.pdf)
 - [METR：2026 年实验设计与最新观察](https://metr.org/blog/2026-02-24-uplift-update/)
 - [Microsoft Research：三项软件开发现场实验](https://www.microsoft.com/en-us/research/publication/the-effects-of-generative-ai-on-high-skilled-work-evidence-from-three-field-experiments-with-software-developers/)
-
