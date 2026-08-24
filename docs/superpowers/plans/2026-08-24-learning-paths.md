@@ -76,7 +76,8 @@ Update the expected slug set to the existing five plus `LEARNING_ARTICLES`. Add 
 
 - [ ] **Step 2: Run the contract test and verify it fails**
 
-Run: `python -m unittest tests.test_astro_migration_contract -v`  
+Run: `python -m unittest tests.test_astro_migration_contract -v`
+
 Expected: FAIL because the 12 entries and learning schema do not exist.
 
 - [ ] **Step 3: Add schema and track metadata**
@@ -114,7 +115,8 @@ export type LearningTrackKey = keyof typeof learningTrackMeta;
 
 - [ ] **Step 4: Run the focused test**
 
-Run: `python -m unittest tests.test_astro_migration_contract -v`  
+Run: `python -m unittest tests.test_astro_migration_contract -v`
+
 Expected: metadata/schema assertions pass; entry-count assertions still fail until Task 2.
 
 - [ ] **Step 5: Commit the contract**
@@ -179,10 +181,12 @@ Verify all outputs report `Width=1600` and `Height=900` before committing.
 
 - [ ] **Step 3: Run content and Astro validation**
 
-Run: `python -m unittest tests.test_astro_migration_contract -v`  
+Run: `python -m unittest tests.test_astro_migration_contract -v`
+
 Expected: PASS with 17 Markdown entries and two complete 1—6 tracks.
 
-Run: `npm ci && npm run check`  
+Run: `npm ci && npm run check`
+
 Expected: PASS with no content schema errors.
 
 - [ ] **Step 4: Commit content and assets**
@@ -227,7 +231,8 @@ Also assert the primary navigation contains `learn.html` on every public page an
 
 - [ ] **Step 2: Run the focused test and verify failure**
 
-Run: `npm run build && python -m unittest tests.test_content_hub_upgrade.ContentHubUpgradeTests.test_learning_hub_orders_two_complete_tracks -v`  
+Run: `npm run build && python -m unittest tests.test_content_hub_upgrade.ContentHubUpgradeTests.test_learning_hub_orders_two_complete_tracks -v`
+
 Expected: FAIL because `learn.html` and its navigation entry do not exist.
 
 - [ ] **Step 3: Implement `learn.astro` and navigation**
@@ -258,7 +263,8 @@ Add focused classes `.learn-hero`, `.learning-overview`, `.learning-track`, `.le
 
 - [ ] **Step 5: Run the hub tests**
 
-Run: `npm run check && npm test`  
+Run: `npm run check && npm test`
+
 Expected: learning hub assertions pass; remaining homepage/filter assertions may still fail until Task 4.
 
 - [ ] **Step 6: Commit the hub**
@@ -289,7 +295,8 @@ Assert the homepage has exactly two links with `data-learning-entry`, both point
 
 - [ ] **Step 2: Run tests and verify failure**
 
-Run: `npm test`  
+Run: `npm test`
+
 Expected: FAIL on the new homepage-entry and knowledge-filter assertions.
 
 - [ ] **Step 3: Add compact homepage entry cards**
@@ -316,10 +323,12 @@ Style `.home-learning`, `.home-learning-grid`, `.home-learning-card`, and `.note
 
 - [ ] **Step 6: Run JavaScript and site tests**
 
-Run: `node --check public/assets/hub.js`  
+Run: `node --check public/assets/hub.js`
+
 Expected: PASS.
 
-Run: `npm run check && npm test`  
+Run: `npm run check && npm test`
+
 Expected: PASS with two homepage entries, 17 knowledge cards, and unchanged four-video works behavior.
 
 - [ ] **Step 7: Commit entrypoints and filters**
@@ -348,7 +357,8 @@ Read `.github/workflows/deploy.yml` and assert it contains `pull_request`, targe
 
 - [ ] **Step 2: Run the workflow test and verify failure**
 
-Run: `python -m unittest tests.test_content_hub_upgrade -v`  
+Run: `python -m unittest tests.test_content_hub_upgrade -v`
+
 Expected: FAIL because the workflow has no pull-request trigger or deploy guard.
 
 - [ ] **Step 3: Update the GitHub Actions workflow**
@@ -375,7 +385,8 @@ Document 17 articles, `learn.html`, optional learning frontmatter, the 12 learni
 
 - [ ] **Step 5: Run the documentation and workflow tests**
 
-Run: `python -m unittest tests.test_content_hub_upgrade -v`  
+Run: `python -m unittest tests.test_content_hub_upgrade -v`
+
 Expected: PASS.
 
 - [ ] **Step 6: Commit workflow and docs**
@@ -422,10 +433,12 @@ Record console errors and broken internal requests; acceptable result is none.
 
 - [ ] **Step 4: Review the final diff and working tree**
 
-Run: `git status --short --branch` and `git diff --stat origin/main...HEAD`.  
+Run: `git status --short --branch` and `git diff --stat origin/main...HEAD`.
+
 Expected: only intentional source, content, assets, tests, workflow, specs, plans, and docs changes; no `dist`, `.astro`, or `node_modules` tracked.
 
 - [ ] **Step 5: Push the feature branch**
 
-Run: `git push origin codex/learning-paths`  
+Run: `git push origin codex/learning-paths`
+
 Expected: remote branch advances to the final verified commit. Do not merge `main` or create a pull request unless separately authorized.
