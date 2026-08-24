@@ -10,6 +10,7 @@ const notes = defineCollection({
     description: z.string(),
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
+    sourcesCheckedAt: z.coerce.date().optional(),
     series: z.enum(["agent", "observe", "aivideo", "industry"]),
     sequence: z.number().int().positive(),
     cover: z.string(),
@@ -17,6 +18,12 @@ const notes = defineCollection({
     featured: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    learning: z
+      .object({
+        track: z.enum(["vibe-coding", "ai-video"]),
+        step: z.number().int().min(1).max(6),
+      })
+      .optional(),
     video: z
       .object({
         platform: z.enum(["douyin"]),

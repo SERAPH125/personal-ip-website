@@ -12,6 +12,21 @@ export const seriesMeta = {
 
 export type SeriesKey = keyof typeof seriesMeta;
 
+export const learningTrackMeta = {
+  "vibe-coding": {
+    label: "Vibe Coding",
+    eyebrow: "Build with AI",
+    description: "从任务描述、Git、安全边界到真实效率，建立可以反复使用的 AI 编程方法。",
+  },
+  "ai-video": {
+    label: "AI 视频",
+    eyebrow: "Create with AI",
+    description: "从镜头语言、提示词和角色一致性，走到完整生产与合规发布。",
+  },
+} as const;
+
+export type LearningTrackKey = keyof typeof learningTrackMeta;
+
 export function withBase(path = "") {
   const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
   return `${base}${path.replace(/^\/+/, "")}`;
