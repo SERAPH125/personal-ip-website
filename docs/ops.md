@@ -8,7 +8,8 @@
 2. 正文直接写标准 Markdown：`##` 标题、列表、引用、表格、代码块都由文章模板统一排版。
 3. 封面放到 `public/assets/covers/`，Frontmatter 写 `cover: "assets/covers/文件.jpg"`；禁止热链带签名的抖音 CDN。
 4. 有视频就填写 `video`；没有视频则完全删除该对象，页面不会渲染空入口。
-5. 运行 `npm run check && npm test`；通过后提交并推送 `main`。
+5. 路线文章填写 `sourcesCheckedAt` 与 `learning.track / step`；普通文章不需要 `learning`。
+6. 运行 `npm run check && npm test`；通过后提交。功能分支可先推送并通过 Pull Request 检查，合并 `main` 后才会部署。
 
 最小模板：
 
@@ -17,6 +18,7 @@
 title: "文章标题"
 description: "用于列表、SEO 与文章导语的完整摘要"
 publishedAt: 2026-08-13
+sourcesCheckedAt: 2026-08-12
 series: agent
 sequence: 6
 cover: "assets/covers/example.jpg"
@@ -24,6 +26,9 @@ coverAlt: "封面内容说明"
 featured: false
 tags: ["标签"]
 draft: false
+learning:
+  track: vibe-coding
+  step: 1
 video:
   platform: douyin
   url: "https://v.douyin.com/.../"
@@ -36,7 +41,7 @@ video:
 正文。
 ```
 
-系列只能是 `agent / observe / aivideo / industry`。需要新系列时，先同时更新 `src/content.config.ts`、`src/lib/site.ts` 和作品页筛选。
+系列只能是 `agent / observe / aivideo / industry`。学习路线只能是 `vibe-coding / ai-video`，同一路线的步骤必须完整且不重复。需要新系列或路线时，先同时更新 `src/content.config.ts`、`src/lib/site.ts`、页面入口和契约测试。
 
 ## 2. 首页精选与作品流
 
@@ -44,6 +49,8 @@ video:
 - 带 `video` 的文章自动进入作品页；没有视频的长文只进入知识库。
 - 作品标题、封面、系列、视频链接和「读文字版」都来自同一 Markdown 条目，不再手改多个 HTML。
 - 首页「接着看」自动排除精选后取 3 条视频。
+- 首页「按路线学」自动展示 Vibe Coding 与 AI 视频入口；`learn.html` 按 `learning.step` 组织各 6 篇。
+- 知识库按四个系列筛选全部 17 篇；作品页仍只展示带 `video` 的 4 篇。
 
 ## 3. 本地预览与验收
 
@@ -64,7 +71,7 @@ git diff --check
 构建结果在 `dist/`。重点确认：
 
 - `dist/notes/<slug>.html` 存在，且没有生成目录式 `notes/<slug>/index.html`；
-- `dist/rss.xml` 有全部 5 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`；
+- `dist/rss.xml` 有全部 17 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`，且 sitemap 包含 `learn.html`；
 - `dist/tests/launch-readiness.html` 在本地服务器中显示 `PASS`；
 - 390px 下文章纸面左右留白、目录、表格横向滚动正常。
 
@@ -72,7 +79,7 @@ git diff --check
 
 部署工作流：`.github/workflows/deploy.yml`。
 
-流程是 `npm ci → astro check → build + Python tests → 上传 dist → deploy-pages`。Astro 配置已经锁定：
+流程是 `npm ci → astro check → build + Python tests → 上传 dist`。Pull Request 到 `main` 只运行验证；只有推送到 `main` 才继续执行 `deploy-pages`。Astro 配置已经锁定：
 
 ```js
 site: "https://seraph125.github.io"
@@ -94,7 +101,7 @@ gh api --method PUT repos/SERAPH125/personal-ip-website/pages -f build_type=work
 2. 打开线上 `tests/launch-readiness.html`，标题应为 `PASS · Launch readiness`。
 3. 打开旧地址 `notes/codex-5-levels.html`，确认仍可访问并显示新版目录/阅读纸面。
 4. 打开 `rss.xml` 与 `sitemap-index.xml`，确认均为 200。
-5. 手机宽度下测试导航、作品筛选和一篇长表格文章。
+5. 手机宽度下测试导航、学习路线、知识库筛选、作品筛选和一篇长表格文章。
 
 ## 6. 回滚
 
@@ -106,6 +113,6 @@ gh api --method PUT repos/SERAPH125/personal-ip-website/pages -f build_type=work
 
 - 不引入 WordPress、Ghost 或后端 CMS；
 - 不嵌抖音播放器，不热链抖音封面；
-- 不为少于约 12 篇内容接全文搜索；
+- 17 篇阶段不接全文搜索；约 30 篇或出现明确需求时再评估 Pagefind；
 - 不恢复 Three.js 首屏或全屏粒子库；
 - 不手工维护生成后的 HTML、RSS、sitemap 或 JSON-LD。

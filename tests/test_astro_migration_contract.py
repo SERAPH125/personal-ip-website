@@ -53,6 +53,14 @@ def frontmatter_block(markdown: str) -> str:
 
 
 class AstroMigrationContractTests(unittest.TestCase):
+    def test_pull_requests_build_and_test_without_deploying_pages(self):
+        workflow = (ROOT / ".github" / "workflows" / "deploy.yml").read_text(encoding="utf-8")
+        self.assertRegex(workflow, r"(?m)^\s{2}pull_request:\s*$")
+        self.assertRegex(
+            workflow,
+            r"(?ms)^\s{2}deploy:\s*$.*?^\s{4}if:\s*github\.event_name == 'push' && github\.ref == 'refs/heads/main'\s*$",
+        )
+
     def test_npm_scripts_are_cross_platform_on_windows(self):
         package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
         scripts = package["scripts"]
