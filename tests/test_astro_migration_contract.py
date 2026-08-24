@@ -33,6 +33,19 @@ def frontmatter_keys(markdown: str) -> set[str]:
 
 
 class AstroMigrationContractTests(unittest.TestCase):
+    def test_npm_scripts_are_cross_platform_on_windows(self):
+        package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
+        scripts = package["scripts"]
+
+        for name in ("dev", "build", "check", "preview"):
+            self.assertTrue(
+                scripts[name].startswith("cross-env ASTRO_TELEMETRY_DISABLED=1 "),
+                f"{name} 必须通过 cross-env 设置环境变量",
+            )
+        self.assertIn("python -m unittest", scripts["test"])
+        self.assertNotIn("python3 ", scripts["test"])
+        self.assertIn("cross-env", package.get("devDependencies", {}))
+
     def test_project_builds_with_astro_and_keeps_file_style_urls(self):
         package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
         self.assertIn("astro", package.get("dependencies", {}))
