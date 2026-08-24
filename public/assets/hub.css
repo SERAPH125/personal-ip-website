@@ -615,7 +615,70 @@ h3 {
   color: var(--muted);
 }
 
-.home-recent { padding-top: 28px; }
+.home-learning { padding-top: 38px; }
+.home-learning__all {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 550;
+}
+.home-learning__all:hover { color: var(--fg); }
+.home-learning__all:focus-visible,
+.home-learning__card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.home-learning__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.home-learning__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px 20px;
+  min-height: 154px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: oklch(100% 0 0 / 0.82);
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+.home-learning__card:hover {
+  border-color: oklch(84% 0.02 250);
+  background: var(--surface);
+}
+.home-learning__card > span {
+  grid-column: 1 / -1;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.home-learning__card strong {
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.4;
+}
+.home-learning__card small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.home-learning__card em {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: center;
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  white-space: nowrap;
+}
+.home-recent { padding-top: 46px; }
 
 @media (max-width: 860px) {
   .hero,
@@ -630,9 +693,12 @@ h3 {
   .out-chip { left: 10px; bottom: 10px; padding: 9px 12px; }
   .page { padding: 24px 0 64px; }
   .home-recent { padding-top: 28px; }
+  .home-learning__grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
+  .home-learning .section-head { align-items: start; }
+  .home-learning__all { display: none; }
   .related-resource {
     grid-template-columns: auto minmax(0, 1fr);
   }

@@ -93,27 +93,32 @@
   }
   bindCoverFallback();
 
-  /* Works filter — series chips + shareable ?series= deep link */
-  const grid = qs("[data-od-id='works-grid']");
-  if (grid) {
-    const chips = qsa("[data-series-filter]");
-    const empty = qs("[data-od-id='filter-empty']");
-    const resultCount = qs("[data-filter-count]");
+  /* Shared series filter — works and notes + shareable ?series= deep link */
+  qsa("[data-series-filter-root]").forEach(function (filterRoot) {
+    const chips = qsa("[data-series-filter]", filterRoot);
+    const items = qsa("[data-filter-item]", filterRoot);
+    const empty = qs("[data-filter-empty]", filterRoot);
+    const resultCount = qs("[data-filter-count]", filterRoot);
+    const unit = filterRoot.getAttribute("data-filter-unit") || "内容";
     const params = new URLSearchParams(location.search);
     let seriesFilter = params.get("series") || "all";
     if (seriesFilter !== "all" && !seriesMeta[seriesFilter]) seriesFilter = "all";
+    if (!chips.some(function (chip) {
+      return chip.getAttribute("data-series-filter") === seriesFilter;
+    })) seriesFilter = "all";
 
     function applyFilters() {
       let visible = 0;
-      qsa("[data-video-card]", grid).forEach(function (card) {
-        const show = seriesFilter === "all" || card.getAttribute("data-series") === seriesFilter;
-        card.hidden = !show;
+      items.forEach(function (item) {
+        const show = seriesFilter === "all" || item.getAttribute("data-series") === seriesFilter;
+        item.hidden = !show;
         if (show) visible += 1;
       });
       if (empty) empty.classList.toggle("is-visible", visible === 0);
       if (resultCount) {
         const label = seriesFilter === "all" ? "全部" : seriesMeta[seriesFilter];
-        resultCount.textContent = label + " · " + visible + " 条作品";
+        const measure = unit === "作品" ? " 条作品" : unit === "文章" ? " 篇文章" : " 条" + unit;
+        resultCount.textContent = label + " · " + visible + measure;
       }
       chips.forEach(function (c) {
         const active = c.getAttribute("data-series-filter") === seriesFilter;
@@ -133,5 +138,5 @@
       });
     });
     applyFilters();
-  }
+  });
 })();

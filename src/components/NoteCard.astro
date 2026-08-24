@@ -10,7 +10,7 @@ const { entry } = Astro.props;
 const { data } = entry;
 ---
 
-<li data-note-series={data.series}>
+<li data-note-series={data.series} data-filter-item="true" data-series={data.series}>
   <a class="note-card" href={articlePath(entry.id)} data-od-id={`note-card-${entry.id}`}>
     <div class="note-card__meta">
       <span class="note-card__series">{seriesMeta[data.series].label}</span>

@@ -232,6 +232,57 @@ class ContentHubUpgradeTests(unittest.TestCase):
             links = {attrs.get("href") for attrs in parse(relative_path).attrs_for("a")}
             self.assertIn(BASE_PATH + "learn.html", links, relative_path)
 
+    def test_home_surfaces_both_learning_tracks(self):
+        home = parse("index.html")
+        entries = {
+            attrs.get("data-learning-entry"): attrs.get("href")
+            for attrs in home.attrs_for("a")
+            if attrs.get("data-learning-entry")
+        }
+        self.assertEqual(
+            entries,
+            {
+                "vibe-coding": BASE_PATH + "learn.html#vibe-coding",
+                "ai-video": BASE_PATH + "learn.html#ai-video",
+            },
+        )
+
+    def test_knowledge_base_filters_all_seventeen_articles_by_series(self):
+        notes = parse("notes.html")
+        roots = [
+            attrs
+            for tag, attrs in notes.tags
+            if attrs.get("data-series-filter-root") is not None
+        ]
+        self.assertEqual(len(roots), 1)
+        self.assertEqual(roots[0].get("data-filter-unit"), "文章")
+
+        chips = {
+            attrs.get("data-series-filter")
+            for attrs in notes.attrs_for("button")
+            if attrs.get("data-series-filter")
+        }
+        self.assertEqual(chips, {"all", "agent", "observe", "aivideo", "industry"})
+
+        items = [
+            attrs
+            for tag, attrs in notes.tags
+            if tag == "li" and attrs.get("data-filter-item") is not None
+        ]
+        self.assertEqual(len(items), 17)
+        self.assertEqual(
+            {item.get("data-series") for item in items},
+            {"agent", "observe", "aivideo", "industry"},
+        )
+
+        live_counts = [attrs for attrs in notes.attrs_for("p") if attrs.get("data-filter-count") is not None]
+        self.assertEqual(len(live_counts), 1)
+        self.assertEqual(live_counts[0].get("aria-live"), "polite")
+        self.assertTrue(
+            any(attrs.get("data-filter-empty") is not None for _, attrs in notes.tags),
+            "知识库需要可访问的空结果提示",
+        )
+
     def test_public_pages_advertise_rss_and_use_structured_data(self):
         public_pages = [
             "index.html",
