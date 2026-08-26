@@ -41,7 +41,7 @@ video:
 正文。
 ```
 
-系列只能是 `agent / observe / aivideo / industry`。学习路线只能是 `vibe-coding / ai-video`，同一路线的步骤必须完整且不重复。需要新系列或路线时，先同时更新 `src/content.config.ts`、`src/lib/site.ts`、页面入口和契约测试。
+系列只能是 `agent / observe / aivideo / industry`。学习路线只能是 `vibe-coding / ai-video`，同一路线的步骤必须完整且不重复。每条路线在 `src/pages/learn.astro` 的 `learningToolkits` 中维护 6 个工具 slug；增删工具或改 slug 时要同步核对这两个数组和学习页契约测试。需要新系列或路线时，先同时更新 `src/content.config.ts`、`src/lib/site.ts`、页面入口和契约测试。
 
 ## 2. 工具指南发布清单
 
@@ -64,7 +64,7 @@ video:
 - 带 `video` 的文章自动进入作品页；没有视频的长文只进入知识库。
 - 作品标题、封面、系列、视频链接和「读文字版」都来自同一 Markdown 条目，不再手改多个 HTML。
 - 首页「接着看」自动排除精选后取 3 条视频。
-- 首页「按路线学」自动展示 Vibe Coding 与 AI 视频入口；`learn.html` 按 `learning.step` 组织各 6 篇。
+- 首页「按路线学」自动展示 Vibe Coding 与 AI 视频入口；`learn.html` 按 `learning.step` 组织各 6 篇，并从工具集合生成各 6 款配套工具入口。
 - 知识库按四个系列筛选全部 17 篇；作品页仍只展示带 `video` 的 4 篇。
 
 ## 4. 本地预览与验收
@@ -89,7 +89,7 @@ git diff --check
 - `dist/tools.html` 和 20 个 `dist/tools/<slug>.html` 存在，且没有目录式详情页；
 - `dist/rss.xml` 有全部 17 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`，且 sitemap 包含 `learn.html`、`tools.html` 与 20 个工具详情页；
 - `dist/tests/launch-readiness.html` 在本地服务器中显示 `PASS`；
-- 390px 下导航折叠、学习路线目录与工具模型目录默认收起且可展开、工具卡单列、目录链接、文章纸面左右留白、图片和代码块都无横向溢出；桌面端学习侧栏与工具模型目录滚动时保持粘性可见，工具卡为两列。
+- 390px 下导航折叠、学习路线目录与工具模型目录默认收起且可展开、路线工具箱与工具目录卡片均为单列、目录链接、文章纸面左右留白、图片和代码块都无横向溢出；桌面端学习侧栏与工具模型目录滚动时保持粘性可见，两类工具卡均为两列。
 
 项目的 `npm run check` 与 `npm run build` 已内置 `--force`，会重建 Astro Content Layer 缓存。若直接运行 Astro CLI 后出现 `picomatch` 的 `require is not defined`，请改回上述 npm 脚本；这是 Astro 7.2.1 / Vite 8.2.1 在 Windows 缓存复用路径上的兼容性规避，不需要修改文章或 `src/content.config.ts`。
 

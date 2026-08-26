@@ -1,16 +1,30 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { absoluteUrl, articlePath, learningTrackMeta } from "../lib/site";
+import {
+  absoluteUrl,
+  articlePath,
+  learningTrackMeta,
+  toolAccessMeta,
+  toolCategoryMeta,
+  toolPath,
+} from "../lib/site";
 
 const learningEntries = await getCollection("notes", ({ data }) => !data.draft && Boolean(data.learning));
+const toolEntries = await getCollection("tools", ({ data }) => !data.draft);
+const toolsById = new Map(toolEntries.map((entry) => [entry.id, entry]));
 const trackKeys = ["vibe-coding", "ai-video"] as const;
+const learningToolkits = {
+  "vibe-coding": ["codex", "cursor", "trae", "github-copilot", "claude-code", "cline"],
+  "ai-video": ["kling-ai", "jianying-pro", "filmora", "framepack", "comfyui", "invokeai"],
+} as const;
 const tracks = trackKeys.map((key) => ({
   key,
   ...learningTrackMeta[key],
   entries: learningEntries
     .filter((entry) => entry.data.learning?.track === key)
     .sort((a, b) => (a.data.learning?.step ?? 0) - (b.data.learning?.step ?? 0)),
+  tools: learningToolkits[key].map((slug) => toolsById.get(slug)).filter((entry) => entry !== undefined),
 }));
 const schema = {
   "@context": "https://schema.org",
@@ -37,13 +51,13 @@ const schema = {
           <div class="learning-sidebar__intro">
             <p class="eyebrow eyebrow--muted">Learning map</p>
             <h2>学习目录</h2>
-            <p>2 条路线 · 12 个步骤</p>
+            <p>2 条路线 · 12 步 · 12 款工具</p>
           </div>
 
           <details class="learning-sidebar__disclosure" data-learning-disclosure open>
             <summary>
               <span>查看学习目录</span>
-              <small>2 条路线 · 12 步</small>
+              <small>12 步 · 12 款工具</small>
             </summary>
             <nav class="learning-sidebar__nav" aria-label="学习路线目录">
               {tracks.map((track) => (
@@ -71,6 +85,14 @@ const schema = {
                       </li>
                     ))}
                   </ol>
+                  <a
+                    class="learning-sidebar__toolkit"
+                    href={`#${track.key}-tools`}
+                    data-learning-nav-toolkit={track.key}
+                  >
+                    <span>配套工具箱</span>
+                    <small>{track.tools.length} 款</small>
+                  </a>
                 </div>
               ))}
             </nav>
@@ -83,7 +105,7 @@ const schema = {
           <p class="eyebrow eyebrow--muted">Learning Paths</p>
           <h1>AI 学习路线</h1>
           <p class="lede">不需要先懂技术。选一条路线，按顺序完成 6 个步骤，把零散知识变成能反复使用的方法。</p>
-          <p class="learn-hero__count">当前 2 条路线 · 12 篇</p>
+          <p class="learn-hero__count">当前 2 条路线 · 12 篇 · 12 款配套工具</p>
         </header>
 
         {tracks.map((track) => (
@@ -116,6 +138,41 @@ const schema = {
                 </li>
               ))}
             </ol>
+
+            <section
+              class="learning-toolkit"
+              id={`${track.key}-tools`}
+              data-learning-toolkit={track.key}
+              aria-labelledby={`${track.key}-tools-title`}
+            >
+              <header class="learning-toolkit__head">
+                <div>
+                  <p class="eyebrow">Practice stack</p>
+                  <h3 id={`${track.key}-tools-title`}>配套工具箱</h3>
+                </div>
+                <p>从路线中挑一个工具开始即可，不需要一次安装全部。</p>
+              </header>
+              <ul class="learning-toolkit__grid">
+                {track.tools.map((tool) => (
+                  <li>
+                    <a
+                      class="learning-tool"
+                      href={toolPath(tool.id)}
+                      data-learning-tool={tool.id}
+                    >
+                      <span class="learning-tool__meta">
+                        {toolCategoryMeta[tool.data.category].label}
+                        <span aria-hidden="true"> · </span>
+                        {toolAccessMeta[tool.data.accessTypes[0]].label}
+                      </span>
+                      <strong>{tool.data.toolName}</strong>
+                      <small>{tool.data.setupSummary}</small>
+                      <span class="learning-tool__more">查看安装指南 <span aria-hidden="true">→</span></span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
           </section>
         ))}
       </div>

@@ -56,6 +56,10 @@ LEARNING_PATHS = {
         6: "notes/ai-video-rights-checklist.html",
     },
 }
+LEARNING_TOOLKITS = {
+    "vibe-coding": ["codex", "cursor", "trae", "github-copilot", "claude-code", "cline"],
+    "ai-video": ["kling-ai", "jianying-pro", "filmora", "framepack", "comfyui", "invokeai"],
+}
 
 
 class DocumentParser(HTMLParser):
@@ -273,6 +277,43 @@ class ContentHubUpgradeTests(unittest.TestCase):
             if tag == "li" and attrs.get("data-learning-step")
         }
         self.assertEqual(step_targets, {target.removeprefix("#") for target in expected_targets})
+
+    def test_learning_hub_links_each_track_to_a_curated_toolkit(self):
+        learning = parse("learn.html")
+
+        toolkits = [
+            attrs.get("data-learning-toolkit")
+            for tag, attrs in learning.tags
+            if tag == "section" and attrs.get("data-learning-toolkit")
+        ]
+        self.assertEqual(toolkits, ["vibe-coding", "ai-video"])
+
+        toolkit_links = [
+            attrs
+            for attrs in learning.attrs_for("a")
+            if attrs.get("data-learning-tool")
+        ]
+        self.assertEqual(len(toolkit_links), 12)
+        self.assertEqual(
+            [attrs.get("data-learning-tool") for attrs in toolkit_links],
+            [slug for track in ("vibe-coding", "ai-video") for slug in LEARNING_TOOLKITS[track]],
+        )
+        for attrs in toolkit_links:
+            slug = attrs["data-learning-tool"]
+            self.assertEqual(attrs.get("href"), f"{BASE_PATH}tools/{slug}.html")
+
+        nav_links = [
+            attrs
+            for attrs in learning.attrs_for("a")
+            if attrs.get("data-learning-nav-toolkit")
+        ]
+        self.assertEqual(
+            [(attrs.get("data-learning-nav-toolkit"), attrs.get("href")) for attrs in nav_links],
+            [
+                ("vibe-coding", "#vibe-coding-tools"),
+                ("ai-video", "#ai-video-tools"),
+            ],
+        )
 
     def test_primary_navigation_includes_learning_hub_everywhere(self):
         public_pages = [
