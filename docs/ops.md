@@ -89,7 +89,7 @@ git diff --check
 - `dist/tools.html` 和 8 个 `dist/tools/<slug>.html` 存在，且没有目录式详情页；
 - `dist/rss.xml` 有全部 17 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`，且 sitemap 包含 `learn.html`、`tools.html` 与 8 个工具详情页；
 - `dist/tests/launch-readiness.html` 在本地服务器中显示 `PASS`；
-- 390px 下导航折叠、工具卡单列、筛选按钮、文章纸面左右留白、目录、图片和代码块都无横向溢出。
+- 390px 下导航折叠、学习路线目录默认收起且可展开定位 12 个步骤、工具卡单列、筛选按钮、文章纸面左右留白、目录、图片和代码块都无横向溢出；桌面端学习侧栏滚动时保持粘性可见。
 
 ## 5. GitHub Pages 发布
 

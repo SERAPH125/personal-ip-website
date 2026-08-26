@@ -31,51 +31,114 @@ const schema = {
   mainId="learn-page"
 >
   <main class="page page--learn" id="learn-page" data-od-id="learn-page" tabindex="-1">
-    <header class="learn-hero">
-      <p class="eyebrow eyebrow--muted">Learning Paths</p>
-      <h1>AI 学习路线</h1>
-      <p class="lede">不需要先懂技术。选一条路线，按顺序完成 6 个步骤，把零散知识变成能反复使用的方法。</p>
-      <p class="learn-hero__count">当前 2 条路线 · 12 篇</p>
-    </header>
-
-    <nav class="learning-overview" aria-label="选择学习路线">
-      {tracks.map((track) => (
-        <a class="learning-overview__card" href={`#${track.key}`}>
-          <span>{track.eyebrow}</span>
-          <strong>{track.label}</strong>
-          <small>{track.description}</small>
-          <em>查看 6 个步骤 <span aria-hidden="true">↓</span></em>
-        </a>
-      ))}
-    </nav>
-
-    {tracks.map((track) => (
-      <section class="learning-track" id={track.key} data-learning-track={track.key} aria-labelledby={`${track.key}-title`}>
-        <header class="learning-track__head">
-          <div>
-            <p class="eyebrow">{track.eyebrow}</p>
-            <h2 id={`${track.key}-title`}>{track.label} 学习路线</h2>
+    <div class="learning-shell">
+      <aside class="learning-sidebar" data-learning-sidebar aria-label="学习路线侧栏">
+        <div class="learning-sidebar__sticky">
+          <div class="learning-sidebar__intro">
+            <p class="eyebrow eyebrow--muted">Learning map</p>
+            <h2>学习目录</h2>
+            <p>2 条路线 · 12 个步骤</p>
           </div>
-          <p>{track.description}</p>
+
+          <details class="learning-sidebar__disclosure" data-learning-disclosure open>
+            <summary>
+              <span>查看学习目录</span>
+              <small>2 条路线 · 12 步</small>
+            </summary>
+            <nav class="learning-sidebar__nav" aria-label="学习路线目录">
+              {tracks.map((track) => (
+                <div class="learning-sidebar__group">
+                  <a
+                    class="learning-sidebar__track"
+                    href={`#${track.key}`}
+                    data-learning-nav-track={track.key}
+                  >
+                    <span>{track.label}</span>
+                    <small>6 步</small>
+                  </a>
+                  <ol>
+                    {track.entries.map((entry) => (
+                      <li>
+                        <a
+                          href={`#${track.key}-step-${entry.data.learning?.step}`}
+                          data-learning-nav-step={`${track.key}-${entry.data.learning?.step}`}
+                        >
+                          <span aria-hidden="true">
+                            {String(entry.data.learning?.step).padStart(2, "0")}
+                          </span>
+                          <span>{entry.data.title}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ))}
+            </nav>
+          </details>
+        </div>
+      </aside>
+
+      <div class="learning-content">
+        <header class="learn-hero">
+          <p class="eyebrow eyebrow--muted">Learning Paths</p>
+          <h1>AI 学习路线</h1>
+          <p class="lede">不需要先懂技术。选一条路线，按顺序完成 6 个步骤，把零散知识变成能反复使用的方法。</p>
+          <p class="learn-hero__count">当前 2 条路线 · 12 篇</p>
         </header>
 
-        <ol class="learning-list">
-          {track.entries.map((entry) => (
-            <li data-learning-track={track.key} data-learning-step={entry.data.learning?.step}>
-              <a class="learning-step" href={articlePath(entry.id)}>
-                <span class="learning-step__number" aria-hidden="true">
-                  {String(entry.data.learning?.step).padStart(2, "0")}
-                </span>
-                <span class="learning-step__copy">
-                  <strong>{entry.data.title}</strong>
-                  <small>{entry.data.description}</small>
-                </span>
-                <span class="learning-step__more">开始学习 <span aria-hidden="true">→</span></span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </section>
-    ))}
+        {tracks.map((track) => (
+          <section class="learning-track" id={track.key} data-learning-track={track.key} aria-labelledby={`${track.key}-title`}>
+            <header class="learning-track__head">
+              <div>
+                <p class="eyebrow">{track.eyebrow}</p>
+                <h2 id={`${track.key}-title`}>{track.label} 学习路线</h2>
+              </div>
+              <p>{track.description}</p>
+            </header>
+
+            <ol class="learning-list">
+              {track.entries.map((entry) => (
+                <li
+                  id={`${track.key}-step-${entry.data.learning?.step}`}
+                  data-learning-track={track.key}
+                  data-learning-step={entry.data.learning?.step}
+                >
+                  <a class="learning-step" href={articlePath(entry.id)}>
+                    <span class="learning-step__number" aria-hidden="true">
+                      {String(entry.data.learning?.step).padStart(2, "0")}
+                    </span>
+                    <span class="learning-step__copy">
+                      <strong>{entry.data.title}</strong>
+                      <small>{entry.data.description}</small>
+                    </span>
+                    <span class="learning-step__more">开始学习 <span aria-hidden="true">→</span></span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))}
+      </div>
+    </div>
   </main>
+
+  <script is:inline>
+    (() => {
+      const disclosure = document.querySelector("[data-learning-disclosure]");
+      if (!(disclosure instanceof HTMLDetailsElement)) return;
+
+      const desktop = window.matchMedia("(min-width: 821px)");
+      const syncDisclosure = () => {
+        disclosure.open = desktop.matches;
+      };
+
+      syncDisclosure();
+      desktop.addEventListener("change", syncDisclosure);
+      disclosure.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          if (!desktop.matches) disclosure.open = false;
+        });
+      });
+    })();
+  </script>
 </BaseLayout>

@@ -37,7 +37,7 @@
 - Watch policy (locked): **outbound only** — 无站内播放；`watch.html` = `dead_file`
 - Home IA (locked): **creator_first + current_feature** — H1 先说明南吴提供的价值；`featured: true` 决定当前精选；关联知识文档与视频封面来自同一 Markdown 条目
 - Works IA (locked): **series_filter + dual_destination** — `agent / observe / aivideo` 系列筛选；每卡并列提供视频与文字入口；Astro 必须生成可直接读取的静态 HTML
-- Learning IA (locked): **two_ordered_tracks** — `learn.html` 先 Vibe Coding、后 AI 视频；各 6 步，由 `learning.track / step` 驱动；首页只显示两张入口卡，正文继续使用 `notes/<slug>.html`
+- Learning IA (locked): **sidebar_outline + two_ordered_tracks** — `learn.html` 桌面端使用左侧粘性目录，按 Vibe Coding、AI 视频分组列出各 6 步；移动端目录折叠，右侧/下方正文仍由 `learning.track / step` 驱动，首页只显示两张入口卡，文章继续使用 `notes/<slug>.html`
 - Tools IA (locked): **catalog_filter + static_guides** — `tools.html` 提供类别 / 平台 / 使用方式组合筛选，8 篇详情使用 `tools/<slug>.html`；首页正文不提供工具入口，只通过全局导航进入
 - Notes IA (locked): **series_filter + list_detail** — `notes.html` + 17 篇详情；五个筛选为 `all / agent / observe / aivideo / industry`；17 篇阶段不显示搜索，约 30 篇或有明确需求时再评估 Pagefind；详情采用居中的 `42rem` 阅读列、白色阅读纸面、自动目录与 Markdown 富文本节奏
 - Home depth (locked): **css_cover_depth** — 仅用 CSS gradient 网格与柔光衬精选封面，不加载 Three.js、WebGL 或 RAF；不做枢纽/星座/全屏粒子

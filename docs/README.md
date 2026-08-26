@@ -72,6 +72,7 @@ astro.config.mjs            # GitHub Pages base、.html 输出、sitemap
 ## 学习路线与筛选
 
 - `learn.html` 固定先展示 Vibe Coding，再展示 AI 视频；每条路线按 `learning.step` 排序；
+- 桌面端学习路线页采用 Hugging Face 文档式左侧粘性目录，目录按路线分组列出 12 个步骤；820px 以下改为默认折叠的原生学习目录，选择步骤后自动收起；
 - 首页只展示两张路线入口卡，不重复展开 12 篇文章；
 - 知识库包含 `all / agent / observe / aivideo / industry` 五种筛选，并播报当前结果数；
 - 作品页和知识库共用 `public/assets/hub.js` 的系列筛选逻辑，`?series=` 可分享当前筛选；

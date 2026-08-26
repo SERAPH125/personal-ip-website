@@ -218,6 +218,62 @@ class ContentHubUpgradeTests(unittest.TestCase):
         self.assertEqual(len(current_links), 1)
         self.assertEqual(current_links[0].get("href"), BASE_PATH + "learn.html")
 
+    def test_learning_hub_exposes_a_sidebar_outline_and_mobile_disclosure(self):
+        learning = parse("learn.html")
+
+        sidebars = [
+            attrs
+            for tag, attrs in learning.tags
+            if tag == "aside" and "data-learning-sidebar" in attrs
+        ]
+        self.assertEqual(len(sidebars), 1)
+
+        disclosures = [
+            attrs
+            for tag, attrs in learning.tags
+            if tag == "details" and "data-learning-disclosure" in attrs
+        ]
+        self.assertEqual(len(disclosures), 1)
+        self.assertIn("open", disclosures[0], "无 JavaScript 时桌面学习目录仍应可见")
+        self.assertEqual(len(learning.attrs_for("summary")), 1)
+        self.assertIn("学习目录", "".join(learning.text))
+
+        outline_nav = [
+            attrs
+            for attrs in learning.attrs_for("nav")
+            if attrs.get("aria-label") == "学习路线目录"
+        ]
+        self.assertEqual(len(outline_nav), 1)
+
+        track_links = [
+            attrs
+            for attrs in learning.attrs_for("a")
+            if attrs.get("data-learning-nav-track")
+        ]
+        self.assertEqual(
+            [attrs.get("data-learning-nav-track") for attrs in track_links],
+            ["vibe-coding", "ai-video"],
+        )
+
+        step_links = [
+            attrs
+            for attrs in learning.attrs_for("a")
+            if attrs.get("data-learning-nav-step")
+        ]
+        expected_targets = [
+            f"#{track}-step-{step}"
+            for track in ("vibe-coding", "ai-video")
+            for step in range(1, 7)
+        ]
+        self.assertEqual([attrs.get("href") for attrs in step_links], expected_targets)
+
+        step_targets = {
+            attrs.get("id")
+            for tag, attrs in learning.tags
+            if tag == "li" and attrs.get("data-learning-step")
+        }
+        self.assertEqual(step_targets, {target.removeprefix("#") for target in expected_targets})
+
     def test_primary_navigation_includes_learning_hub_everywhere(self):
         public_pages = [
             "index.html",
