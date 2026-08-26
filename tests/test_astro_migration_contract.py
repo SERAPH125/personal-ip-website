@@ -77,7 +77,8 @@ class AstroMigrationContractTests(unittest.TestCase):
     def test_project_builds_with_astro_and_keeps_file_style_urls(self):
         package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
         self.assertIn("astro", package.get("dependencies", {}))
-        self.assertTrue(package["scripts"]["build"].endswith("astro build"))
+        self.assertTrue(package["scripts"]["build"].endswith("astro build --force"))
+        self.assertTrue(package["scripts"]["check"].endswith("astro check --force"))
 
         config = (ROOT / "astro.config.mjs").read_text(encoding="utf-8")
         self.assertIn("build:", config)

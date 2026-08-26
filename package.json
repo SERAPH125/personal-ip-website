@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro dev",
-    "build": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro build",
-    "check": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "build": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro build --force",
+    "check": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro check --force",
     "preview": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "test": "npm run build && python -m unittest discover -s tests -p \"test_*.py\" -v"
   },

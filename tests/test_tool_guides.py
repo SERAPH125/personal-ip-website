@@ -2,6 +2,7 @@ import re
 import unittest
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -11,13 +12,40 @@ INTERNATIONAL_GUIDES = {
     "cursor": 2,
     "ollama": 3,
     "comfyui": 4,
+    "chatgpt-desktop": 9,
+    "claude-desktop": 10,
+    "invokeai": 12,
+    "stable-diffusion-webui": 13,
+    "krita-ai-diffusion": 14,
+    "github-copilot": 15,
+    "claude-code": 16,
+    "cline": 17,
+    "framepack": 20,
 }
 CHINA_GUIDES = {
     "trae": 5,
     "cherry-studio": 6,
     "deepseek": 7,
     "kling-ai": 8,
+    "kimi-work": 11,
+    "jianying-pro": 18,
+    "filmora": 19,
 }
+SECOND_BATCH_GUIDES = {
+    "chatgpt-desktop",
+    "claude-desktop",
+    "kimi-work",
+    "invokeai",
+    "stable-diffusion-webui",
+    "krita-ai-diffusion",
+    "github-copilot",
+    "claude-code",
+    "cline",
+    "jianying-pro",
+    "filmora",
+    "framepack",
+}
+OFFICIAL_SCREENSHOT_GUIDES = ("codex", "cursor", "ollama", "comfyui")
 REQUIRED_GUIDE_HEADINGS = (
     "快速判断",
     "安装前检查",
@@ -59,12 +87,31 @@ EXPECTED_CATEGORIES = {
     "cherry-studio": "language-model",
     "deepseek": "language-model",
     "kling-ai": "video-model",
+    "chatgpt-desktop": "language-model",
+    "claude-desktop": "language-model",
+    "kimi-work": "language-model",
+    "invokeai": "image-model",
+    "stable-diffusion-webui": "image-model",
+    "krita-ai-diffusion": "image-model",
+    "github-copilot": "ai-coding",
+    "claude-code": "ai-coding",
+    "cline": "ai-coding",
+    "jianying-pro": "video-model",
+    "filmora": "video-model",
+    "framepack": "video-model",
 }
 EXPECTED_DIRECTORY_GROUPS = {
-    "language-model": ("ollama", "cherry-studio", "deepseek"),
-    "image-model": ("comfyui",),
-    "ai-coding": ("codex", "cursor", "trae"),
-    "video-model": ("kling-ai",),
+    "language-model": (
+        "ollama", "cherry-studio", "deepseek", "chatgpt-desktop",
+        "claude-desktop", "kimi-work",
+    ),
+    "image-model": (
+        "comfyui", "invokeai", "stable-diffusion-webui", "krita-ai-diffusion",
+    ),
+    "ai-coding": (
+        "codex", "cursor", "trae", "github-copilot", "claude-code", "cline",
+    ),
+    "video-model": ("kling-ai", "jianying-pro", "filmora", "framepack"),
 }
 EXPECTED_TOOL_NAMES = {
     "codex": "Codex",
@@ -75,6 +122,18 @@ EXPECTED_TOOL_NAMES = {
     "cherry-studio": "Cherry Studio",
     "deepseek": "DeepSeek",
     "kling-ai": "可灵 AI",
+    "chatgpt-desktop": "ChatGPT Desktop",
+    "claude-desktop": "Claude Desktop",
+    "kimi-work": "Kimi Work",
+    "invokeai": "InvokeAI",
+    "stable-diffusion-webui": "Stable Diffusion WebUI",
+    "krita-ai-diffusion": "Krita AI Diffusion",
+    "github-copilot": "GitHub Copilot",
+    "claude-code": "Claude Code",
+    "cline": "Cline",
+    "jianying-pro": "剪映专业版",
+    "filmora": "Filmora",
+    "framepack": "FramePack",
 }
 EXPECTED_POLICY_LINKS = {
     "codex": "https://github.com/openai/codex/security",
@@ -85,6 +144,18 @@ EXPECTED_POLICY_LINKS = {
     "cherry-studio": "https://github.com/CherryHQ/cherry-studio/blob/main/PRIVACY.md",
     "deepseek": "https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html",
     "kling-ai": "https://kling.ai/docs/privacy-policy",
+    "chatgpt-desktop": "https://openai.com/policies/privacy-policy/",
+    "claude-desktop": "https://www.anthropic.com/legal/privacy",
+    "kimi-work": "https://www.kimi.com/user/agreement/userPrivacy?version=v2",
+    "invokeai": "https://github.com/invoke-ai/InvokeAI/security",
+    "stable-diffusion-webui": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/security",
+    "krita-ai-diffusion": "https://github.com/Acly/krita-ai-diffusion/security",
+    "github-copilot": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+    "claude-code": "https://www.anthropic.com/legal/privacy",
+    "cline": "https://github.com/cline/cline/security",
+    "jianying-pro": "https://www.capcut.com/clause/privacy",
+    "filmora": "https://www.wondershare.com/privacy.html",
+    "framepack": "https://github.com/lllyasviel/FramePack/security",
 }
 
 
@@ -219,7 +290,7 @@ class ToolGuideContractTests(unittest.TestCase):
                 self.assert_guide(slug, "china", sequence)
 
     def test_official_screenshots_have_adjacent_source_and_capture_date(self):
-        for slug in INTERNATIONAL_GUIDES:
+        for slug in OFFICIAL_SCREENSHOT_GUIDES:
             markdown = (TOOL_CONTENT / f"{slug}.md").read_text(encoding="utf-8")
             screenshots = list(
                 re.finditer(
@@ -233,6 +304,19 @@ class ToolGuideContractTests(unittest.TestCase):
                 self.assertIn('class="tool-image-source"', adjacent, slug)
                 self.assertIn("https://", adjacent, slug)
                 self.assertIn("2026-08-26", adjacent, slug)
+
+    def test_second_batch_always_has_a_computer_install_path(self):
+        for slug in SECOND_BATCH_GUIDES:
+            guide_path = TOOL_CONTENT / f"{slug}.md"
+            self.assertTrue(guide_path.is_file(), f"{slug} 指南不存在")
+            markdown = guide_path.read_text(encoding="utf-8")
+            block = frontmatter(markdown)
+            access_match = re.search(r"(?m)^accessTypes:\s*\[([^\]]+)\]$", block)
+            platform_match = re.search(r"(?m)^platforms:\s*\[([^\]]+)\]$", block)
+            self.assertIsNotNone(access_match, slug)
+            self.assertIsNotNone(platform_match, slug)
+            self.assertRegex(access_match.group(1), r"\b(desktop|cli|local-service)\b", slug)
+            self.assertRegex(platform_match.group(1), r"\b(windows|macos|linux)\b", slug)
 
     def test_every_guide_links_an_official_privacy_or_security_source(self):
         for slug, policy_url in EXPECTED_POLICY_LINKS.items():
@@ -260,8 +344,8 @@ class ToolGuidePageTests(unittest.TestCase):
         self.assertIn("open", disclosures[0], "桌面端无 JavaScript 时模型目录也应保持可见")
         self.assertEqual(catalog_html.count("data-tool-directory-nav-group="), 4)
         self.assertEqual(catalog_html.count("data-tool-directory-section="), 4)
-        self.assertEqual(catalog_html.count("data-tool-directory-link="), 8)
-        self.assertEqual(catalog_html.count("data-tool-item"), 8)
+        self.assertEqual(catalog_html.count("data-tool-directory-link="), 20)
+        self.assertEqual(catalog_html.count("data-tool-item"), 20)
         self.assertIn("模型目录", catalog.text)
         self.assertNotIn("data-tool-filter-group=", catalog_html)
 
@@ -283,7 +367,7 @@ class ToolGuidePageTests(unittest.TestCase):
             "左侧模型目录应先于右侧工具内容渲染",
         )
 
-    def test_catalog_and_eight_file_style_detail_pages(self):
+    def test_catalog_and_twenty_file_style_detail_pages(self):
         dist = ROOT / "dist"
         catalog_path = dist / "tools.html"
         detail_dir = dist / "tools"
@@ -299,7 +383,7 @@ class ToolGuidePageTests(unittest.TestCase):
         self.assertEqual(sum(tag == "h1" for tag, _ in catalog.tags), 1)
         self.assertIn('"@type":"CollectionPage"', catalog_html)
         cards = [attrs for _, attrs in catalog.tags if "data-tool-item" in attrs]
-        self.assertEqual(len(cards), 8)
+        self.assertEqual(len(cards), 20)
         for card in cards:
             slug = card.get("data-tool-slug")
             self.assertIn(slug, expected_slugs)
@@ -391,8 +475,8 @@ class ToolGuideReleaseTests(unittest.TestCase):
         canonical_pages = [*top_pages, *note_pages, dist / "tools.html", *tool_pages]
 
         self.assertEqual(len(note_pages), 17)
-        self.assertEqual(len(tool_pages), 8)
-        self.assertEqual(len(canonical_pages), 31)
+        self.assertEqual(len(tool_pages), 20)
+        self.assertEqual(len(canonical_pages), 43)
         self.assertTrue(all(path.is_file() for path in canonical_pages))
 
         for page_path in canonical_pages:
@@ -427,7 +511,11 @@ class ToolGuideReleaseTests(unittest.TestCase):
                     href = attrs.get("href", "")
                     if href.startswith("http"):
                         self.assertTrue(href.startswith("https://"), f"非 HTTPS 外链：{href}")
-                        self.assertFalse(any(host in href for host in blocked_hosts), href)
+                        hostname = urlparse(href).hostname or ""
+                        self.assertFalse(
+                            any(hostname == host or hostname.endswith(f".{host}") for host in blocked_hosts),
+                            href,
+                        )
                 if tag == "img":
                     self.assertTrue(attrs.get("alt", "").strip(), f"{page_path.name} 图片缺少 alt")
                     self.assertTrue(
@@ -453,7 +541,7 @@ class ToolGuideReleaseTests(unittest.TestCase):
         for phrase in ("工具指南发布清单", "四张本地图片", "390px", "RSS 保持 17 篇"):
             self.assertIn(phrase, ops)
         self.assertIn("home / works / learn / tools / notes / about", brand)
-        self.assertIn("31 个 canonical", brand)
+        self.assertIn("43 个 canonical", brand)
         self.assertIn("grouped_model_directory + static_guides", brand)
         self.assertIn("首页正文不提供工具入口", brand)
         for field in ("audience", "setupSummary", "privacySummary"):

@@ -61,7 +61,7 @@ const tools = defineCollection({
       verifiedAt: z.coerce.date(),
       cover: z.string(),
       coverAlt: z.string(),
-      sequence: z.number().int().min(1).max(8),
+      sequence: z.number().int().min(1).max(20),
       draft: z.boolean().default(false),
     })
     .refine((data) => !data.openSource || Boolean(data.repositoryUrl), {

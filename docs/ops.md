@@ -54,7 +54,7 @@ video:
 5. 云端工具说明素材和代码可能离开本机；本地工具说明硬件、磁盘、模型许可证与可能联网的环节。每篇至少提供一个官方隐私、FAQ、服务条款或安全策略链接。
 6. 正文图片地址必须带 `/personal-ip-website/assets/tools/` 前缀，并有非空替代文本。官方页面不可访问时只使用明确标注的原创结构示意，不用第三方镜像冒充证据。
 7. 运行 `npm run check`、`npm test`、`node --check public/assets/hub.js` 和 `git diff --check`。
-8. 检查 sitemap 中 `tools.html` 与 8 个详情地址；确认 RSS 保持 17 篇，且没有 `/tools/` 条目。
+8. 检查 sitemap 中 `tools.html` 与 20 个详情地址；确认 RSS 保持 17 篇，且没有 `/tools/` 条目。
 
 首页正文不增加工具卡片、数量或推荐入口；只允许全局导航出现“工具指南”。
 
@@ -86,10 +86,12 @@ git diff --check
 构建结果在 `dist/`。重点确认：
 
 - `dist/notes/<slug>.html` 存在，且没有生成目录式 `notes/<slug>/index.html`；
-- `dist/tools.html` 和 8 个 `dist/tools/<slug>.html` 存在，且没有目录式详情页；
-- `dist/rss.xml` 有全部 17 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`，且 sitemap 包含 `learn.html`、`tools.html` 与 8 个工具详情页；
+- `dist/tools.html` 和 20 个 `dist/tools/<slug>.html` 存在，且没有目录式详情页；
+- `dist/rss.xml` 有全部 17 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`，且 sitemap 包含 `learn.html`、`tools.html` 与 20 个工具详情页；
 - `dist/tests/launch-readiness.html` 在本地服务器中显示 `PASS`；
 - 390px 下导航折叠、学习路线目录与工具模型目录默认收起且可展开、工具卡单列、目录链接、文章纸面左右留白、图片和代码块都无横向溢出；桌面端学习侧栏与工具模型目录滚动时保持粘性可见，工具卡为两列。
+
+项目的 `npm run check` 与 `npm run build` 已内置 `--force`，会重建 Astro Content Layer 缓存。若直接运行 Astro CLI 后出现 `picomatch` 的 `require is not defined`，请改回上述 npm 脚本；这是 Astro 7.2.1 / Vite 8.2.1 在 Windows 缓存复用路径上的兼容性规避，不需要修改文章或 `src/content.config.ts`。
 
 ## 5. GitHub Pages 发布
 
@@ -117,8 +119,8 @@ gh api --method PUT repos/SERAPH125/personal-ip-website/pages -f build_type=work
 2. 打开线上 `tests/launch-readiness.html`，标题应为 `PASS · Launch readiness`。
 3. 打开旧地址 `notes/codex-5-levels.html`，确认仍可访问并显示新版目录/阅读纸面。
 4. 打开 `rss.xml` 与 `sitemap-index.xml`，确认均为 200。
-5. 打开 `tools.html`，确认桌面端左侧模型目录保持粘性，语言模型、图片模型、AI 编程、视频模型四组共列出 8 个工具名称；点击名称应定位到右侧对应卡片，同类卡片为两列。再打开 Codex、Cherry Studio、可灵 AI，检查代码复制、桌面安装说明、网页免安装说明和四张图。
-6. 手机 390px 宽度下确认工具模型目录默认收起、展开后 8 个名称均可点击、选择工具后目录自动收起且卡片单列，再测试导航、代码复制、学习路线、知识库筛选、作品筛选和一篇长表格文章。
+5. 打开 `tools.html`，确认桌面端左侧模型目录保持粘性，语言模型、图片模型、AI 编程、视频模型四组共列出 20 个工具名称；点击名称应定位到右侧对应卡片，同类卡片为两列。再打开 ChatGPT Desktop、InvokeAI、Claude Code、剪映专业版和 FramePack，检查电脑端安装方式、代码复制、隐私说明和四张本地图。
+6. 手机 390px 宽度下确认工具模型目录默认收起、展开后 20 个名称均可点击、选择工具后目录自动收起且卡片单列，再测试导航、代码复制、学习路线、知识库筛选、作品筛选和一篇长表格文章。
 
 ## 7. 回滚
 

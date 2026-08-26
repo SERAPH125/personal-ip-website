@@ -12,6 +12,8 @@
 
 > **Implementation update (2026-08-26):** 用户在首版完成后确认将目录改为语言模型、图片模型、AI 编程、视频模型四组，并在左侧直接列出 8 个工具名称。原计划中关于类别 / 平台 / 使用方式组合筛选的任务记录仅保留为实施历史；当前行为与验收标准以设计文档、`brand-spec.md` 和代码为准。
 
+> **Second-batch update (2026-08-26):** 用户确认再增加 12 篇指南，总数为 20；第二批只收录具备桌面应用、IDE 插件、CLI 或本地服务的工具，纯网页工具暂不加入。下方以 8 篇为目标的步骤仍作为首批实施历史保留。
+
 ## Global Constraints
 
 - The first release contains exactly Codex, Cursor, Ollama, ComfyUI, TRAE, Cherry Studio, DeepSeek, and 可灵 AI.

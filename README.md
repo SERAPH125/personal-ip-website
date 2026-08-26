@@ -1,6 +1,6 @@
 # 南吴 NANWU 内容枢纽
 
-南吴的 AI 科技个人网站，使用 Astro 7 与 Markdown Content Collections 构建，包含作品、知识库、Vibe Coding 与 AI 视频学习路线，以及 8 篇独立的 AI 工具安装使用指南。
+南吴的 AI 科技个人网站，使用 Astro 7 与 Markdown Content Collections 构建，包含作品、知识库、Vibe Coding 与 AI 视频学习路线，以及 20 篇独立的电脑端 AI 工具安装使用指南。
 
 ```bash
 npm ci

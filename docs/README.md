@@ -25,7 +25,7 @@
 src/
 ├── content.config.ts       # Frontmatter schema
 ├── content/notes/*.md      # 17 篇知识文章的唯一正文来源
-├── content/tools/*.md      # 8 篇 AI 工具指南的唯一正文来源
+├── content/tools/*.md      # 20 篇 AI 工具指南的唯一正文来源
 ├── components/             # 导航、页脚、文章卡、工具卡、视频卡
 ├── layouts/                # 全站 head、文章与工具指南阅读模板
 ├── lib/site.ts             # 系列、URL、日期等共享配置
@@ -56,7 +56,7 @@ astro.config.mjs            # GitHub Pages base、.html 输出、sitemap
 
 ## AI 工具指南
 
-工具指南使用独立的 `tools` collection，不混入知识库和 RSS。第一批固定 8 个 slug：`codex`、`cursor`、`ollama`、`comfyui`、`trae`、`cherry-studio`、`deepseek`、`kling-ai`。目录页为 `tools.html`，详情页为 `tools/<slug>.html`，全部保持 GitHub Pages 的文件式 URL。
+工具指南使用独立的 `tools` collection，不混入知识库和 RSS。首批 8 个 slug 为 `codex`、`cursor`、`ollama`、`comfyui`、`trae`、`cherry-studio`、`deepseek`、`kling-ai`；第二批 12 个 slug 为 `chatgpt-desktop`、`claude-desktop`、`kimi-work`、`invokeai`、`stable-diffusion-webui`、`krita-ai-diffusion`、`github-copilot`、`claude-code`、`cline`、`jianying-pro`、`filmora`、`framepack`。第二批必须具备桌面应用、IDE 插件、CLI 或本地服务，纯网页工具暂不收录。目录页为 `tools.html`，详情页为 `tools/<slug>.html`，全部保持 GitHub Pages 的文件式 URL。
 
 每篇 `src/content/tools/*.md` 必填：
 
@@ -67,7 +67,7 @@ astro.config.mjs            # GitHub Pages base、.html 输出、sitemap
 
 图片放在 `public/assets/tools/<slug>/`。每篇至少四张本地图片：布局读取 Frontmatter 中的 16:9 封面，正文再引用流程图和两个关键步骤视觉。正文 Markdown 图片使用 `/personal-ip-website/assets/tools/...`，确保 GitHub Pages 子路径部署不丢图；每张图必须有具体 alt。官方截图只取公开页面并移除账号信息，截图后紧邻标注可点击的官方来源和截取日期；原创界面结构图必须明确写“示意、以官网为准”，不能冒充真实产品截图。费用与隐私章节至少链接一项产品官方隐私、FAQ、服务条款或安全策略，便于读者自行复核。
 
-`tools.html` 在桌面端采用 Hugging Face 文档式左侧粘性模型目录，按语言模型、图片模型、AI 编程、视频模型四类列出 8 个工具名称；点击名称锚点定位到右侧同类卡片，右侧各分类使用两列卡片。820px 以下目录改为默认折叠的原生 `details`，选择工具后自动收起；640px 以下卡片单列。命令行文章的代码块由 `public/assets/hub.js` 渐进增强为可复制。JavaScript 失效时，桌面目录保持展开，8 张卡片、全部正文和代码仍可读取。首页正文不增加工具入口，唯一入口是全站主导航中的“工具指南”。RSS 仍只包含 17 篇知识文章，不包含安装手册。
+`tools.html` 在桌面端采用 Hugging Face 文档式左侧粘性模型目录，按语言模型、图片模型、AI 编程、视频模型四类列出 20 个工具名称；点击名称锚点定位到右侧同类卡片，右侧各分类使用两列卡片。820px 以下目录改为默认折叠的原生 `details`，选择工具后自动收起；640px 以下卡片单列。命令行文章的代码块由 `public/assets/hub.js` 渐进增强为可复制。JavaScript 失效时，桌面目录保持展开，20 张卡片、全部正文和代码仍可读取。首页正文不增加工具入口，唯一入口是全站主导航中的“工具指南”。RSS 仍只包含 17 篇知识文章，不包含安装手册。
 
 ## 学习路线与筛选
 
@@ -105,7 +105,9 @@ node --check public/assets/hub.js
 git diff --check
 ```
 
-`npm test` 会先执行 Astro build，再运行 Python 契约测试，检查 17 篇文章、8 篇工具指南、两条完整路线、旧 `.html` URL、站内图片、RSS、sitemap、JSON-LD、筛选与首页排除规则。Pull Request 到 `main` 时，GitHub Actions 会运行 Astro、浏览器 JavaScript 语法和完整测试但不会部署；PR 按编号使用独立并发队列，不会取消 `main` 的生产发布，只有推送到 `main` 才执行 Pages 发布。
+`npm test` 会先执行 Astro build，再运行 Python 契约测试，检查 17 篇文章、20 篇工具指南、第二批电脑端安装方式、两条完整路线、旧 `.html` URL、站内图片、RSS、sitemap、JSON-LD、筛选与首页排除规则。Pull Request 到 `main` 时，GitHub Actions 会运行 Astro、浏览器 JavaScript 语法和完整测试但不会部署；PR 按编号使用独立并发队列，不会取消 `main` 的生产发布，只有推送到 `main` 才执行 Pages 发布。
+
+`build` 与 `check` 脚本固定传入 Astro 的 `--force`，每次先重建 Content Layer 缓存。这样可避开当前 Astro 7.2.1 / Vite 8.2.1 在 Windows 上复用缓存时，偶发把 CommonJS `picomatch` 交给 ESM Module Runner 的问题；不要在验收时绕过 npm 脚本直接运行 `astro build` 或 `astro check`。
 
 ## 视觉与交互
 
