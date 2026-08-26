@@ -4,18 +4,18 @@ import ToolCard from "../components/ToolCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {
   absoluteUrl,
-  toolAccessMeta,
   toolCategoryMeta,
-  toolPlatformMeta,
   toolUrl,
 } from "../lib/site";
 
 const tools = (await getCollection("tools", ({ data }) => !data.draft)).sort(
   (a, b) => a.data.sequence - b.data.sequence,
 );
-const categoryFilters = Object.entries(toolCategoryMeta);
-const platformFilters = Object.entries(toolPlatformMeta);
-const accessFilters = Object.entries(toolAccessMeta);
+const directoryGroups = Object.entries(toolCategoryMeta).map(([key, meta]) => ({
+  key,
+  meta,
+  entries: tools.filter((entry) => entry.data.category === key),
+}));
 const schema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -33,44 +33,47 @@ const schema = {
 
 <BaseLayout
   title="AI 工具指南"
-  description="8 款 AI 工具的图文安装与使用指南，覆盖 AI 编程、本地模型、桌面客户端和 AI 视频。"
+  description="8 款 AI 工具的图文安装与使用指南，覆盖语言模型、图片模型、AI 编程和视频模型。"
   canonicalPath="tools.html"
   activeNav="tools"
   structuredData={schema}
   mainId="tools-page"
 >
   <main class="page page--tools" id="tools-page" data-od-id="tools-page" tabindex="-1">
-    <section class="tools-shell" data-tool-filter-root aria-label="AI 工具目录">
-      <aside class="tools-sidebar" data-tool-sidebar aria-label="工具筛选侧栏">
+    <section class="tools-shell" aria-label="AI 工具目录">
+      <aside class="tools-sidebar" data-tool-sidebar aria-label="模型目录侧栏">
         <div class="tools-sidebar__sticky">
           <div class="tools-sidebar__intro">
             <p class="eyebrow eyebrow--muted">Tool Directory</p>
-            <h2>工具目录</h2>
-            <p>{tools.length} 款工具 · 3 组筛选</p>
+            <h2>模型目录</h2>
+            <p>{directoryGroups.length} 个类别 · {tools.length} 款工具</p>
           </div>
 
-          <details class="tool-filter-disclosure" data-tool-filter-disclosure open>
+          <details class="tool-directory-disclosure" data-tool-directory-disclosure open>
             <summary>
-              <span>筛选工具</span>
-              <small>类别 · 平台 · 方式</small>
+              <span>模型目录</span>
+              <small>{directoryGroups.length} 类 · {tools.length} 款</small>
             </summary>
-            <div class="tool-filters">
-              <div class="tool-filter-group" data-tool-filter-group="category" role="group" aria-label="按类别筛选">
-                <span>类别</span>
-                <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
-                {categoryFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
-              </div>
-              <div class="tool-filter-group" data-tool-filter-group="platform" role="group" aria-label="按平台筛选">
-                <span>平台</span>
-                <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
-                {platformFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
-              </div>
-              <div class="tool-filter-group" data-tool-filter-group="access" role="group" aria-label="按使用方式筛选">
-                <span>方式</span>
-                <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
-                {accessFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
-              </div>
-            </div>
+            <nav class="tool-directory" aria-label="按类别浏览工具">
+              {directoryGroups.map((group) => (
+                <div class="tool-directory__group" data-tool-directory-nav-group={group.key}>
+                  <a class="tool-directory__category" href={`#category-${group.key}`}>
+                    <span>{group.meta.label}</span>
+                    <small>{group.entries.length}</small>
+                  </a>
+                  <ol>
+                    {group.entries.map((entry) => (
+                      <li>
+                        <a
+                          data-tool-directory-link={entry.id}
+                          href={`#tool-${entry.id}`}
+                        >{entry.data.toolName}</a>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ))}
+            </nav>
           </details>
         </div>
       </aside>
@@ -83,27 +86,32 @@ const schema = {
           <p class="tools-count">第一批收录 <strong>{tools.length}</strong> 款，每篇均标注官方资料与核验日期。</p>
         </header>
 
-        <div class="tool-filter-status">
-          <p data-tool-count role="status" aria-live="polite">当前显示 {tools.length} 款工具</p>
-          <button type="button" class="btn btn--ghost" data-tool-clear>清除筛选</button>
-        </div>
-
-        <ul class="tool-grid" data-od-id="tool-grid">
-          {tools.map((entry) => <ToolCard entry={entry} />)}
-        </ul>
-
-        <div class="tool-empty" data-tool-empty hidden role="status">
-          <h2>没有匹配的工具</h2>
-          <p>换一个平台或使用方式，或者清除筛选查看全部 8 款。</p>
-          <button type="button" class="btn btn--primary" data-tool-clear>清除筛选</button>
-        </div>
+        {directoryGroups.map((group) => (
+          <section
+            class="tool-directory-section"
+            id={`category-${group.key}`}
+            data-tool-directory-section={group.key}
+            aria-labelledby={`category-${group.key}-title`}
+          >
+            <header class="tool-directory-section__head">
+              <div>
+                <p class="eyebrow">AI Tools</p>
+                <h2 id={`category-${group.key}-title`}>{group.meta.label}</h2>
+              </div>
+              <p>{group.entries.length} 款</p>
+            </header>
+            <ul class="tool-grid" data-od-id={`tool-grid-${group.key}`}>
+              {group.entries.map((entry) => <ToolCard entry={entry} />)}
+            </ul>
+          </section>
+        ))}
       </div>
     </section>
   </main>
 
   <script is:inline>
     (() => {
-      const disclosure = document.querySelector("[data-tool-filter-disclosure]");
+      const disclosure = document.querySelector("[data-tool-directory-disclosure]");
       if (!(disclosure instanceof HTMLDetailsElement)) return;
 
       const desktop = window.matchMedia("(min-width: 821px)");
@@ -113,6 +121,11 @@ const schema = {
 
       syncDisclosure();
       desktop.addEventListener("change", syncDisclosure);
+      disclosure.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          if (!desktop.matches) disclosure.open = false;
+        });
+      });
     })();
   </script>
 </BaseLayout>

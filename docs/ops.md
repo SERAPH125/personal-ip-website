@@ -89,7 +89,7 @@ git diff --check
 - `dist/tools.html` 和 8 个 `dist/tools/<slug>.html` 存在，且没有目录式详情页；
 - `dist/rss.xml` 有全部 17 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`，且 sitemap 包含 `learn.html`、`tools.html` 与 8 个工具详情页；
 - `dist/tests/launch-readiness.html` 在本地服务器中显示 `PASS`；
-- 390px 下导航折叠、学习路线目录与工具筛选目录默认收起且可展开、工具卡单列、筛选按钮、文章纸面左右留白、目录、图片和代码块都无横向溢出；桌面端学习侧栏与工具筛选侧栏滚动时保持粘性可见，工具卡为两列。
+- 390px 下导航折叠、学习路线目录与工具模型目录默认收起且可展开、工具卡单列、目录链接、文章纸面左右留白、图片和代码块都无横向溢出；桌面端学习侧栏与工具模型目录滚动时保持粘性可见，工具卡为两列。
 
 ## 5. GitHub Pages 发布
 
@@ -117,8 +117,8 @@ gh api --method PUT repos/SERAPH125/personal-ip-website/pages -f build_type=work
 2. 打开线上 `tests/launch-readiness.html`，标题应为 `PASS · Launch readiness`。
 3. 打开旧地址 `notes/codex-5-levels.html`，确认仍可访问并显示新版目录/阅读纸面。
 4. 打开 `rss.xml` 与 `sitemap-index.xml`，确认均为 200。
-5. 打开 `tools.html`，确认桌面端左侧筛选栏保持粘性、右侧 8 张卡片为两列，并检查组合筛选、结果数和清除按钮；再打开 Codex、Cherry Studio、可灵 AI，检查代码复制、桌面安装说明、网页免安装说明和四张图。
-6. 手机 390px 宽度下确认工具筛选目录默认收起、展开后可组合筛选且卡片单列，再测试导航、代码复制、学习路线、知识库筛选、作品筛选和一篇长表格文章。
+5. 打开 `tools.html`，确认桌面端左侧模型目录保持粘性，语言模型、图片模型、AI 编程、视频模型四组共列出 8 个工具名称；点击名称应定位到右侧对应卡片，同类卡片为两列。再打开 Codex、Cherry Studio、可灵 AI，检查代码复制、桌面安装说明、网页免安装说明和四张图。
+6. 手机 390px 宽度下确认工具模型目录默认收起、展开后 8 个名称均可点击、选择工具后目录自动收起且卡片单列，再测试导航、代码复制、学习路线、知识库筛选、作品筛选和一篇长表格文章。
 
 ## 7. 回滚
 

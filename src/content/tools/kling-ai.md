@@ -6,7 +6,7 @@ audience: "想尝试 AI 短视频、广告概念片、动态分镜或社交媒�
 setupSummary: "网页端无需安装；准备一个清晰镜头和可用素材后即可尝试，首次生成约需 15—30 分钟完成学习与迭代。"
 privacySummary: "素材会上传到在线服务处理；上传人物、品牌、音乐和商业素材前必须确认授权和平台规则。"
 origin: china
-category: image-video
+category: video-model
 accessTypes: [web]
 platforms: [web, android, ios]
 pricing: freemium

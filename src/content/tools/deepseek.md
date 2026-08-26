@@ -6,7 +6,7 @@ audience: "想用中文 AI 完成问答、写作、学习和资料整理的普�
 setupSummary: "网页可直接开始；手机端从官网跳转到官方应用商店。注册与首次设置通常约 5—10 分钟。"
 privacySummary: "网页、App 和 API 都是在线服务；不要提交身份证明、健康财务信息、公司机密或未获授权的他人资料。"
 origin: china
-category: desktop-client
+category: language-model
 accessTypes: [web]
 platforms: [web, android, ios]
 pricing: freemium

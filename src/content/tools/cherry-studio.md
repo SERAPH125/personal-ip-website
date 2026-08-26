@@ -6,7 +6,7 @@ audience: "希望在一个桌面应用中管理多个模型服务，或连接 Ol
 setupSummary: "安装客户端后还需配置一个模型来源；客户端约 10 分钟，服务商开通或本地模型准备时间另计。"
 privacySummary: "对话数据流向由所选模型服务决定；桌面客户端开源不代表所有请求都只在本机处理。"
 origin: china
-category: desktop-client
+category: language-model
 accessTypes: [desktop]
 platforms: [windows, macos, linux]
 pricing: free

@@ -38,7 +38,7 @@
 - Home IA (locked): **creator_first + current_feature** — H1 先说明南吴提供的价值；`featured: true` 决定当前精选；关联知识文档与视频封面来自同一 Markdown 条目
 - Works IA (locked): **series_filter + dual_destination** — `agent / observe / aivideo` 系列筛选；每卡并列提供视频与文字入口；Astro 必须生成可直接读取的静态 HTML
 - Learning IA (locked): **sidebar_outline + two_ordered_tracks** — `learn.html` 桌面端使用左侧粘性目录，按 Vibe Coding、AI 视频分组列出各 6 步；移动端目录折叠，右侧/下方正文仍由 `learning.track / step` 驱动，首页只显示两张入口卡，文章继续使用 `notes/<slug>.html`
-- Tools IA (locked): **sidebar_catalog_filter + static_guides** — `tools.html` 桌面端使用左侧粘性目录承载类别 / 平台 / 使用方式组合筛选，右侧工具卡两列；820px 以下目录折叠，640px 以下卡片单列；8 篇详情继续使用 `tools/<slug>.html`，首页正文不提供工具入口，只通过全局导航进入
+- Tools IA (locked): **grouped_model_directory + static_guides** — `tools.html` 桌面端使用左侧粘性模型目录，按语言模型 / 图片模型 / AI 编程 / 视频模型分组列出 8 个工具名称，并锚点定位右侧同类卡片；820px 以下目录折叠，640px 以下卡片单列；8 篇详情继续使用 `tools/<slug>.html`，首页正文不提供工具入口，只通过全局导航进入
 - Notes IA (locked): **series_filter + list_detail** — `notes.html` + 17 篇详情；五个筛选为 `all / agent / observe / aivideo / industry`；17 篇阶段不显示搜索，约 30 篇或有明确需求时再评估 Pagefind；详情采用居中的 `42rem` 阅读列、白色阅读纸面、自动目录与 Markdown 富文本节奏
 - Home depth (locked): **css_cover_depth** — 仅用 CSS gradient 网格与柔光衬精选封面，不加载 Three.js、WebGL 或 RAF；不做枢纽/星座/全屏粒子
 - Follow policy (locked): 首页与关于页 CTA 直接打开抖音主页，不使用单平台选择弹层

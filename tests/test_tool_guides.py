@@ -53,12 +53,28 @@ REQUIRED_TOOL_FRONTMATTER = {
 EXPECTED_CATEGORIES = {
     "codex": "ai-coding",
     "cursor": "ai-coding",
-    "ollama": "local-model",
-    "comfyui": "image-video",
+    "ollama": "language-model",
+    "comfyui": "image-model",
     "trae": "ai-coding",
-    "cherry-studio": "desktop-client",
-    "deepseek": "desktop-client",
-    "kling-ai": "image-video",
+    "cherry-studio": "language-model",
+    "deepseek": "language-model",
+    "kling-ai": "video-model",
+}
+EXPECTED_DIRECTORY_GROUPS = {
+    "language-model": ("ollama", "cherry-studio", "deepseek"),
+    "image-model": ("comfyui",),
+    "ai-coding": ("codex", "cursor", "trae"),
+    "video-model": ("kling-ai",),
+}
+EXPECTED_TOOL_NAMES = {
+    "codex": "Codex",
+    "cursor": "Cursor",
+    "ollama": "Ollama",
+    "comfyui": "ComfyUI",
+    "trae": "TRAE",
+    "cherry-studio": "Cherry Studio",
+    "deepseek": "DeepSeek",
+    "kling-ai": "可灵 AI",
 }
 EXPECTED_POLICY_LINKS = {
     "codex": "https://github.com/openai/codex/security",
@@ -141,6 +157,10 @@ class ToolGuideContractTests(unittest.TestCase):
         ):
             self.assertRegex(config, rf"\b{field}\b")
         self.assertRegex(config, r"export const collections = \{ notes, tools \}")
+        self.assertRegex(
+            config,
+            r'category:\s*z\.enum\(\[\s*"language-model",\s*"image-model",\s*"ai-coding",\s*"video-model"',
+        )
 
         for symbol in (
             "toolCategoryMeta",
@@ -221,7 +241,7 @@ class ToolGuideContractTests(unittest.TestCase):
 
 
 class ToolGuidePageTests(unittest.TestCase):
-    def test_catalog_uses_sidebar_filter_directory_with_mobile_disclosure(self):
+    def test_catalog_groups_named_tools_in_sidebar_and_content_sections(self):
         catalog_html, catalog = parse_page(ROOT / "dist" / "tools.html")
 
         sidebars = [
@@ -232,19 +252,35 @@ class ToolGuidePageTests(unittest.TestCase):
         disclosures = [
             attrs
             for tag, attrs in catalog.tags
-            if tag == "details" and "data-tool-filter-disclosure" in attrs
+            if tag == "details" and "data-tool-directory-disclosure" in attrs
         ]
 
-        self.assertEqual(len(sidebars), 1, "工具目录需要一个左侧筛选栏")
-        self.assertEqual(len(disclosures), 1, "移动端需要一个原生筛选折叠目录")
-        self.assertIn("open", disclosures[0], "桌面端无 JavaScript 时筛选目录也应保持可见")
-        self.assertEqual(catalog_html.count("data-tool-filter-group="), 3)
+        self.assertEqual(len(sidebars), 1, "工具目录需要一个左侧模型目录")
+        self.assertEqual(len(disclosures), 1, "移动端需要一个原生模型目录折叠区")
+        self.assertIn("open", disclosures[0], "桌面端无 JavaScript 时模型目录也应保持可见")
+        self.assertEqual(catalog_html.count("data-tool-directory-nav-group="), 4)
+        self.assertEqual(catalog_html.count("data-tool-directory-section="), 4)
+        self.assertEqual(catalog_html.count("data-tool-directory-link="), 8)
         self.assertEqual(catalog_html.count("data-tool-item"), 8)
-        self.assertIn("筛选工具", catalog.text)
+        self.assertIn("模型目录", catalog.text)
+        self.assertNotIn("data-tool-filter-group=", catalog_html)
+
+        for category, slugs in EXPECTED_DIRECTORY_GROUPS.items():
+            self.assertIn(f'data-tool-directory-nav-group="{category}"', catalog_html)
+            self.assertIn(f'data-tool-directory-section="{category}"', catalog_html)
+            for slug in slugs:
+                self.assertRegex(
+                    catalog_html,
+                    rf'<a(?=[^>]*data-tool-directory-link="{slug}")(?=[^>]*href="#tool-{slug}")[^>]*>{re.escape(EXPECTED_TOOL_NAMES[slug])}</a>',
+                )
+                self.assertRegex(
+                    catalog_html,
+                    rf'<li(?=[^>]*id="tool-{slug}")(?=[^>]*data-category="{category}")[^>]*data-tool-item',
+                )
         self.assertLess(
             catalog_html.index("data-tool-sidebar"),
             catalog_html.index('class="tools-content"'),
-            "左侧筛选栏应先于右侧工具内容渲染",
+            "左侧模型目录应先于右侧工具内容渲染",
         )
 
     def test_catalog_and_eight_file_style_detail_pages(self):
@@ -306,36 +342,25 @@ class ToolGuidePageTests(unittest.TestCase):
 
 
 class ToolGuideInteractionTests(unittest.TestCase):
-    def test_compound_filters_copy_enhancement_and_responsive_styles(self):
+    def test_model_directory_copy_enhancement_and_responsive_styles(self):
         script = (ROOT / "public" / "assets" / "hub.js").read_text(encoding="utf-8")
         css = (ROOT / "public" / "assets" / "hub.css").read_text(encoding="utf-8")
         catalog_html = (ROOT / "dist" / "tools.html").read_text(encoding="utf-8")
 
-        for hook in (
-            "[data-tool-filter-root]",
-            "[data-tool-filter-group]",
-            "[data-tool-filter]",
-            "[data-tool-clear]",
-            "[data-tool-count]",
-            "[data-tool-empty]",
-        ):
-            self.assertIn(hook, script)
-        self.assertIn('const state = { category: "all", platform: "all", access: "all" };', script)
-        self.assertIn('split(" ")', script)
         self.assertIn("navigator.clipboard", script)
         self.assertIn("data-copy-code", script)
         self.assertIn("1800", script)
 
-        self.assertEqual(catalog_html.count("data-tool-filter-group="), 3)
-        self.assertGreaterEqual(catalog_html.count('aria-pressed="true"'), 3)
-        self.assertIn("data-tool-clear", catalog_html)
+        self.assertNotIn("data-tool-filter-root", catalog_html)
+        self.assertNotIn("data-tool-clear", catalog_html)
 
         for selector in (
             ".page--tools",
             ".tools-shell",
             ".tools-sidebar__sticky",
-            ".tool-filter-disclosure",
-            ".tool-filter-group",
+            ".tool-directory-disclosure",
+            ".tool-directory__group",
+            ".tool-directory-section",
             ".tool-grid",
             ".tool-card",
             ".page--tool-guide",
@@ -347,7 +372,7 @@ class ToolGuideInteractionTests(unittest.TestCase):
         self.assertRegex(css, r"\.tool-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2", re.S)
         self.assertIn("@media (max-width: 820px)", css)
         self.assertIn("@media (max-width: 640px)", css)
-        self.assertRegex(css, r"(?s)\.tool-filter-group .*min-height:\s*44px")
+        self.assertRegex(css, r"(?s)\.tool-directory__group li a .*min-height:\s*44px")
         self.assertIn("aspect-ratio: 16 / 9", css)
         self.assertRegex(css, r"\.tool-card__cover\s*\{[^}]*height:\s*auto", re.S)
         self.assertRegex(css, r"\.tool-guide__cover\s*\{[^}]*height:\s*auto", re.S)
@@ -429,7 +454,7 @@ class ToolGuideReleaseTests(unittest.TestCase):
             self.assertIn(phrase, ops)
         self.assertIn("home / works / learn / tools / notes / about", brand)
         self.assertIn("31 个 canonical", brand)
-        self.assertIn("sidebar_catalog_filter + static_guides", brand)
+        self.assertIn("grouped_model_directory + static_guides", brand)
         self.assertIn("首页正文不提供工具入口", brand)
         for field in ("audience", "setupSummary", "privacySummary"):
             self.assertIn(field, spec)

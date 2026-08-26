@@ -6,7 +6,7 @@ audience: "想学习可视化节点工作流、精细控制 AI 图像生成，�
 setupSummary: "Windows 新手优先使用官方 Desktop；安装程序较快，但模型下载和首次环境准备可能需要更久。"
 privacySummary: "基础生成可在本机完成，但模型下载、模板、扩展节点和云端功能可能联网；素材与模型许可证需单独核对。"
 origin: international
-category: image-video
+category: image-model
 accessTypes: [desktop, local-service]
 platforms: [windows, macos, linux]
 pricing: free

@@ -28,10 +28,10 @@ export const learningTrackMeta = {
 export type LearningTrackKey = keyof typeof learningTrackMeta;
 
 export const toolCategoryMeta = {
+  "language-model": { label: "语言模型" },
+  "image-model": { label: "图片模型" },
   "ai-coding": { label: "AI 编程" },
-  "local-model": { label: "本地模型" },
-  "desktop-client": { label: "桌面客户端" },
-  "image-video": { label: "图像/视频" },
+  "video-model": { label: "视频模型" },
 } as const;
 
 export const toolOriginMeta = {

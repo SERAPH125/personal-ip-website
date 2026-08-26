@@ -4,11 +4,13 @@
 
 **Goal:** Add a navigation-only AI tool guide section with an eight-card catalog and eight source-backed, image-rich installation/use guides while leaving the homepage body unchanged.
 
-**Architecture:** Add a separate Astro `tools` content collection, a static catalog route, and one dynamic static detail route. Content drives metadata, filtering, SEO, and navigation; shared CSS/JavaScript provide progressive enhancement for filtering and code-copy buttons without introducing a framework or runtime API.
+**Architecture:** Add a separate Astro `tools` content collection, a static catalog route, and one dynamic static detail route. Content drives metadata, grouped model-directory navigation, SEO, and navigation; shared CSS/JavaScript provide responsive disclosure behavior and code-copy enhancement without introducing a framework or runtime API.
 
 **Tech Stack:** Astro 7, Markdown Content Collections, TypeScript, semantic HTML, existing vanilla CSS/JavaScript, Python `unittest`, GitHub Pages static file-style routes.
 
 **Spec:** `docs/superpowers/specs/2026-08-26-ai-tool-guides-design.md`
+
+> **Implementation update (2026-08-26):** 用户在首版完成后确认将目录改为语言模型、图片模型、AI 编程、视频模型四组，并在左侧直接列出 8 个工具名称。原计划中关于类别 / 平台 / 使用方式组合筛选的任务记录仅保留为实施历史；当前行为与验收标准以设计文档、`brand-spec.md` 和代码为准。
 
 ## Global Constraints
 

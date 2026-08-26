@@ -6,7 +6,7 @@ audience: "希望在自己的电脑上试用开源模型、重视本地工作流
 setupSummary: "安装 Ollama 后下载一个小模型即可使用；程序安装很快，模型下载时间取决于网络和文件大小。"
 privacySummary: "本地模型可在设备上推理，但下载、更新或接入外部应用时仍可能联网；是否离线取决于完整工作流。"
 origin: international
-category: local-model
+category: language-model
 accessTypes: [cli, local-service]
 platforms: [windows, macos, linux]
 pricing: free

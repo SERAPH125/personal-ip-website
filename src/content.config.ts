@@ -46,7 +46,7 @@ const tools = defineCollection({
       setupSummary: z.string(),
       privacySummary: z.string(),
       origin: z.enum(["international", "china"]),
-      category: z.enum(["ai-coding", "local-model", "desktop-client", "image-video"]),
+      category: z.enum(["language-model", "image-model", "ai-coding", "video-model"]),
       accessTypes: z.array(z.enum(["cli", "desktop", "local-service", "web"])).min(1),
       platforms: z
         .array(z.enum(["windows", "macos", "linux", "web", "android", "ios"]))
