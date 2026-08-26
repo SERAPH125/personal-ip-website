@@ -2,13 +2,15 @@
 import { withBase } from "../lib/site";
 
 interface Props {
-  active?: "home" | "works" | "notes" | "about";
+  active?: "home" | "works" | "learn" | "tools" | "notes" | "about";
 }
 
 const { active } = Astro.props;
 const items = [
   { key: "home", label: "首页", href: "index.html" },
   { key: "works", label: "作品", href: "works.html" },
+  { key: "learn", label: "学习路线", href: "learn.html" },
+  { key: "tools", label: "工具指南", href: "tools.html" },
   { key: "notes", label: "知识库", href: "notes.html" },
   { key: "about", label: "关于", href: "about.html" },
 ] as const;

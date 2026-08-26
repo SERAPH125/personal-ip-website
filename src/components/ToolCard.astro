@@ -1,0 +1,70 @@
+---
+import type { CollectionEntry } from "astro:content";
+import {
+  formatDate,
+  toolAccessMeta,
+  toolCategoryMeta,
+  toolOriginMeta,
+  toolPath,
+  toolPlatformMeta,
+  toolPricingMeta,
+  withBase,
+} from "../lib/site";
+
+interface Props {
+  entry: CollectionEntry<"tools">;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const setupLabel = data.accessTypes.length === 1 && data.accessTypes[0] === "web" ? "免安装" : "需要安装";
+const platformLabels = data.platforms.map((platform) => toolPlatformMeta[platform].label);
+const accessLabels = data.accessTypes.map((access) => toolAccessMeta[access].label);
+---
+
+<li
+  class="tool-card"
+  data-tool-item
+  data-tool-slug={entry.id}
+  data-category={data.category}
+  data-origin={data.origin}
+  data-platforms={data.platforms.join(" ")}
+  data-access={data.accessTypes.join(" ")}
+>
+  <a class="tool-card__link" href={toolPath(entry.id)}>
+    <img
+      class="tool-card__cover"
+      src={withBase(data.cover)}
+      width="1600"
+      height="900"
+      alt={data.coverAlt}
+      loading="lazy"
+      decoding="async"
+      data-cover-fallback
+    />
+    <div class="tool-card__body">
+      <div class="tool-card__eyebrow">
+        <span>{toolOriginMeta[data.origin].label}</span>
+        <span aria-hidden="true">·</span>
+        <span>{toolCategoryMeta[data.category].label}</span>
+      </div>
+      <h2>{data.toolName}</h2>
+      <p>{data.description}</p>
+      <dl class="tool-card__facts">
+        <div>
+          <dt>平台</dt>
+          <dd>{platformLabels.join(" / ")}</dd>
+        </div>
+        <div>
+          <dt>使用方式</dt>
+          <dd>{setupLabel} · {accessLabels.join(" / ")}</dd>
+        </div>
+      </dl>
+      <div class="tool-card__footer">
+        <span>{toolPricingMeta[data.pricing].label}</span>
+        <span>核验 {formatDate(data.verifiedAt)}</span>
+      </div>
+      <span class="tool-card__more">查看图文指南 <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+</li>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Codex 安装与入门指南封面</title>
+  <desc id="desc">蓝白配色的命令行窗口与任务检查清单示意图</desc>
+  <rect width="1600" height="900" fill="#f6f8fc"/>
+  <circle cx="1330" cy="180" r="250" fill="#e9efff"/>
+  <text x="110" y="150" fill="#3568e8" font-size="30" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">AI 编程 · 命令行</text>
+  <text x="110" y="270" fill="#20242c" font-size="96" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">Codex</text>
+  <text x="110" y="345" fill="#4b5565" font-size="38" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">安装、登录与第一个安全任务</text>
+  <rect x="110" y="450" width="850" height="300" rx="28" fill="#20242c"/>
+  <circle cx="160" cy="500" r="10" fill="#ff7b72"/><circle cx="195" cy="500" r="10" fill="#f2cc60"/><circle cx="230" cy="500" r="10" fill="#56d364"/>
+  <text x="160" y="575" fill="#9ec1ff" font-size="32" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">$ codex --version</text>
+  <text x="160" y="635" fill="#ffffff" font-size="32" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">$ codex</text>
+  <text x="160" y="695" fill="#a7f3d0" font-size="26" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">✓ 先读计划，再确认修改</text>
+  <g transform="translate(1050 430)" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">
+    <rect width="390" height="320" rx="28" fill="#ffffff" stroke="#dce2ef" stroke-width="3"/>
+    <text x="50" y="80" fill="#20242c" font-size="32" font-weight="700">FIRST RUN</text>
+    <path d="M52 135l16 16 30-36" fill="none" stroke="#3568e8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><text x="120" y="153" fill="#4b5565" font-size="27">登录账户</text>
+    <path d="M52 205l16 16 30-36" fill="none" stroke="#3568e8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><text x="120" y="223" fill="#4b5565" font-size="27">检查目录</text>
+    <path d="M52 275l16 16 30-36" fill="none" stroke="#3568e8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><text x="120" y="293" fill="#4b5565" font-size="27">审阅变更</text>
+  </g>
+</svg>

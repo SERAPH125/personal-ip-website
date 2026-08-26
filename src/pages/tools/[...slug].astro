@@ -1,0 +1,29 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import ToolGuideLayout from "../../layouts/ToolGuideLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("tools", ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"tools">;
+}
+
+const { entry } = Astro.props;
+const entries = (await getCollection("tools", ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.sequence - b.data.sequence,
+);
+const index = entries.findIndex((candidate) => candidate.id === entry.id);
+const previous = index > 0 ? entries[index - 1] : undefined;
+const next = index >= 0 && index < entries.length - 1 ? entries[index + 1] : undefined;
+const { Content, headings } = await render(entry);
+---
+
+<ToolGuideLayout entry={entry} headings={headings} previous={previous} next={next}>
+  <Content />
+</ToolGuideLayout>

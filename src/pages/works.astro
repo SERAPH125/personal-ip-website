@@ -27,7 +27,7 @@ const schema = {
   footerLinkLabel="去关于页关注"
   mainId="works-page"
 >
-  <main class="page" id="works-page" data-od-id="works-page" tabindex="-1">
+  <main class="page" id="works-page" data-od-id="works-page" data-series-filter-root="true" data-filter-unit="作品" tabindex="-1">
     <p class="eyebrow eyebrow--muted">Works</p>
     <h1>作品流</h1>
     <p class="lede">按系列浏览，视频与文字版彼此相连。</p>
@@ -38,11 +38,11 @@ const schema = {
       <button type="button" class="filter-chip" data-series-filter="observe" aria-pressed="false">模型观察</button>
       <button type="button" class="filter-chip" data-series-filter="aivideo" aria-pressed="false">AI 视频</button>
     </div>
-    <p class="filter-result" data-filter-count role="status" aria-live="polite">共 {videos.length} 条作品</p>
+    <p class="filter-result" data-filter-count="true" role="status" aria-live="polite">共 {videos.length} 条作品</p>
 
     <div class="video-grid" data-od-id="works-grid">
       {videos.map((entry) => <VideoCard entry={entry} />)}
     </div>
-    <div class="empty-filter" data-od-id="filter-empty" role="status">当前系列下暂无作品。</div>
+    <div class="empty-filter" data-filter-empty="true" role="status">当前系列下暂无作品。</div>
   </main>
 </BaseLayout>

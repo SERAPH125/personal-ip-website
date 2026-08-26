@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import ToolCard from "../components/ToolCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  absoluteUrl,
+  toolAccessMeta,
+  toolCategoryMeta,
+  toolPlatformMeta,
+  toolUrl,
+} from "../lib/site";
+
+const tools = (await getCollection("tools", ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.sequence - b.data.sequence,
+);
+const categoryFilters = Object.entries(toolCategoryMeta);
+const platformFilters = Object.entries(toolPlatformMeta);
+const accessFilters = Object.entries(toolAccessMeta);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "AI 工具指南 · 南吴 NANWU",
+  url: absoluteUrl("tools.html"),
+  description: "面向普通读者的 AI 工具安装、首次使用、排错、费用、隐私与许可证指南。",
+  isPartOf: { "@id": `${absoluteUrl("")}#website` },
+  hasPart: tools.map((entry) => ({
+    "@type": "TechArticle",
+    name: entry.data.title,
+    url: toolUrl(entry.id),
+  })),
+};
+---
+
+<BaseLayout
+  title="AI 工具指南"
+  description="8 款 AI 工具的图文安装与使用指南，覆盖 AI 编程、本地模型、桌面客户端和 AI 视频。"
+  canonicalPath="tools.html"
+  activeNav="tools"
+  structuredData={schema}
+  mainId="tools-page"
+>
+  <main class="page page--tools" id="tools-page" data-od-id="tools-page" tabindex="-1">
+    <header class="tools-hero">
+      <div>
+        <p class="eyebrow eyebrow--muted">Install · First run · Troubleshoot</p>
+        <h1>AI 工具指南</h1>
+        <p class="lede">从官方入口、安装和第一次使用讲起，也把费用、隐私、开源状态与常见故障说清楚。</p>
+        <p class="tools-count">第一批收录 <strong>{tools.length}</strong> 款，每篇均标注官方资料与核验日期。</p>
+      </div>
+    </header>
+
+    <section data-tool-filter-root aria-label="筛选 AI 工具">
+      <div class="tool-filters">
+        <div class="tool-filter-group" data-tool-filter-group="category" role="group" aria-label="按类别筛选">
+          <span>类别</span>
+          <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
+          {categoryFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+        </div>
+        <div class="tool-filter-group" data-tool-filter-group="platform" role="group" aria-label="按平台筛选">
+          <span>平台</span>
+          <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
+          {platformFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+        </div>
+        <div class="tool-filter-group" data-tool-filter-group="access" role="group" aria-label="按使用方式筛选">
+          <span>方式</span>
+          <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
+          {accessFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+        </div>
+      </div>
+
+      <div class="tool-filter-status">
+        <p data-tool-count role="status" aria-live="polite">当前显示 {tools.length} 款工具</p>
+        <button type="button" class="btn btn--ghost" data-tool-clear>清除筛选</button>
+      </div>
+
+      <ul class="tool-grid" data-od-id="tool-grid">
+        {tools.map((entry) => <ToolCard entry={entry} />)}
+      </ul>
+
+      <div class="tool-empty" data-tool-empty hidden role="status">
+        <h2>没有匹配的工具</h2>
+        <p>换一个平台或使用方式，或者清除筛选查看全部 8 款。</p>
+        <button type="button" class="btn btn--primary" data-tool-clear>清除筛选</button>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

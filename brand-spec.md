@@ -31,13 +31,16 @@
 - Display name: **南吴 NANWU**（顶栏：`南吴` + muted `NANWU`）
 - Positioning: AI 科技类创作者 · 抖音主力（B站 / YouTube 有真实链接后再展示）
 - About identity: 首版不展示未经确认的人像；favicon / 分享备用图使用 `assets/covers/nanwu-avatar.jpg`
-- Content: `src/content/notes/*.md` 是 5 篇文章与 4 条视频卡的唯一内容源；封面位于 `public/assets/covers/*`；Astro 构建静态 HTML，`public/assets/hub.js` 只负责交互
+- Content: `src/content/notes/*.md` 是 17 篇文章与 4 条视频卡的唯一内容源；`src/content/tools/*.md` 是 8 篇工具指南的唯一内容源；其中 12 篇知识文章组成两条学习路线；资源位于 `public/assets/covers/*` 与 `public/assets/tools/*`；Astro 构建静态 HTML，`public/assets/hub.js` 只负责渐进交互
+- Primary nav (locked): **home / works / learn / tools / notes / about** — `首页 / 作品 / 学习路线 / 工具指南 / 知识库 / 关于`
 - About IA (locked): **series_first** — `agent` / `observe` / `aivideo`
 - Watch policy (locked): **outbound only** — 无站内播放；`watch.html` = `dead_file`
 - Home IA (locked): **creator_first + current_feature** — H1 先说明南吴提供的价值；`featured: true` 决定当前精选；关联知识文档与视频封面来自同一 Markdown 条目
 - Works IA (locked): **series_filter + dual_destination** — `agent / observe / aivideo` 系列筛选；每卡并列提供视频与文字入口；Astro 必须生成可直接读取的静态 HTML
-- Notes IA (locked): **list_detail** — `notes.html` + 5 篇详情；5 篇阶段不显示搜索；约 12 篇后再接 Pagefind；详情采用居中的 `42rem` 阅读列、白色阅读纸面、自动目录与 Markdown 富文本节奏
+- Learning IA (locked): **two_ordered_tracks** — `learn.html` 先 Vibe Coding、后 AI 视频；各 6 步，由 `learning.track / step` 驱动；首页只显示两张入口卡，正文继续使用 `notes/<slug>.html`
+- Tools IA (locked): **catalog_filter + static_guides** — `tools.html` 提供类别 / 平台 / 使用方式组合筛选，8 篇详情使用 `tools/<slug>.html`；首页正文不提供工具入口，只通过全局导航进入
+- Notes IA (locked): **series_filter + list_detail** — `notes.html` + 17 篇详情；五个筛选为 `all / agent / observe / aivideo / industry`；17 篇阶段不显示搜索，约 30 篇或有明确需求时再评估 Pagefind；详情采用居中的 `42rem` 阅读列、白色阅读纸面、自动目录与 Markdown 富文本节奏
 - Home depth (locked): **css_cover_depth** — 仅用 CSS gradient 网格与柔光衬精选封面，不加载 Three.js、WebGL 或 RAF；不做枢纽/星座/全屏粒子
 - Follow policy (locked): 首页与关于页 CTA 直接打开抖音主页，不使用单平台选择弹层
-- Launch policy: 公开页面不得出现空链接或未确认素材；9 个公开页面提供 description、canonical、Open Graph、RSS discovery、JSON-LD、favicon，并由 `robots.txt` / `sitemap-index.xml` 索引；既有 `.html` URL 永久保留
+- Launch policy: 公开页面不得出现空链接或未确认素材；31 个 canonical 公开页面提供 description、canonical、Open Graph、RSS discovery、JSON-LD、favicon，并由 `robots.txt` / `sitemap-index.xml` 索引；既有 `.html` URL 永久保留
 - Site ambient (locked): **U1 Linear dots + soft glow** — 全站共用 `public/assets/hub.css`：`body::before` 多层极淡 cobalt/cool-gray 径向柔光；`body::after` 为 `radial-gradient` 点阵 + `@property` 驱动相位/透明度呼吸；文章正文由高不透明阅读纸面隔离点阵噪声；`prefers-reduced-motion: reduce` → 静帧。手法参考 [Typed Halftone Background Drift](https://animationpatterns.art/animations/typed-halftone-background-drift/) 与 [MDN `@property`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/At-rules/@property)；气质对齐 [Linear](https://linear.app)。**禁止** Vanta / tsParticles / 枢纽星座 / 粒子海

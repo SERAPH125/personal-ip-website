@@ -12,6 +12,56 @@ export const seriesMeta = {
 
 export type SeriesKey = keyof typeof seriesMeta;
 
+export const learningTrackMeta = {
+  "vibe-coding": {
+    label: "Vibe Coding",
+    eyebrow: "Build with AI",
+    description: "从任务描述、Git、安全边界到真实效率，建立可以反复使用的 AI 编程方法。",
+  },
+  "ai-video": {
+    label: "AI 视频",
+    eyebrow: "Create with AI",
+    description: "从镜头语言、提示词和角色一致性，走到完整生产与合规发布。",
+  },
+} as const;
+
+export type LearningTrackKey = keyof typeof learningTrackMeta;
+
+export const toolCategoryMeta = {
+  "ai-coding": { label: "AI 编程" },
+  "local-model": { label: "本地模型" },
+  "desktop-client": { label: "桌面客户端" },
+  "image-video": { label: "图像/视频" },
+} as const;
+
+export const toolOriginMeta = {
+  international: { label: "国际" },
+  china: { label: "国内" },
+} as const;
+
+export const toolAccessMeta = {
+  cli: { label: "命令行" },
+  desktop: { label: "桌面应用" },
+  "local-service": { label: "本地服务" },
+  web: { label: "网页" },
+} as const;
+
+export const toolPlatformMeta = {
+  windows: { label: "Windows" },
+  macos: { label: "macOS" },
+  linux: { label: "Linux" },
+  web: { label: "网页" },
+  android: { label: "Android" },
+  ios: { label: "iOS" },
+} as const;
+
+export const toolPricingMeta = {
+  free: { label: "免费" },
+  freemium: { label: "免费增值" },
+  paid: { label: "付费" },
+  "usage-based": { label: "按量计费" },
+} as const;
+
 export function withBase(path = "") {
   const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
   return `${base}${path.replace(/^\/+/, "")}`;
@@ -27,6 +77,14 @@ export function articlePath(slug: string) {
 
 export function articleUrl(slug: string) {
   return absoluteUrl(`notes/${slug}.html`);
+}
+
+export function toolPath(slug: string) {
+  return withBase(`tools/${slug}.html`);
+}
+
+export function toolUrl(slug: string) {
+  return absoluteUrl(`tools/${slug}.html`);
 }
 
 export function formatDate(date: Date) {

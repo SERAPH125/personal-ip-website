@@ -1,0 +1,177 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import {
+  absoluteUrl,
+  formatDate,
+  toolAccessMeta,
+  toolCategoryMeta,
+  toolOriginMeta,
+  toolPath,
+  toolPlatformMeta,
+  toolPricingMeta,
+  toolUrl,
+  withBase,
+} from "../lib/site";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  entry: CollectionEntry<"tools">;
+  headings: Heading[];
+  previous?: CollectionEntry<"tools">;
+  next?: CollectionEntry<"tools">;
+}
+
+const { entry, headings, previous, next } = Astro.props;
+const { data } = entry;
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const canonical = toolUrl(entry.id);
+const accessLabels = data.accessTypes.map((value) => toolAccessMeta[value].label);
+const platformLabels = data.platforms.map((value) => toolPlatformMeta[value].label);
+const setupLabel = data.accessTypes.length === 1 && data.accessTypes[0] === "web" ? "免安装" : "需要安装";
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": `${canonical}#guide`,
+      headline: data.title,
+      description: data.description,
+      dateModified: data.verifiedAt.toISOString(),
+      inLanguage: "zh-CN",
+      image: absoluteUrl(data.cover),
+      mainEntityOfPage: canonical,
+      proficiencyLevel: "Beginner",
+      author: {
+        "@type": "Person",
+        "@id": `${absoluteUrl("")}#creator`,
+        name: "南吴 NANWU",
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "AI 工具指南",
+          item: absoluteUrl("tools.html"),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: data.toolName,
+          item: canonical,
+        },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  canonicalPath={`tools/${entry.id}.html`}
+  image={data.cover}
+  pageType="article"
+  activeNav="tools"
+  structuredData={schema}
+  mainId="tool-guide-page"
+>
+  <main class="page page--article page--tool-guide" id="tool-guide-page" data-od-id="tool-guide-page" tabindex="-1">
+    <nav class="article-crumb" aria-label="面包屑">
+      <a href={withBase("tools.html")}>AI 工具指南</a>
+      <span aria-hidden="true">/</span>
+      <span>{data.toolName}</span>
+    </nav>
+
+    <article class="article tool-guide" data-od-id={`tool-guide-${entry.id}`}>
+      <div class="article__surface tool-guide__surface">
+        <header class="article__header tool-guide__header">
+          <p class="eyebrow eyebrow--muted">AI Tool Guide · {String(data.sequence).padStart(2, "0")}</p>
+          <h1>{data.title}</h1>
+          <p class="tool-guide__lede">{data.description}</p>
+          <ul class="tool-guide__meta" aria-label="工具信息">
+            <li>{toolOriginMeta[data.origin].label}</li>
+            <li>{toolCategoryMeta[data.category].label}</li>
+            <li>{setupLabel}</li>
+            <li>{accessLabels.join(" / ")}</li>
+            <li>{platformLabels.join(" / ")}</li>
+            <li>{toolPricingMeta[data.pricing].label}</li>
+            <li>{data.openSource ? `开源 · ${data.license}` : "非开源"}</li>
+            <li>核验 {formatDate(data.verifiedAt)}</li>
+          </ul>
+        </header>
+
+        <img
+          class="tool-guide__cover"
+          src={withBase(data.cover)}
+          width="1600"
+          height="900"
+          alt={data.coverAlt}
+          decoding="async"
+          fetchpriority="high"
+          data-cover-fallback
+        />
+
+        <section class="tool-guide__quick" data-tool-quick aria-labelledby="quick-title">
+          <div class="tool-guide__quick-head">
+            <p class="eyebrow eyebrow--muted">Quick check</p>
+            <h2 id="quick-title">30 秒快速判断</h2>
+          </div>
+          <dl>
+            <div><dt>适合谁</dt><dd>{data.audience}</dd></div>
+            <div><dt>准备成本</dt><dd>{data.setupSummary}</dd></div>
+            <div><dt>费用概况</dt><dd>{toolPricingMeta[data.pricing].label}，实时额度与价格以官方页面为准。</dd></div>
+            <div><dt>隐私提醒</dt><dd>{data.privacySummary}</dd></div>
+          </dl>
+        </section>
+
+        <div class="tool-guide__official-links" aria-label="官方链接">
+          <a class="btn btn--primary" href={data.officialUrl} target="_blank" rel="noopener noreferrer">查看官方网站 <span aria-hidden="true">↗</span></a>
+          {data.downloadUrl && <a class="btn btn--ghost" href={data.downloadUrl} target="_blank" rel="noopener noreferrer">官方下载</a>}
+          {data.repositoryUrl && <a class="btn btn--ghost" href={data.repositoryUrl} target="_blank" rel="noopener noreferrer">开源仓库</a>}
+        </div>
+
+        {toc.length > 1 && (
+          <nav class="article__toc tool-guide__toc" aria-label="本篇目录">
+            <p>本篇目录</p>
+            <ol>
+              {toc.map((heading) => (
+                <li class:list={{ "is-subheading": heading.depth === 3 }}>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+
+        <div class="article__body tool-guide__body" data-od-id="tool-guide-body">
+          <slot />
+        </div>
+
+        <footer class="article__footer tool-guide__footer">
+          <a class="btn btn--ghost" href={withBase("tools.html")}>返回工具指南</a>
+          {previous && (
+            <a class="article__pager" href={toolPath(previous.id)}>
+              <span>上一篇</span>
+              <strong>{previous.data.toolName}</strong>
+            </a>
+          )}
+          {next && (
+            <a class="article__pager article__pager--next" href={toolPath(next.id)}>
+              <span>下一篇</span>
+              <strong>{next.data.toolName}</strong>
+            </a>
+          )}
+        </footer>
+      </div>
+    </article>
+  </main>
+</BaseLayout>

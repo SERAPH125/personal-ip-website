@@ -2,13 +2,18 @@
 import { getCollection } from "astro:content";
 import VideoCard from "../components/VideoCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { absoluteUrl, articlePath, DOUYIN_PROFILE, withBase } from "../lib/site";
+import { absoluteUrl, articlePath, DOUYIN_PROFILE, learningTrackMeta, withBase } from "../lib/site";
 
 const notes = (await getCollection("notes", ({ data }) => !data.draft)).sort(
   (a, b) => a.data.sequence - b.data.sequence,
 );
 const featured = notes.find((entry) => entry.data.featured) ?? notes[0];
 const recentVideos = notes.filter((entry) => entry.data.video && entry.id !== featured.id).slice(0, 3);
+const learningTracks = (["vibe-coding", "ai-video"] as const).map((key) => ({
+  key,
+  ...learningTrackMeta[key],
+  articleCount: notes.filter((entry) => entry.data.learning?.track === key).length,
+}));
 const schema = {
   "@context": "https://schema.org",
   "@graph": [
@@ -84,6 +89,30 @@ const schema = {
           </a>
         </div>
       )}
+    </section>
+
+    <section class="home-learning" aria-labelledby="home-learning-title">
+      <div class="section-head section-head--solo">
+        <div>
+          <h2 id="home-learning-title">按路线学</h2>
+          <p>从零散阅读切换到按顺序练习，每条路线都由 6 篇文章组成</p>
+        </div>
+        <a class="home-learning__all" href={withBase("learn.html")}>查看全部路线 →</a>
+      </div>
+      <div class="home-learning__grid">
+        {learningTracks.map((track) => (
+          <a
+            class="home-learning__card"
+            href={withBase(`learn.html#${track.key}`)}
+            data-learning-entry={track.key}
+          >
+            <span>{track.eyebrow}</span>
+            <strong>{track.label}</strong>
+            <small>{track.description}</small>
+            <em>{track.articleCount} 步完成</em>
+          </a>
+        ))}
+      </div>
     </section>
 
     <section class="home-recent" aria-labelledby="home-recent-title">

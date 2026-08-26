@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cursor 安装与入门指南封面</title><desc id="desc">代码编辑器、AI 对话框和差异审阅面板示意图</desc>
+  <rect width="1600" height="900" fill="#f6f8fc"/><path d="M1210 0h390v390z" fill="#e9efff"/>
+  <text x="110" y="145" fill="#3568e8" font-size="30" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">AI 编程 · 桌面编辑器</text>
+  <text x="110" y="265" fill="#20242c" font-size="96" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">Cursor</text>
+  <text x="110" y="340" fill="#4b5565" font-size="38" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">下载、导入设置与审阅 AI 改动</text>
+  <g transform="translate(110 430)" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">
+    <rect width="1380" height="360" rx="28" fill="#20242c"/><rect width="1380" height="58" rx="28" fill="#2d333b"/><circle cx="42" cy="29" r="9" fill="#ff7b72"/><circle cx="72" cy="29" r="9" fill="#f2cc60"/><circle cx="102" cy="29" r="9" fill="#56d364"/>
+    <rect x="0" y="58" width="250" height="302" fill="#262c34"/><text x="32" y="115" fill="#9aa4b2" font-size="24">EXPLORER</text><text x="32" y="170" fill="#ffffff" font-size="23">src/</text><text x="58" y="218" fill="#9ec1ff" font-size="23">app.ts</text>
+    <text x="310" y="130" fill="#9ec1ff" font-size="26">const</text><text x="400" y="130" fill="#ffffff" font-size="26"> result = await run();</text><rect x="300" y="175" width="520" height="38" rx="8" fill="#123824"/><text x="318" y="203" fill="#a7f3d0" font-size="23">+ validate(result);</text>
+    <rect x="950" y="90" width="380" height="230" rx="18" fill="#ffffff"/><text x="985" y="140" fill="#20242c" font-size="24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif" font-weight="700">AI 建议</text><text x="985" y="190" fill="#4b5565" font-size="21" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">已添加输入校验</text><rect x="985" y="235" width="140" height="48" rx="12" fill="#3568e8"/><text x="1020" y="267" fill="#fff" font-size="20" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">查看差异</text>
+  </g>
+</svg>

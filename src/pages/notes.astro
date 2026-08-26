@@ -35,9 +35,21 @@ const schema = {
       </div>
     </header>
 
-    <ul class="note-list" data-od-id="note-list">
-      {notes.map((entry) => <NoteCard entry={entry} />)}
-    </ul>
+    <section data-series-filter-root="true" data-filter-unit="文章" aria-label="按系列浏览知识库">
+      <div class="filters notes-filters" role="group" aria-label="按系列筛选">
+        <button type="button" class="filter-chip is-active" data-series-filter="all" aria-pressed="true">全部</button>
+        <button type="button" class="filter-chip" data-series-filter="agent" aria-pressed="false">Agent 实战</button>
+        <button type="button" class="filter-chip" data-series-filter="observe" aria-pressed="false">模型观察</button>
+        <button type="button" class="filter-chip" data-series-filter="aivideo" aria-pressed="false">AI 视频</button>
+        <button type="button" class="filter-chip" data-series-filter="industry" aria-pressed="false">行业观察</button>
+      </div>
+      <p class="filter-result" data-filter-count="true" role="status" aria-live="polite">全部 · {notes.length} 篇文章</p>
+
+      <ul class="note-list" data-od-id="note-list">
+        {notes.map((entry) => <NoteCard entry={entry} />)}
+      </ul>
+      <div class="empty-filter" data-filter-empty="true" role="status">当前系列下暂无文章。</div>
+    </section>
 
     <p class="notes-foot">每篇文字版都可独立阅读，也保留对应视频入口。想按系列浏览，可去 <a href={withBase("works.html")}>作品流</a>。</p>
   </main>

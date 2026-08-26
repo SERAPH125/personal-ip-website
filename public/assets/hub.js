@@ -93,27 +93,32 @@
   }
   bindCoverFallback();
 
-  /* Works filter — series chips + shareable ?series= deep link */
-  const grid = qs("[data-od-id='works-grid']");
-  if (grid) {
-    const chips = qsa("[data-series-filter]");
-    const empty = qs("[data-od-id='filter-empty']");
-    const resultCount = qs("[data-filter-count]");
+  /* Shared series filter — works and notes + shareable ?series= deep link */
+  qsa("[data-series-filter-root]").forEach(function (filterRoot) {
+    const chips = qsa("[data-series-filter]", filterRoot);
+    const items = qsa("[data-filter-item]", filterRoot);
+    const empty = qs("[data-filter-empty]", filterRoot);
+    const resultCount = qs("[data-filter-count]", filterRoot);
+    const unit = filterRoot.getAttribute("data-filter-unit") || "内容";
     const params = new URLSearchParams(location.search);
     let seriesFilter = params.get("series") || "all";
     if (seriesFilter !== "all" && !seriesMeta[seriesFilter]) seriesFilter = "all";
+    if (!chips.some(function (chip) {
+      return chip.getAttribute("data-series-filter") === seriesFilter;
+    })) seriesFilter = "all";
 
     function applyFilters() {
       let visible = 0;
-      qsa("[data-video-card]", grid).forEach(function (card) {
-        const show = seriesFilter === "all" || card.getAttribute("data-series") === seriesFilter;
-        card.hidden = !show;
+      items.forEach(function (item) {
+        const show = seriesFilter === "all" || item.getAttribute("data-series") === seriesFilter;
+        item.hidden = !show;
         if (show) visible += 1;
       });
       if (empty) empty.classList.toggle("is-visible", visible === 0);
       if (resultCount) {
         const label = seriesFilter === "all" ? "全部" : seriesMeta[seriesFilter];
-        resultCount.textContent = label + " · " + visible + " 条作品";
+        const measure = unit === "作品" ? " 条作品" : unit === "文章" ? " 篇文章" : " 条" + unit;
+        resultCount.textContent = label + " · " + visible + measure;
       }
       chips.forEach(function (c) {
         const active = c.getAttribute("data-series-filter") === seriesFilter;
@@ -133,5 +138,131 @@
       });
     });
     applyFilters();
+  });
+
+  /* AI tool catalog — compound category/platform/access filters */
+  qsa("[data-tool-filter-root]").forEach(function (filterRoot) {
+    const groups = qsa("[data-tool-filter-group]", filterRoot);
+    const items = qsa("[data-tool-item]", filterRoot);
+    const count = qs("[data-tool-count]", filterRoot);
+    const empty = qs("[data-tool-empty]", filterRoot);
+    const clearButtons = qsa("[data-tool-clear]", filterRoot);
+    const state = { category: "all", platform: "all", access: "all" };
+
+    function values(item, attribute) {
+      return (item.getAttribute(attribute) || "").split(" ").filter(Boolean);
+    }
+
+    function applyToolFilters() {
+      let visible = 0;
+      items.forEach(function (item) {
+        const matchesCategory = state.category === "all" || item.getAttribute("data-category") === state.category;
+        const matchesPlatform = state.platform === "all" || values(item, "data-platforms").includes(state.platform);
+        const matchesAccess = state.access === "all" || values(item, "data-access").includes(state.access);
+        const show = matchesCategory && matchesPlatform && matchesAccess;
+        item.hidden = !show;
+        if (show) visible += 1;
+      });
+
+      if (count) count.textContent = "当前显示 " + visible + " 款工具";
+      if (empty) {
+        empty.hidden = visible !== 0;
+        empty.classList.toggle("is-visible", visible === 0);
+      }
+
+      groups.forEach(function (group) {
+        const key = group.getAttribute("data-tool-filter-group");
+        qsa("[data-tool-filter]", group).forEach(function (chip) {
+          const active = chip.getAttribute("data-tool-filter") === state[key];
+          chip.classList.toggle("is-active", active);
+          chip.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      });
+    }
+
+    groups.forEach(function (group) {
+      const key = group.getAttribute("data-tool-filter-group");
+      qsa("[data-tool-filter]", group).forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          state[key] = chip.getAttribute("data-tool-filter") || "all";
+          applyToolFilters();
+        });
+      });
+    });
+
+    clearButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        state.category = "all";
+        state.platform = "all";
+        state.access = "all";
+        applyToolFilters();
+        const firstChip = qs('[data-tool-filter-group="category"] [data-tool-filter="all"]', filterRoot);
+        if (firstChip) firstChip.focus();
+      });
+    });
+
+    applyToolFilters();
+  });
+
+  /* Tool commands — copy is progressive enhancement, source remains selectable */
+  qsa(".tool-guide__body pre").forEach(function (pre) {
+    const code = qs("code", pre);
+    if (!code || !(code.textContent || "").trim() || pre.parentElement.classList.contains("code-block")) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "code-block";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "code-copy-button";
+    button.setAttribute("data-copy-code", "");
+    button.setAttribute("aria-label", "复制代码");
+    button.textContent = "复制";
+    const status = document.createElement("span");
+    status.className = "sr-only";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+    wrapper.appendChild(button);
+    wrapper.appendChild(status);
+
+    let resetTimer;
+    button.addEventListener("click", async function () {
+      clearTimeout(resetTimer);
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard unavailable");
+        await navigator.clipboard.writeText(code.textContent || "");
+        button.textContent = "已复制";
+        status.textContent = "代码已复制";
+      } catch (_error) {
+        button.textContent = "复制失败";
+        status.textContent = "复制失败，请手动选择";
+      }
+      resetTimer = setTimeout(function () {
+        button.textContent = "复制";
+        status.textContent = "";
+      }, 1800);
+    });
+  });
+
+  /* Long guides — unobtrusive back-to-top control */
+  if (qs(".page--tool-guide")) {
+    const backToTop = document.createElement("button");
+    backToTop.type = "button";
+    backToTop.className = "back-to-top";
+    backToTop.setAttribute("data-back-to-top", "");
+    backToTop.setAttribute("aria-label", "回到页面顶部");
+    backToTop.textContent = "↑";
+    document.body.appendChild(backToTop);
+
+    function updateBackToTop() {
+      backToTop.classList.toggle("is-visible", window.scrollY > 720);
+    }
+    window.addEventListener("scroll", updateBackToTop, { passive: true });
+    backToTop.addEventListener("click", function () {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    });
+    updateBackToTop();
   }
 })();
