@@ -40,48 +40,79 @@ const schema = {
   mainId="tools-page"
 >
   <main class="page page--tools" id="tools-page" data-od-id="tools-page" tabindex="-1">
-    <header class="tools-hero">
-      <div>
-        <p class="eyebrow eyebrow--muted">Install · First run · Troubleshoot</p>
-        <h1>AI 工具指南</h1>
-        <p class="lede">从官方入口、安装和第一次使用讲起，也把费用、隐私、开源状态与常见故障说清楚。</p>
-        <p class="tools-count">第一批收录 <strong>{tools.length}</strong> 款，每篇均标注官方资料与核验日期。</p>
-      </div>
-    </header>
+    <section class="tools-shell" data-tool-filter-root aria-label="AI 工具目录">
+      <aside class="tools-sidebar" data-tool-sidebar aria-label="工具筛选侧栏">
+        <div class="tools-sidebar__sticky">
+          <div class="tools-sidebar__intro">
+            <p class="eyebrow eyebrow--muted">Tool Directory</p>
+            <h2>工具目录</h2>
+            <p>{tools.length} 款工具 · 3 组筛选</p>
+          </div>
 
-    <section data-tool-filter-root aria-label="筛选 AI 工具">
-      <div class="tool-filters">
-        <div class="tool-filter-group" data-tool-filter-group="category" role="group" aria-label="按类别筛选">
-          <span>类别</span>
-          <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
-          {categoryFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+          <details class="tool-filter-disclosure" data-tool-filter-disclosure open>
+            <summary>
+              <span>筛选工具</span>
+              <small>类别 · 平台 · 方式</small>
+            </summary>
+            <div class="tool-filters">
+              <div class="tool-filter-group" data-tool-filter-group="category" role="group" aria-label="按类别筛选">
+                <span>类别</span>
+                <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
+                {categoryFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+              </div>
+              <div class="tool-filter-group" data-tool-filter-group="platform" role="group" aria-label="按平台筛选">
+                <span>平台</span>
+                <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
+                {platformFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+              </div>
+              <div class="tool-filter-group" data-tool-filter-group="access" role="group" aria-label="按使用方式筛选">
+                <span>方式</span>
+                <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
+                {accessFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+              </div>
+            </div>
+          </details>
         </div>
-        <div class="tool-filter-group" data-tool-filter-group="platform" role="group" aria-label="按平台筛选">
-          <span>平台</span>
-          <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
-          {platformFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+      </aside>
+
+      <div class="tools-content">
+        <header class="tools-hero">
+          <p class="eyebrow eyebrow--muted">Install · First run · Troubleshoot</p>
+          <h1>AI 工具指南</h1>
+          <p class="lede">从官方入口、安装和第一次使用讲起，也把费用、隐私、开源状态与常见故障说清楚。</p>
+          <p class="tools-count">第一批收录 <strong>{tools.length}</strong> 款，每篇均标注官方资料与核验日期。</p>
+        </header>
+
+        <div class="tool-filter-status">
+          <p data-tool-count role="status" aria-live="polite">当前显示 {tools.length} 款工具</p>
+          <button type="button" class="btn btn--ghost" data-tool-clear>清除筛选</button>
         </div>
-        <div class="tool-filter-group" data-tool-filter-group="access" role="group" aria-label="按使用方式筛选">
-          <span>方式</span>
-          <button type="button" class="filter-chip is-active" data-tool-filter="all" aria-pressed="true">全部</button>
-          {accessFilters.map(([value, meta]) => <button type="button" class="filter-chip" data-tool-filter={value} aria-pressed="false">{meta.label}</button>)}
+
+        <ul class="tool-grid" data-od-id="tool-grid">
+          {tools.map((entry) => <ToolCard entry={entry} />)}
+        </ul>
+
+        <div class="tool-empty" data-tool-empty hidden role="status">
+          <h2>没有匹配的工具</h2>
+          <p>换一个平台或使用方式，或者清除筛选查看全部 8 款。</p>
+          <button type="button" class="btn btn--primary" data-tool-clear>清除筛选</button>
         </div>
-      </div>
-
-      <div class="tool-filter-status">
-        <p data-tool-count role="status" aria-live="polite">当前显示 {tools.length} 款工具</p>
-        <button type="button" class="btn btn--ghost" data-tool-clear>清除筛选</button>
-      </div>
-
-      <ul class="tool-grid" data-od-id="tool-grid">
-        {tools.map((entry) => <ToolCard entry={entry} />)}
-      </ul>
-
-      <div class="tool-empty" data-tool-empty hidden role="status">
-        <h2>没有匹配的工具</h2>
-        <p>换一个平台或使用方式，或者清除筛选查看全部 8 款。</p>
-        <button type="button" class="btn btn--primary" data-tool-clear>清除筛选</button>
       </div>
     </section>
   </main>
+
+  <script is:inline>
+    (() => {
+      const disclosure = document.querySelector("[data-tool-filter-disclosure]");
+      if (!(disclosure instanceof HTMLDetailsElement)) return;
+
+      const desktop = window.matchMedia("(min-width: 821px)");
+      const syncDisclosure = () => {
+        disclosure.open = desktop.matches;
+      };
+
+      syncDisclosure();
+      desktop.addEventListener("change", syncDisclosure);
+    })();
+  </script>
 </BaseLayout>

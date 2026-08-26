@@ -221,6 +221,32 @@ class ToolGuideContractTests(unittest.TestCase):
 
 
 class ToolGuidePageTests(unittest.TestCase):
+    def test_catalog_uses_sidebar_filter_directory_with_mobile_disclosure(self):
+        catalog_html, catalog = parse_page(ROOT / "dist" / "tools.html")
+
+        sidebars = [
+            attrs
+            for tag, attrs in catalog.tags
+            if tag == "aside" and "data-tool-sidebar" in attrs
+        ]
+        disclosures = [
+            attrs
+            for tag, attrs in catalog.tags
+            if tag == "details" and "data-tool-filter-disclosure" in attrs
+        ]
+
+        self.assertEqual(len(sidebars), 1, "工具目录需要一个左侧筛选栏")
+        self.assertEqual(len(disclosures), 1, "移动端需要一个原生筛选折叠目录")
+        self.assertIn("open", disclosures[0], "桌面端无 JavaScript 时筛选目录也应保持可见")
+        self.assertEqual(catalog_html.count("data-tool-filter-group="), 3)
+        self.assertEqual(catalog_html.count("data-tool-item"), 8)
+        self.assertIn("筛选工具", catalog.text)
+        self.assertLess(
+            catalog_html.index("data-tool-sidebar"),
+            catalog_html.index('class="tools-content"'),
+            "左侧筛选栏应先于右侧工具内容渲染",
+        )
+
     def test_catalog_and_eight_file_style_detail_pages(self):
         dist = ROOT / "dist"
         catalog_path = dist / "tools.html"
@@ -306,6 +332,9 @@ class ToolGuideInteractionTests(unittest.TestCase):
 
         for selector in (
             ".page--tools",
+            ".tools-shell",
+            ".tools-sidebar__sticky",
+            ".tool-filter-disclosure",
             ".tool-filter-group",
             ".tool-grid",
             ".tool-card",
@@ -315,10 +344,10 @@ class ToolGuideInteractionTests(unittest.TestCase):
             ".code-copy-button",
         ):
             self.assertIn(selector, css)
-        self.assertRegex(css, r"\.tool-grid\s*\{[^}]*grid-template-columns:\s*repeat\(3", re.S)
-        self.assertIn("@media (max-width: 960px)", css)
+        self.assertRegex(css, r"\.tool-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2", re.S)
+        self.assertIn("@media (max-width: 820px)", css)
         self.assertIn("@media (max-width: 640px)", css)
-        self.assertRegex(css, r"\.tool-filter-group .*min-height:\s*44px", re.S)
+        self.assertRegex(css, r"(?s)\.tool-filter-group .*min-height:\s*44px")
         self.assertIn("aspect-ratio: 16 / 9", css)
         self.assertRegex(css, r"\.tool-card__cover\s*\{[^}]*height:\s*auto", re.S)
         self.assertRegex(css, r"\.tool-guide__cover\s*\{[^}]*height:\s*auto", re.S)
@@ -400,7 +429,7 @@ class ToolGuideReleaseTests(unittest.TestCase):
             self.assertIn(phrase, ops)
         self.assertIn("home / works / learn / tools / notes / about", brand)
         self.assertIn("31 个 canonical", brand)
-        self.assertIn("catalog_filter + static_guides", brand)
+        self.assertIn("sidebar_catalog_filter + static_guides", brand)
         self.assertIn("首页正文不提供工具入口", brand)
         for field in ("audience", "setupSummary", "privacySummary"):
             self.assertIn(field, spec)
