@@ -16,7 +16,7 @@ export const learningTrackMeta = {
   "vibe-coding": {
     label: "Vibe Coding",
     eyebrow: "Build with AI",
-    description: "从任务描述、Git、安全边界到真实效率，建立可以反复使用的 AI 编程方法。",
+    description: "从 Git、任务描述、安全边界到发布上线，建立可以反复使用的 AI 编程方法。",
   },
   "ai-video": {
     label: "AI 视频",
@@ -28,10 +28,26 @@ export const learningTrackMeta = {
 export type LearningTrackKey = keyof typeof learningTrackMeta;
 
 export const toolCategoryMeta = {
-  "language-model": { label: "语言模型" },
-  "image-model": { label: "图片模型" },
-  "ai-coding": { label: "AI 编程" },
-  "video-model": { label: "视频模型" },
+  "language-model": { label: "语言模型与客户端" },
+  "image-model": { label: "图像生成工具" },
+  "ai-coding": { label: "AI 编程工具" },
+  "video-model": { label: "视频生成与剪辑" },
+} as const;
+
+export const toolTypeMeta = {
+  "model-service": { label: "模型服务" },
+  "desktop-client": { label: "桌面客户端" },
+  editor: { label: "编辑器" },
+  plugin: { label: "插件" },
+  workflow: { label: "生成工作流" },
+  runtime: { label: "本地运行时" },
+  "command-line-tool": { label: "命令行工具" },
+} as const;
+
+export const toolDifficultyMeta = {
+  beginner: { label: "入门", schemaLabel: "Beginner" },
+  intermediate: { label: "进阶", schemaLabel: "Intermediate" },
+  advanced: { label: "高级", schemaLabel: "Advanced" },
 } as const;
 
 export const toolOriginMeta = {

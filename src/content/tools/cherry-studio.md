@@ -7,6 +7,8 @@ setupSummary: "安装客户端后还需配置一个模型来源；客户端约 1
 privacySummary: "对话数据流向由所选模型服务决定；桌面客户端开源不代表所有请求都只在本机处理。"
 origin: china
 category: language-model
+toolType: desktop-client
+difficulty: beginner
 accessTypes: [desktop]
 platforms: [windows, macos, linux]
 pricing: free

@@ -7,6 +7,8 @@ setupSummary: "Windows 可使用官方仓库提供的批处理流程；macOS 与
 privacySummary: "基础生成在本机运行，但 Git、Python 包、模型和扩展下载会联网；第三方扩展可执行代码。"
 origin: international
 category: image-model
+toolType: workflow
+difficulty: intermediate
 accessTypes: [local-service]
 platforms: [windows, macos, linux]
 pricing: free
@@ -15,7 +17,7 @@ license: "AGPL-3.0"
 officialUrl: "https://github.com/AUTOMATIC1111/stable-diffusion-webui"
 downloadUrl: "https://github.com/AUTOMATIC1111/stable-diffusion-webui"
 repositoryUrl: "https://github.com/AUTOMATIC1111/stable-diffusion-webui"
-versionChecked: "AUTOMATIC1111 stable repository channel"
+versionChecked: "AUTOMATIC1111 v1.10.1 release and master README · checked 2026-08-26"
 verifiedAt: 2026-08-26
 cover: "/assets/tools/stable-diffusion-webui/cover.svg"
 coverAlt: "Stable Diffusion WebUI 电脑端安装和首次使用流程示意图"
@@ -31,7 +33,7 @@ Stable Diffusion WebUI（AUTOMATIC1111）是经典的本地图像生成界面，
 
 ## 安装前检查
 
-1. 安装官方文档要求的 Git 与 Python。
+1. Windows 自动安装流程当前要求 Git 与 Python 3.10.6；Linux/macOS 应按官方对应页面选择版本，不机械套用 Windows 版本。
 2. 确认显卡驱动和可用显存。
 3. 准备至少一个来源可信的模型。
 4. 给代码、模型和输出预留空间。
@@ -42,7 +44,15 @@ Stable Diffusion WebUI（AUTOMATIC1111）是经典的本地图像生成界面，
 
 <p class="tool-image-source">原创步骤示意，根据 <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui">官方安装资料</a> 整理 · 核验于 2026-08-26</p>
 
-按照官方仓库 README 与 Wiki 选择系统步骤。Windows 用户从仓库目录运行官方脚本；其他平台使用对应 shell 脚本。
+Windows 10/11 用户可先安装 Git 与 Python 3.10.6，并勾选“Add Python to PATH”，然后在准备好的目录运行：
+
+```bash
+git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+```
+
+进入克隆得到的目录，用普通用户身份双击 `webui-user.bat`。不要以管理员身份启动，也不要从转载站下载所谓整合包。
+
+Linux 用户可按官方 README 安装发行版依赖，克隆仓库后运行 `webui.sh`；macOS 使用官方 Apple Silicon 或 Intel 指南。不同系统的依赖并不相同。
 
 ![Stable Diffusion WebUI 安装时需要确认的三个关键点](/personal-ip-website/assets/tools/stable-diffusion-webui/setup-screen.svg)
 
@@ -68,7 +78,7 @@ Stable Diffusion WebUI（AUTOMATIC1111）是经典的本地图像生成界面，
 
 > minimal blue geometric poster, soft studio lighting, clean background, no text, no logo
 
-第一次成功的标准不是功能用得多，而是：本地页面可以打开；终端无红色致命错误；输出文件写入本机目录。
+第一次验收只看三件事：本地页面可以打开、终端无致命错误、输出文件已写入本机目录。
 
 ## 常见问题
 
@@ -96,8 +106,7 @@ Stable Diffusion WebUI（AUTOMATIC1111）是经典的本地图像生成界面，
 ## 官方资料与核验日期
 
 - [Stable Diffusion WebUI 官方仓库](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
-- [官方安装 Wiki](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki)
+- [Windows 与 Linux 官方安装步骤](https://github.com/AUTOMATIC1111/stable-diffusion-webui#installation-and-running)
 - [官方安全页面](https://github.com/AUTOMATIC1111/stable-diffusion-webui/security)
-- [隐私或安全说明](https://github.com/AUTOMATIC1111/stable-diffusion-webui/security)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

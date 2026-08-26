@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Vibe Coding 第 3 步：写清 Agent 任务</title>
+  <desc id="desc">蓝白网格背景上的目标、约束与验收任务卡封面</desc>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#d9e3f5" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="#f7f9fc"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="1370" cy="250" r="170" fill="#dfe9fb"/>
+  <path d="M96 98h128" stroke="#2764e7" stroke-width="11"/>
+  <g font-family="Inter, Noto Sans SC, Microsoft YaHei, sans-serif">
+    <text x="100" y="158" font-size="30" font-weight="700" fill="#2764e7">VIBE CODING · 03</text>
+    <text x="100" y="330" font-size="70" font-weight="800" fill="#171b24">把需求写成任务</text>
+    <text x="100" y="430" font-size="50" font-weight="700" fill="#171b24">目标 · 约束 · 验收 · 边界</text>
+    <text x="128" y="775" font-size="28" fill="#617086">南吴 NANWU · 系统学习路线</text>
+  </g>
+  <g fill="none" stroke="#9ebaf4" stroke-width="9" stroke-linecap="round">
+    <rect x="1130" y="530" width="300" height="210" rx="22"/>
+    <path d="M1185 590h185M1185 640h150M1185 690h205"/>
+  </g>
+  <rect x="96" y="710" width="12" height="92" fill="#2764e7"/>
+</svg>

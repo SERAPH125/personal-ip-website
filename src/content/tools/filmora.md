@@ -7,6 +7,8 @@ setupSummary: "从 Wondershare 官方页面安装；首次项目先用短素材�
 privacySummary: "AI 生成、识别和云功能可能上传视频、音频、提示词与设备信息；本地项目也应注意缓存和代理文件。"
 origin: china
 category: video-model
+toolType: editor
+difficulty: beginner
 accessTypes: [desktop]
 platforms: [windows, macos]
 pricing: freemium
@@ -67,7 +69,7 @@ AI 处理完成后对比原片，逐句修正字幕并试听音频。以低分�
 
 > 如果使用 AI 文案，请生成一个不含事实数据的三段式视频结构：开场问题、核心步骤、结尾提醒。
 
-第一次成功的标准不是功能用得多，而是：项目目录可定位；AI 结果已人工复核；导出无水印与版权误解。
+这次试剪通过的标准是：项目目录可定位、AI 结果已人工复核，并且你已确认试用版导出的水印和格式限制；“没有水印”也不等于自动拥有素材版权。
 
 ## 常见问题
 
@@ -87,7 +89,7 @@ AI 处理完成后对比原片，逐句修正字幕并试听音频。以低分�
 
 ## 费用、隐私与开源信息
 
-- **费用**：基础版本、订阅、永久方案和 AI 点数可能并存，使用前查看当前价格与导出限制。
+- **费用**：免费试用导出通常带有 Filmora 水印；去除水印需要符合条件的付费方案。订阅、永久方案和 AI 点数可能并存，使用前查看当前价格、权益与导出限制。
 - **隐私**：Wondershare 隐私政策明确 Filmora 覆盖 Windows、Mac 等应用及 AI 视频功能；敏感素材先确认处理方式。请复查官方 [隐私或安全说明](https://www.wondershare.com/privacy.html)。
 - **开源状态**：Filmora 为闭源商业软件，许可证标记为 Proprietary；素材库和生成内容另受授权条款约束。
 - **安全边界**：只从 Wondershare 官方域名下载，不安装破解插件；发布前核对水印、音乐、字体和肖像权。
@@ -96,7 +98,7 @@ AI 处理完成后对比原片，逐句修正字幕并试听音频。以低分�
 
 - [Filmora 官方桌面版](https://filmora.wondershare.com/video-editor/)
 - [Filmora 官方使用指南](https://filmora.wondershare.com/guide/)
+- [Filmora 免费试用与水印说明](https://support.wondershare.com/how-tos/filmora/how-long-is-the-free-trial-with-watermark.html)
 - [Wondershare 隐私政策](https://www.wondershare.com/privacy.html)
-- [隐私或安全说明](https://www.wondershare.com/privacy.html)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

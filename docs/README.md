@@ -24,7 +24,7 @@
 ```text
 src/
 ├── content.config.ts       # Frontmatter schema
-├── content/notes/*.md      # 17 篇知识文章的唯一正文来源
+├── content/notes/*.md      # 18 篇知识文章的唯一正文来源
 ├── content/tools/*.md      # 20 篇 AI 工具指南的唯一正文来源
 ├── components/             # 导航、页脚、文章卡、工具卡、视频卡
 ├── layouts/                # 全站 head、文章与工具指南阅读模板
@@ -42,32 +42,32 @@ astro.config.mjs            # GitHub Pages base、.html 输出、sitemap
 
 ## 内容模型
 
-17 篇 Markdown 同时驱动知识库、学习路线和作品页：
+18 篇 Markdown 同时驱动知识库、学习路线和作品页：
 
 | 内容组 | 数量 | 用途 |
 |---|---:|---|
-| 既有文章 | 5 | 4 篇带抖音视频，1 篇行业观察 |
+| 非路线文章 | 6 | 4 篇带抖音视频，2 篇延伸阅读 |
 | Vibe Coding 路线 | 6 | `learning.track: vibe-coding`，步骤 1—6 |
 | AI 视频路线 | 6 | `learning.track: ai-video`，步骤 1—6 |
 
 必填 Frontmatter：`title`、`description`、`publishedAt`、`series`、`sequence`、`cover`、`coverAlt`。有视频时增加 `video.platform / url / title / hook`。路线文章还要增加 `sourcesCheckedAt` 和 `learning.track / step`；普通文章可不填 `learning`。schema 会在构建前验证字段、路线枚举和 1—6 的步骤范围。
 
-12 张路线封面位于 `public/assets/covers/learning-vibe-01.png` 至 `learning-vibe-06.png`、`learning-video-01.png` 至 `learning-video-06.png`。封面是仓库内静态资源，不使用外链。
+12 张路线封面位于 `public/assets/covers/`；Vibe Coding 路线使用 `learning-vibe-*`，AI 视频路线使用 `learning-video-*`。封面是仓库内静态资源，不使用外链。
 
 ## AI 工具指南
 
-工具指南使用独立的 `tools` collection，不混入知识库和 RSS。首批 8 个 slug 为 `codex`、`cursor`、`ollama`、`comfyui`、`trae`、`cherry-studio`、`deepseek`、`kling-ai`；第二批 12 个 slug 为 `chatgpt-desktop`、`claude-desktop`、`kimi-work`、`invokeai`、`stable-diffusion-webui`、`krita-ai-diffusion`、`github-copilot`、`claude-code`、`cline`、`jianying-pro`、`filmora`、`framepack`。第二批必须具备桌面应用、IDE 插件、CLI 或本地服务，纯网页工具暂不收录。目录页为 `tools.html`，详情页为 `tools/<slug>.html`，全部保持 GitHub Pages 的文件式 URL。
+工具指南使用独立的 `tools` collection，不混入知识库和 RSS。首批 8 个 slug 为 `codex`、`cursor`、`ollama`、`comfyui`、`trae`、`cherry-studio`、`deepseek`、`kling-ai`；第二批 12 个 slug 为 `chatgpt-desktop`、`claude-desktop`、`kimi-work`、`invokeai`、`stable-diffusion-webui`、`krita-ai-diffusion`、`github-copilot`、`claude-code`、`cline`、`jianying-pro`、`filmora`、`framepack`。当前目录同时包含在线模型服务、桌面客户端、编辑器、插件、工作流、本地运行时和命令行工具；是否需要安装由 `toolType` 与 `accessTypes` 明确区分。目录页为 `tools.html`，详情页为 `tools/<slug>.html`，全部保持 GitHub Pages 的文件式 URL。
 
 每篇 `src/content/tools/*.md` 必填：
 
 - 标题与摘要：`title`、`toolName`、`description`、`audience`、`setupSummary`、`privacySummary`；
-- 分类：`origin`、`category`、`accessTypes`、`platforms`、`pricing`；
+- 分类：`origin`、`category`、`toolType`、`difficulty`、`accessTypes`、`platforms`、`pricing`，费用存在条件时可增加 `pricingNote`；
 - 可信度：`openSource`、`license`、`officialUrl`、可选 `downloadUrl / repositoryUrl`、`versionChecked`、`verifiedAt`；
 - 展示：`cover`、`coverAlt`、唯一的 `sequence`、`draft`。
 
 图片放在 `public/assets/tools/<slug>/`。每篇至少四张本地图片：布局读取 Frontmatter 中的 16:9 封面，正文再引用流程图和两个关键步骤视觉。正文 Markdown 图片使用 `/personal-ip-website/assets/tools/...`，确保 GitHub Pages 子路径部署不丢图；每张图必须有具体 alt。官方截图只取公开页面并移除账号信息，截图后紧邻标注可点击的官方来源和截取日期；原创界面结构图必须明确写“示意、以官网为准”，不能冒充真实产品截图。费用与隐私章节至少链接一项产品官方隐私、FAQ、服务条款或安全策略，便于读者自行复核。
 
-`tools.html` 在桌面端采用 Hugging Face 文档式左侧粘性模型目录，按语言模型、图片模型、AI 编程、视频模型四类列出 20 个工具名称；点击名称锚点定位到右侧同类卡片，右侧各分类使用两列卡片。820px 以下目录改为默认折叠的原生 `details`，选择工具后自动收起；640px 以下卡片单列。命令行文章的代码块由 `public/assets/hub.js` 渐进增强为可复制。JavaScript 失效时，桌面目录保持展开，20 张卡片、全部正文和代码仍可读取。首页正文不增加工具入口，唯一入口是全站主导航中的“工具指南”。RSS 仍只包含 17 篇知识文章，不包含安装手册。
+`tools.html` 在桌面端采用 Hugging Face 文档式左侧粘性工具目录，按“语言模型与客户端 / 图像生成工具 / AI 编程工具 / 视频生成与剪辑”四类列出 20 个名称；点击名称锚点定位到右侧同类卡片，卡片再展示工具形态、入门难度和费用摘要。820px 以下目录改为默认折叠的原生 `details`，选择工具后自动收起；640px 以下卡片单列。命令行文章的代码块由 `public/assets/hub.js` 渐进增强为可复制。JavaScript 失效时，桌面目录保持展开，20 张卡片、全部正文和代码仍可读取。首页正文不增加工具入口，唯一入口是全站主导航中的“工具指南”。RSS 仍只包含 18 篇知识文章，不包含安装手册。
 
 ## 学习路线与筛选
 
@@ -106,7 +106,7 @@ node --check public/assets/hub.js
 git diff --check
 ```
 
-`npm test` 会先执行 Astro build，再运行 Python 契约测试，检查 17 篇文章、20 篇工具指南、第二批电脑端安装方式、两条完整路线、旧 `.html` URL、站内图片、RSS、sitemap、JSON-LD、筛选与首页排除规则。Pull Request 到 `main` 时，GitHub Actions 会运行 Astro、浏览器 JavaScript 语法和完整测试但不会部署；PR 按编号使用独立并发队列，不会取消 `main` 的生产发布，只有推送到 `main` 才执行 Pages 发布。
+`npm test` 会先执行 Astro build，再运行 Python 契约测试，检查 18 篇文章、20 篇工具指南、工具形态与难度元数据、两条完整路线、旧 `.html` URL、站内图片、RSS、sitemap、JSON-LD、筛选与首页排除规则。Pull Request 到 `main` 时，GitHub Actions 会运行 Astro、浏览器 JavaScript 语法和完整测试但不会部署；PR 按编号使用独立并发队列，不会取消 `main` 的生产发布，只有推送到 `main` 才执行 Pages 发布。
 
 `build` 与 `check` 脚本固定传入 Astro 的 `--force`，每次先重建 Content Layer 缓存。这样可避开当前 Astro 7.2.1 / Vite 8.2.1 在 Windows 上复用缓存时，偶发把 CommonJS `picomatch` 交给 ESM Module Runner 的问题；不要在验收时绕过 npm 脚本直接运行 `astro build` 或 `astro check`。
 
@@ -115,7 +115,7 @@ git diff --check
 - 全站背景仍为纯 CSS 点阵呼吸 + 径向柔光；`prefers-reduced-motion` 下停止动画；
 - 首页封面景深为 CSS，不加载 Three.js/WebGL；
 - `public/assets/hub.js` 只负责移动导航、知识库/作品筛选、代码复制、回到顶部、结果播报、外链 toast 与封面失败后备；工具目录本身使用静态锚点导航；
-- 当前 17 篇仍可通过两条路线和系列筛选定位，不接全文搜索；达到约 30 篇或出现明确搜索需求时，优先评估开源 [Pagefind](https://github.com/CloudCannon/pagefind)。
+- 当前 18 篇仍可通过两条路线和系列筛选定位，不接全文搜索；达到约 30 篇或出现明确搜索需求时，优先评估开源 [Pagefind](https://github.com/CloudCannon/pagefind)。
 
 ## 当前公开入口
 

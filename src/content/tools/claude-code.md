@@ -3,10 +3,12 @@ title: "Claude Code 安装与入门：在终端中完成第一个可回滚任务
 toolName: "Claude Code"
 description: "安装 Claude Code CLI，登录账号、授权项目目录，并用 Git 和测试验收第一次修改。"
 audience: "熟悉基本终端与 Git，希望使用 Claude 编程代理处理本地项目的开发者。"
-setupSummary: "按官方 Setup 安装 CLI 并登录；Windows 用户需先核对当前官方支持方式和终端环境。"
+setupSummary: "按系统使用官方原生安装器并验证版本；Windows 需区分 PowerShell 与 CMD。全程约 10—20 分钟。"
 privacySummary: "Claude Code 会按任务读取项目文件并与云端模型交互，也可能运行命令；敏感仓库应先确认权限与组织政策。"
 origin: international
 category: ai-coding
+toolType: command-line-tool
+difficulty: beginner
 accessTypes: [cli]
 platforms: [windows, macos, linux]
 pricing: paid
@@ -30,10 +32,10 @@ Claude Code 是运行在终端里的编程代理，能够读取项目、修改�
 
 ## 安装前检查
 
-1. 确认终端与官方支持环境。
+1. 确认系统为受支持的 macOS、Linux 或 Windows；原生 Windows 建议安装 Git for Windows。
 2. 准备可登录的 Anthropic 账号。
 3. 让 Git 工作区保持可回滚。
-4. 移除 .env、密钥与私人文件。
+4. 用 `.gitignore` 隔离 `.env`、密钥与私人文件，并在开始前检查 `git status`。
 
 ## 图解安装
 
@@ -41,13 +43,34 @@ Claude Code 是运行在终端里的编程代理，能够读取项目、修改�
 
 <p class="tool-image-source">原创步骤示意，根据 <a href="https://code.claude.com/docs/en/setup">官方安装资料</a> 整理 · 核验于 2026-08-26</p>
 
-只使用 Claude Code 官方 Setup 页面给出的安装方式。安装后先查看版本与帮助，确认命令来自预期路径。
+macOS、Linux 或 WSL 使用官方原生安装器：
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+claude --version
+```
+
+Windows PowerShell 使用：
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
+claude --version
+```
+
+Windows CMD 使用：
+
+```bat
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+claude --version
+```
+
+不要混用 PowerShell 与 CMD 的命令。也可以按官方页面选择 Homebrew、WinGet 或 Linux 软件源，但后续更新应继续使用同一渠道。
 
 ![Claude Code 安装时需要确认的三个关键点](/personal-ip-website/assets/tools/claude-code/setup-screen.svg)
 
 <p class="tool-image-source">原创步骤示意，根据 <a href="https://code.claude.com/docs/en/quickstart">官方产品或项目说明</a> 整理 · 核验于 2026-08-26</p>
 
-进入一个新建分支的练习仓库再启动 Claude Code。首次会请求目录与命令权限，理解每项作用后再批准。
+关闭并重新打开终端，进入一个新建分支的练习仓库，再运行 `claude`。按浏览器提示登录；首次请求目录与命令权限时，理解每项作用后再批准。
 
 ![Claude Code 第一次使用的目标与验收标准](/personal-ip-website/assets/tools/claude-code/first-use.svg)
 
@@ -57,7 +80,7 @@ Claude Code 是运行在终端里的编程代理，能够读取项目、修改�
 
 ## 第一次使用
 
-1. 安装并验证 claude 命令。
+1. 运行 `claude --version` 验证安装，再执行 `claude` 并完成登录。
 2. 进入练习仓库并新建分支。
 3. 启动后先让它解释项目。
 4. 提出单文件小修改。
@@ -67,7 +90,7 @@ Claude Code 是运行在终端里的编程代理，能够读取项目、修改�
 
 > 先说明你将读取和修改哪些文件；只修复这个输入校验，并运行相关测试，不安装依赖。
 
-第一次成功的标准不是功能用得多，而是：权限范围只在项目内；命令与变更可解释；测试通过且无无关文件变化。
+第一次验收只看三件事：权限范围是否只在项目内、命令与变更是否可解释、测试通过后是否没有无关文件变化。
 
 ## 常见问题
 
@@ -97,6 +120,5 @@ Claude Code 是运行在终端里的编程代理，能够读取项目、修改�
 - [Claude Code Quickstart](https://code.claude.com/docs/en/quickstart)
 - [Claude Code Setup](https://code.claude.com/docs/en/setup)
 - [Anthropic 隐私政策](https://www.anthropic.com/legal/privacy)
-- [隐私或安全说明](https://www.anthropic.com/legal/privacy)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

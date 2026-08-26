@@ -48,13 +48,14 @@ video:
 工具指南是独立内容集合，不进入知识库或 RSS。新增或更新 `src/content/tools/<slug>.md` 时逐项完成：
 
 1. 只从产品官网、官方文档或官方 GitHub 仓库确认安装与下载入口，重新核对 `officialUrl`、`versionChecked` 和当天 `verifiedAt`。
-2. 至少完整核对一个主要平台的安装/访问路径；未在本机验证的平台明确写“参考官方文档”，不伪装亲测。
-3. 在 `public/assets/tools/<slug>/` 准备四张本地图片：16:9 封面、流程图和两个关键步骤视觉；截图去除账号、手机号、本机路径、API Key 与账单信息，并在每张官方截图后紧邻标注官方来源链接和截取日期。
-4. 开源工具核对官方仓库、许可证和维护状态；闭源产品明确写“非开源”。模型开放不等于在线产品开源。
-5. 云端工具说明素材和代码可能离开本机；本地工具说明硬件、磁盘、模型许可证与可能联网的环节。每篇至少提供一个官方隐私、FAQ、服务条款或安全策略链接。
-6. 正文图片地址必须带 `/personal-ip-website/assets/tools/` 前缀，并有非空替代文本。官方页面不可访问时只使用明确标注的原创结构示意，不用第三方镜像冒充证据。
-7. 运行 `npm run check`、`npm test`、`node --check public/assets/hub.js` 和 `git diff --check`。
-8. 检查 sitemap 中 `tools.html` 与 20 个详情地址；确认 RSS 保持 17 篇，且没有 `/tools/` 条目。
+2. 确认 `category`、`toolType`、`difficulty`、`accessTypes` 与实际使用方式一致；有条件免费、订阅或模型/API 另计费时填写 `pricingNote`，不要只写笼统的“免费”。
+3. 至少完整核对一个主要平台的安装/访问路径；未在本机验证的平台明确写“参考官方文档”，不伪装亲测。
+4. 在 `public/assets/tools/<slug>/` 准备四张本地图片：16:9 封面、流程图和两个关键步骤视觉；截图去除账号、手机号、本机路径、API Key 与账单信息，并在每张官方截图后紧邻标注官方来源链接和截取日期。
+5. 开源工具核对官方仓库、许可证和维护状态；闭源产品明确写“非开源”。模型开放不等于在线产品开源。
+6. 云端工具说明素材和代码可能离开本机；本地工具说明硬件、磁盘、模型许可证与可能联网的环节。每篇至少提供一个官方隐私、FAQ、服务条款或安全策略链接。
+7. 正文图片地址必须带 `/personal-ip-website/assets/tools/` 前缀，并有非空替代文本。官方页面不可访问时只使用明确标注的原创结构示意，不用第三方镜像冒充证据。
+8. 运行 `npm run check`、`npm test`、`node --check public/assets/hub.js` 和 `git diff --check`。
+9. 检查 sitemap 中 `tools.html` 与 20 个详情地址；确认 RSS 保持 18 篇，且没有 `/tools/` 条目。
 
 首页正文不增加工具卡片、数量或推荐入口；只允许全局导航出现“工具指南”。
 
@@ -65,7 +66,7 @@ video:
 - 作品标题、封面、系列、视频链接和「读文字版」都来自同一 Markdown 条目，不再手改多个 HTML。
 - 首页「接着看」自动排除精选后取 3 条视频。
 - 首页「按路线学」自动展示 Vibe Coding 与 AI 视频入口；`learn.html` 按 `learning.step` 组织各 6 篇，并从工具集合生成各 6 款配套工具入口。
-- 知识库按四个系列筛选全部 17 篇；作品页仍只展示带 `video` 的 4 篇。
+- 知识库按五个系列筛选全部 18 篇；作品页仍只展示带 `video` 的 4 篇。
 
 ## 4. 本地预览与验收
 
@@ -87,9 +88,9 @@ git diff --check
 
 - `dist/notes/<slug>.html` 存在，且没有生成目录式 `notes/<slug>/index.html`；
 - `dist/tools.html` 和 20 个 `dist/tools/<slug>.html` 存在，且没有目录式详情页；
-- `dist/rss.xml` 有全部 17 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`，且 sitemap 包含 `learn.html`、`tools.html` 与 20 个工具详情页；
+- `dist/rss.xml` 有全部 18 篇；`dist/sitemap-index.xml` 指向 `sitemap-0.xml`，且 sitemap 包含 `learn.html`、`tools.html` 与 20 个工具详情页；
 - `dist/tests/launch-readiness.html` 在本地服务器中显示 `PASS`；
-- 390px 下导航折叠、学习路线目录与工具模型目录默认收起且可展开、路线工具箱与工具目录卡片均为单列、目录链接、文章纸面左右留白、图片和代码块都无横向溢出；桌面端学习侧栏与工具模型目录滚动时保持粘性可见，两类工具卡均为两列。
+- 390px 下导航折叠、学习路线目录与工具目录默认收起且可展开、路线工具箱与工具目录卡片均为单列、目录链接、文章纸面左右留白、图片和代码块都无横向溢出；桌面端学习侧栏与工具目录滚动时保持粘性可见，两类工具卡均为两列。
 
 项目的 `npm run check` 与 `npm run build` 已内置 `--force`，会重建 Astro Content Layer 缓存。若直接运行 Astro CLI 后出现 `picomatch` 的 `require is not defined`，请改回上述 npm 脚本；这是 Astro 7.2.1 / Vite 8.2.1 在 Windows 缓存复用路径上的兼容性规避，不需要修改文章或 `src/content.config.ts`。
 
@@ -119,8 +120,8 @@ gh api --method PUT repos/SERAPH125/personal-ip-website/pages -f build_type=work
 2. 打开线上 `tests/launch-readiness.html`，标题应为 `PASS · Launch readiness`。
 3. 打开旧地址 `notes/codex-5-levels.html`，确认仍可访问并显示新版目录/阅读纸面。
 4. 打开 `rss.xml` 与 `sitemap-index.xml`，确认均为 200。
-5. 打开 `tools.html`，确认桌面端左侧模型目录保持粘性，语言模型、图片模型、AI 编程、视频模型四组共列出 20 个工具名称；点击名称应定位到右侧对应卡片，同类卡片为两列。再打开 ChatGPT Desktop、InvokeAI、Claude Code、剪映专业版和 FramePack，检查电脑端安装方式、代码复制、隐私说明和四张本地图。
-6. 手机 390px 宽度下确认工具模型目录默认收起、展开后 20 个名称均可点击、选择工具后目录自动收起且卡片单列，再测试导航、代码复制、学习路线、知识库筛选、作品筛选和一篇长表格文章。
+5. 打开 `tools.html`，确认桌面端左侧工具目录保持粘性，“语言模型与客户端 / 图像生成工具 / AI 编程工具 / 视频生成与剪辑”四组共列出 20 个名称；点击名称应定位到右侧对应卡片，并能读到工具形态、入门难度和费用摘要。再打开 ChatGPT Desktop、InvokeAI、Claude Code、剪映专业版和 FramePack，检查安装或访问方式、代码复制、隐私说明和四张本地图。
+6. 手机 390px 宽度下确认工具目录默认收起、展开后 20 个名称均可点击、选择工具后目录自动收起且卡片单列，再测试导航、代码复制、学习路线、知识库筛选、作品筛选和一篇长表格文章。
 
 ## 7. 回滚
 
@@ -132,6 +133,6 @@ gh api --method PUT repos/SERAPH125/personal-ip-website/pages -f build_type=work
 
 - 不引入 WordPress、Ghost 或后端 CMS；
 - 不嵌抖音播放器，不热链抖音封面；
-- 17 篇阶段不接全文搜索；约 30 篇或出现明确需求时再评估 Pagefind；
+- 18 篇阶段不接全文搜索；约 30 篇或出现明确需求时再评估 Pagefind；
 - 不恢复 Three.js 首屏或全屏粒子库；
 - 不手工维护生成后的 HTML、RSS、sitemap 或 JSON-LD。

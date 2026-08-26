@@ -7,6 +7,8 @@ setupSummary: "Windows 新手优先使用官方 Desktop；安装程序较快，�
 privacySummary: "基础生成可在本机完成，但模型下载、模板、扩展节点和云端功能可能联网；素材与模型许可证需单独核对。"
 origin: international
 category: image-model
+toolType: workflow
+difficulty: intermediate
 accessTypes: [desktop, local-service]
 platforms: [windows, macos, linux]
 pricing: free

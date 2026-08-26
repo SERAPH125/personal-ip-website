@@ -7,6 +7,8 @@ setupSummary: "网页端无需安装；准备一个清晰镜头和可用素材�
 privacySummary: "素材会上传到在线服务处理；上传人物、品牌、音乐和商业素材前必须确认授权和平台规则。"
 origin: china
 category: video-model
+toolType: model-service
+difficulty: beginner
 accessTypes: [web]
 platforms: [web, android, ios]
 pricing: freemium

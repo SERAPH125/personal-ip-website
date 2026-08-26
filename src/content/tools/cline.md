@@ -7,9 +7,12 @@ setupSummary: "扩展安装约 5 分钟；还需配置受支持的模型服务�
 privacySummary: "Cline 在本地协调工具，但代码与提示可能发往你选择的模型服务；自动批准会扩大文件和命令风险。"
 origin: international
 category: ai-coding
+toolType: plugin
+difficulty: beginner
 accessTypes: [desktop]
 platforms: [windows, macos, linux]
 pricing: usage-based
+pricingNote: "扩展免费，模型费用依提供方；使用自带 API、订阅或本地模型时，实际成本分别由对应服务决定。"
 openSource: true
 license: "Apache-2.0"
 officialUrl: "https://docs.cline.bot/getting-started/installing-cline"
@@ -54,7 +57,7 @@ Cline 是安装在 VS Code 中的开源编程代理，可以连接多种模型�
 
 <p class="tool-image-source">原创步骤示意，根据 <a href="https://docs.cline.bot/getting-started/installing-cline">官方使用资料</a> 整理 · 核验于 2026-08-26</p>
 
-在小仓库里让 Cline解释一个函数，再批准一次单文件修改。记录模型调用成本并运行测试。
+在小仓库里让 Cline 解释一个函数，再批准一次单文件修改。记录模型调用成本并运行测试。
 
 ## 第一次使用
 
@@ -68,7 +71,7 @@ Cline 是安装在 VS Code 中的开源编程代理，可以连接多种模型�
 
 > 只读取当前文件和对应测试；说明修改计划后等待我确认，不运行安装或发布命令。
 
-第一次成功的标准不是功能用得多，而是：密钥未进入仓库；每个工具动作经过审批；成本与 Git diff 可检查。
+这次代理任务通过的标准是：密钥没有进入仓库、每个工具动作都经过审批，而且模型成本与 Git diff 都能检查。
 
 ## 常见问题
 
@@ -98,6 +101,5 @@ Cline 是安装在 VS Code 中的开源编程代理，可以连接多种模型�
 - [Cline 安装文档](https://docs.cline.bot/getting-started/installing-cline)
 - [Cline 官方仓库](https://github.com/cline/cline)
 - [Cline 安全策略](https://github.com/cline/cline/security)
-- [隐私或安全说明](https://github.com/cline/cline/security)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

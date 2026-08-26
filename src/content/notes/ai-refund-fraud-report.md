@@ -3,6 +3,7 @@ title: "AI 生成图片骗售后：现象、规模与商家应对"
 cardTitle: "AI 生成图片骗售后"
 description: "广义退款欺诈已是普遍风险；AI 伪造破损图真实存在且在扩散，但尚无可靠统计证明它已占售后申请很大比例。"
 publishedAt: 2026-07-27
+sourcesCheckedAt: 2026-08-26
 series: industry
 sequence: 5
 cover: "assets/covers/nanwu-avatar.jpg"

@@ -65,6 +65,8 @@ REQUIRED_TOOL_FRONTMATTER = {
     "privacySummary",
     "origin",
     "category",
+    "toolType",
+    "difficulty",
     "accessTypes",
     "platforms",
     "pricing",
@@ -77,6 +79,35 @@ REQUIRED_TOOL_FRONTMATTER = {
     "coverAlt",
     "sequence",
     "draft",
+}
+EXPECTED_TOOL_TYPES = {
+    "codex": "command-line-tool",
+    "cursor": "editor",
+    "ollama": "runtime",
+    "comfyui": "workflow",
+    "trae": "editor",
+    "cherry-studio": "desktop-client",
+    "deepseek": "model-service",
+    "kling-ai": "model-service",
+    "chatgpt-desktop": "desktop-client",
+    "claude-desktop": "desktop-client",
+    "kimi-work": "desktop-client",
+    "invokeai": "workflow",
+    "stable-diffusion-webui": "workflow",
+    "krita-ai-diffusion": "plugin",
+    "github-copilot": "plugin",
+    "claude-code": "command-line-tool",
+    "cline": "plugin",
+    "jianying-pro": "editor",
+    "filmora": "editor",
+    "framepack": "workflow",
+}
+INTERMEDIATE_GUIDES = {
+    "comfyui",
+    "invokeai",
+    "stable-diffusion-webui",
+    "krita-ai-diffusion",
+    "framepack",
 }
 EXPECTED_CATEGORIES = {
     "codex": "ai-coding",
@@ -153,7 +184,7 @@ EXPECTED_POLICY_LINKS = {
     "github-copilot": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
     "claude-code": "https://www.anthropic.com/legal/privacy",
     "cline": "https://github.com/cline/cline/security",
-    "jianying-pro": "https://www.capcut.com/clause/privacy",
+    "jianying-pro": "https://www.capcut.cn/bussiness_inquiry",
     "filmora": "https://www.wondershare.com/privacy.html",
     "framepack": "https://github.com/lllyasviel/FramePack/security",
 }
@@ -211,6 +242,8 @@ class ToolGuideContractTests(unittest.TestCase):
             "privacySummary",
             "origin",
             "category",
+            "toolType",
+            "difficulty",
             "accessTypes",
             "platforms",
             "pricing",
@@ -235,6 +268,8 @@ class ToolGuideContractTests(unittest.TestCase):
 
         for symbol in (
             "toolCategoryMeta",
+            "toolTypeMeta",
+            "toolDifficultyMeta",
             "toolOriginMeta",
             "toolAccessMeta",
             "toolPlatformMeta",
@@ -259,6 +294,12 @@ class ToolGuideContractTests(unittest.TestCase):
         self.assertRegex(block, rf"(?m)^sequence:\s*{expected_sequence}$")
         self.assertRegex(block, r"(?m)^verifiedAt:\s*2026-08-26$")
         self.assertRegex(block, r'(?m)^license:\s*["\']?\S.+$')
+        self.assertRegex(
+            block,
+            rf"(?m)^toolType:\s*{re.escape(EXPECTED_TOOL_TYPES[slug])}$",
+        )
+        expected_difficulty = "intermediate" if slug in INTERMEDIATE_GUIDES else "beginner"
+        self.assertRegex(block, rf"(?m)^difficulty:\s*{expected_difficulty}$")
 
         for heading in REQUIRED_GUIDE_HEADINGS:
             self.assertIn(f"\n## {heading}\n", markdown, f"{slug} 缺少 {heading}")
@@ -305,7 +346,7 @@ class ToolGuideContractTests(unittest.TestCase):
                 self.assertIn("https://", adjacent, slug)
                 self.assertIn("2026-08-26", adjacent, slug)
 
-    def test_second_batch_always_has_a_computer_install_path(self):
+    def test_second_batch_always_has_a_non_web_access_path(self):
         for slug in SECOND_BATCH_GUIDES:
             guide_path = TOOL_CONTENT / f"{slug}.md"
             self.assertTrue(guide_path.is_file(), f"{slug} 指南不存在")
@@ -339,14 +380,16 @@ class ToolGuidePageTests(unittest.TestCase):
             if tag == "details" and "data-tool-directory-disclosure" in attrs
         ]
 
-        self.assertEqual(len(sidebars), 1, "工具目录需要一个左侧模型目录")
-        self.assertEqual(len(disclosures), 1, "移动端需要一个原生模型目录折叠区")
-        self.assertIn("open", disclosures[0], "桌面端无 JavaScript 时模型目录也应保持可见")
+        self.assertEqual(len(sidebars), 1, "工具目录需要一个左侧工具目录")
+        self.assertEqual(len(disclosures), 1, "移动端需要一个原生工具目录折叠区")
+        self.assertIn("open", disclosures[0], "桌面端无 JavaScript 时工具目录也应保持可见")
         self.assertEqual(catalog_html.count("data-tool-directory-nav-group="), 4)
         self.assertEqual(catalog_html.count("data-tool-directory-section="), 4)
         self.assertEqual(catalog_html.count("data-tool-directory-link="), 20)
         self.assertEqual(catalog_html.count("data-tool-item"), 20)
-        self.assertIn("模型目录", catalog.text)
+        self.assertIn("工具目录", catalog.text)
+        self.assertNotIn("模型目录", catalog.text)
+        self.assertNotIn("电脑端工具", catalog.text)
         self.assertNotIn("data-tool-filter-group=", catalog_html)
 
         for category, slugs in EXPECTED_DIRECTORY_GROUPS.items():
@@ -364,7 +407,7 @@ class ToolGuidePageTests(unittest.TestCase):
         self.assertLess(
             catalog_html.index("data-tool-sidebar"),
             catalog_html.index('class="tools-content"'),
-            "左侧模型目录应先于右侧工具内容渲染",
+            "左侧工具目录应先于右侧工具内容渲染",
         )
 
     def test_catalog_and_twenty_file_style_detail_pages(self):
@@ -390,6 +433,7 @@ class ToolGuidePageTests(unittest.TestCase):
             self.assertEqual(card.get("data-category"), EXPECTED_CATEGORIES[slug])
             self.assertTrue(card.get("data-platforms"))
             self.assertTrue(card.get("data-access"))
+            self.assertEqual(card.get("data-tool-type"), EXPECTED_TOOL_TYPES[slug])
         catalog_links = [attrs for tag, attrs in catalog.tags if tag == "a"]
         for slug in expected_slugs:
             self.assertTrue(
@@ -417,6 +461,8 @@ class ToolGuidePageTests(unittest.TestCase):
             self.assertEqual(sum(tag == "h1" for tag, _ in page.tags), 1, slug)
             self.assertIn('"@type":"TechArticle"', html, slug)
             self.assertIn('"@type":"BreadcrumbList"', html, slug)
+            expected_level = "Intermediate" if slug in INTERMEDIATE_GUIDES else "Beginner"
+            self.assertIn(f'"proficiencyLevel":"{expected_level}"', html, slug)
             self.assertTrue(
                 any("data-tool-quick" in attrs for _, attrs in page.tags),
                 f"{slug} 缺少快速判断区",
@@ -424,9 +470,12 @@ class ToolGuidePageTests(unittest.TestCase):
             for heading in REQUIRED_GUIDE_HEADINGS:
                 self.assertIn(heading, page.text, f"{slug} 构建页缺少 {heading}")
 
+        cline_html = detail_files["cline"].read_text(encoding="utf-8")
+        self.assertIn("扩展免费，模型费用依提供方", cline_html)
+
 
 class ToolGuideInteractionTests(unittest.TestCase):
-    def test_model_directory_copy_enhancement_and_responsive_styles(self):
+    def test_tool_directory_copy_enhancement_and_responsive_styles(self):
         script = (ROOT / "public" / "assets" / "hub.js").read_text(encoding="utf-8")
         css = (ROOT / "public" / "assets" / "hub.css").read_text(encoding="utf-8")
         catalog_html = (ROOT / "dist" / "tools.html").read_text(encoding="utf-8")
@@ -474,9 +523,9 @@ class ToolGuideReleaseTests(unittest.TestCase):
         top_pages = [dist / name for name in ("index.html", "works.html", "learn.html", "notes.html", "about.html")]
         canonical_pages = [*top_pages, *note_pages, dist / "tools.html", *tool_pages]
 
-        self.assertEqual(len(note_pages), 17)
+        self.assertEqual(len(note_pages), 18)
         self.assertEqual(len(tool_pages), 20)
-        self.assertEqual(len(canonical_pages), 43)
+        self.assertEqual(len(canonical_pages), 44)
         self.assertTrue(all(path.is_file() for path in canonical_pages))
 
         for page_path in canonical_pages:
@@ -497,7 +546,7 @@ class ToolGuideReleaseTests(unittest.TestCase):
             self.assertIn(f"/personal-ip-website/tools/{slug}.html", sitemap)
 
         rss = (dist / "rss.xml").read_text(encoding="utf-8")
-        self.assertEqual(rss.count("<item>"), 17)
+        self.assertEqual(rss.count("<item>"), 18)
         self.assertNotIn("/tools/", rss)
 
     def test_tool_links_and_images_are_publishable(self):
@@ -535,14 +584,14 @@ class ToolGuideReleaseTests(unittest.TestCase):
             "tools.html",
             "tools/<slug>.html",
             "首页正文不增加工具入口",
-            "RSS 仍只包含 17 篇",
+            "RSS 仍只包含 18 篇",
         ):
             self.assertIn(phrase, readme)
-        for phrase in ("工具指南发布清单", "四张本地图片", "390px", "RSS 保持 17 篇"):
+        for phrase in ("工具指南发布清单", "四张本地图片", "390px", "RSS 保持 18 篇"):
             self.assertIn(phrase, ops)
         self.assertIn("home / works / learn / tools / notes / about", brand)
-        self.assertIn("43 个 canonical", brand)
-        self.assertIn("grouped_model_directory + static_guides", brand)
+        self.assertIn("44 个 canonical", brand)
+        self.assertIn("grouped_tool_directory + static_guides", brand)
         self.assertIn("首页正文不提供工具入口", brand)
         for field in ("audience", "setupSummary", "privacySummary"):
             self.assertIn(field, spec)

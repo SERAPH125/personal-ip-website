@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Vibe Coding 第 2 步：先学会 Git</title>
+  <desc id="desc">蓝白网格背景上的 Git 保存、比较和撤回学习封面</desc>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#d9e3f5" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="#f7f9fc"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="1370" cy="250" r="170" fill="#dfe9fb"/>
+  <path d="M96 98h128" stroke="#2764e7" stroke-width="11"/>
+  <g font-family="Inter, Noto Sans SC, Microsoft YaHei, sans-serif">
+    <text x="100" y="158" font-size="30" font-weight="700" fill="#2764e7">VIBE CODING · 02</text>
+    <text x="100" y="330" font-size="70" font-weight="800" fill="#171b24">先学会 Git</text>
+    <text x="100" y="430" font-size="54" font-weight="700" fill="#171b24">保存 · 比较 · 撤回</text>
+    <text x="128" y="775" font-size="28" fill="#617086">南吴 NANWU · 系统学习路线</text>
+  </g>
+  <path d="M1080 610h300m-235-70-70 70 70 70m170-140 70 70-70 70" fill="none" stroke="#9ebaf4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="96" y="710" width="12" height="92" fill="#2764e7"/>
+</svg>

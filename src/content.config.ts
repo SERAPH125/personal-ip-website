@@ -47,11 +47,22 @@ const tools = defineCollection({
       privacySummary: z.string(),
       origin: z.enum(["international", "china"]),
       category: z.enum(["language-model", "image-model", "ai-coding", "video-model"]),
+      toolType: z.enum([
+        "model-service",
+        "desktop-client",
+        "editor",
+        "plugin",
+        "workflow",
+        "runtime",
+        "command-line-tool",
+      ]),
+      difficulty: z.enum(["beginner", "intermediate", "advanced"]),
       accessTypes: z.array(z.enum(["cli", "desktop", "local-service", "web"])).min(1),
       platforms: z
         .array(z.enum(["windows", "macos", "linux", "web", "android", "ios"]))
         .min(1),
       pricing: z.enum(["free", "freemium", "paid", "usage-based"]),
+      pricingNote: z.string().optional(),
       openSource: z.boolean(),
       license: z.string(),
       officialUrl: z.url(),

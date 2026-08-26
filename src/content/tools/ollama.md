@@ -7,6 +7,8 @@ setupSummary: "安装 Ollama 后下载一个小模型即可使用；程序安装
 privacySummary: "本地模型可在设备上推理，但下载、更新或接入外部应用时仍可能联网；是否离线取决于完整工作流。"
 origin: international
 category: language-model
+toolType: runtime
+difficulty: beginner
 accessTypes: [cli, local-service]
 platforms: [windows, macos, linux]
 pricing: free

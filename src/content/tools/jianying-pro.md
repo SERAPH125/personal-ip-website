@@ -7,6 +7,8 @@ setupSummary: "从剪映官网安装电脑端专业版，准备一段无敏感�
 privacySummary: "导入本地素材不代表所有 AI 处理都在本机；云空间、生成、字幕和识别功能可能上传内容。"
 origin: china
 category: video-model
+toolType: editor
+difficulty: beginner
 accessTypes: [desktop]
 platforms: [windows, macos]
 pricing: freemium
@@ -67,7 +69,7 @@ draft: false
 
 > 如果使用智能文案，只让它生成一个三句口播提纲，并注明需要人工核验的事实。
 
-第一次成功的标准不是功能用得多，而是：草稿目录清楚；字幕已人工校对；导出画面与声音正常。
+这次剪辑验收只看三项：草稿目录清楚、字幕已经人工校对、导出画面与声音正常。
 
 ## 常见问题
 
@@ -88,15 +90,14 @@ draft: false
 ## 费用、隐私与开源信息
 
 - **费用**：基础剪辑可免费使用，部分 AI 能力、素材、模板和云空间需要会员或额度。
-- **隐私**：自动字幕、生成、云同步等功能可能处理上传内容；阅读官方隐私政策，未授权人物和客户素材慎用。请复查官方 [隐私或安全说明](https://www.capcut.com/clause/privacy)。
+- **隐私**：自动字幕、生成、云同步等功能可能处理上传内容。中国版应以剪映客户端或 `capcut.cn` 当前展示的《剪映隐私协议》为准；国际版 CapCut 政策不能直接替代中国版条款。未授权人物和客户素材慎用。
 - **开源状态**：剪映专业版为闭源商业软件，许可证标记为 Proprietary；模板、音乐、字体和生成内容各有版权条件。
 - **安全边界**：只从官网安装，不使用破解包；发布前检查素材授权、字幕事实、人物肖像和音乐版权。
 
 ## 官方资料与核验日期
 
 - [剪映官方网站](https://www.capcut.cn/)
-- [CapCut Desktop 官方说明](https://www.capcut.com/tools/desktop-video-editor)
-- [CapCut 隐私政策](https://www.capcut.com/clause/privacy)
-- [隐私或安全说明](https://www.capcut.com/clause/privacy)
+- [剪映专业版配置说明](https://www.capcut.cn/readme)
+- [剪映中国官网条款入口](https://www.capcut.cn/bussiness_inquiry)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

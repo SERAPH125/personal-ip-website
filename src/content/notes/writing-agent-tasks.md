@@ -5,14 +5,14 @@ publishedAt: 2026-08-24
 sourcesCheckedAt: 2026-08-23
 series: agent
 sequence: 7
-cover: "assets/covers/learning-vibe-02.png"
-coverAlt: "从『帮我做个网站』到可执行任务：让 Coding Agent 少返工的写法学习路线第 2 步封面"
+cover: "assets/covers/learning-vibe-task.svg"
+coverAlt: "把模糊需求写成可执行任务的 Vibe Coding 学习路线第 3 步封面"
 featured: false
 tags: ["Coding Agent","任务拆解","提示词"]
 draft: false
 learning:
   track: vibe-coding
-  step: 2
+  step: 3
 ---
 
 

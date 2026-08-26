@@ -7,6 +7,8 @@ setupSummary: "Windows 优先使用官方仓库说明的整合包或脚本；模
 privacySummary: "本地推理可减少素材上传，但下载模型、代码和更新会联网；输出权利取决于模型、素材与使用场景。"
 origin: international
 category: video-model
+toolType: workflow
+difficulty: intermediate
 accessTypes: [local-service]
 platforms: [windows, linux]
 pricing: free
@@ -31,8 +33,8 @@ FramePack 是让视频扩散更易在消费级 NVIDIA 显卡上运行的开源�
 
 ## 安装前检查
 
-1. 确认 NVIDIA 显卡、驱动和显存。
-2. 预留模型、缓存和输出空间。
+1. 确认系统为 Windows 或 Linux，并使用支持 FP16/BF16 的 NVIDIA RTX 30、40 或 50 系列显卡；GTX 10/20 系列官方未测试。
+2. 确认可用显存至少 6GB，并为首次自动下载预留超过 30GB 的磁盘与网络流量。
 3. 只打开 lllyasviel/FramePack 官方仓库。
 4. 准备一张可公开的测试图片。
 
@@ -42,13 +44,15 @@ FramePack 是让视频扩散更易在消费级 NVIDIA 显卡上运行的开源�
 
 <p class="tool-image-source">原创步骤示意，根据 <a href="https://github.com/lllyasviel/FramePack">官方安装资料</a> 整理 · 核验于 2026-08-26</p>
 
-从官方仓库 README 选择与系统匹配的安装方式。不要访问名称相似的 FramePack 下载站，也不要运行其所谓一键安装器。
+Windows 用户从官方 README 下载 CUDA 12.6 + PyTorch 2.6 一键包，解压后先运行 `update.bat`，完成后再运行 `run.bat`。官方特别提醒不能跳过更新步骤，否则可能继续使用含已知问题的旧文件。
+
+Linux 用户应准备独立的 Python 3.10 环境，按 README 安装对应 PyTorch 与 `requirements.txt`，然后运行 `python demo_gradio.py`。不要访问名称相似的 FramePack 下载站，也不要运行非官方一键安装器。
 
 ![FramePack 安装时需要确认的三个关键点](/personal-ip-website/assets/tools/framepack/setup-screen.svg)
 
 <p class="tool-image-source">原创步骤示意，根据 <a href="https://github.com/lllyasviel/FramePack">官方产品或项目说明</a> 整理 · 核验于 2026-08-26</p>
 
-第一次启动会下载或加载大模型。保持磁盘空间和网络稳定，记录终端日志，避免同时修改启动参数。
+第一次启动会自动下载超过 30GB 的模型文件。保持磁盘空间和网络稳定，记录终端日志，避免同时修改启动参数；下载未完成前不要重复解压多个副本。
 
 ![FramePack 第一次使用的目标与验收标准](/personal-ip-website/assets/tools/framepack/first-use.svg)
 
@@ -68,7 +72,7 @@ FramePack 是让视频扩散更易在消费级 NVIDIA 显卡上运行的开源�
 
 > 镜头缓慢推进，桌面上的蓝色纸张轻微随风摆动，光线稳定，无文字，无新增人物。
 
-第一次成功的标准不是功能用得多，而是：模型成功加载；短视频可以播放；输出目录和参数有记录。
+第一次验收只看三件事：模型成功加载、短视频可以播放、输出目录和参数已有记录。
 
 ## 常见问题
 
@@ -98,6 +102,5 @@ FramePack 是让视频扩散更易在消费级 NVIDIA 显卡上运行的开源�
 - [FramePack 唯一官方仓库](https://github.com/lllyasviel/FramePack)
 - [FramePack Releases](https://github.com/lllyasviel/FramePack/releases)
 - [FramePack 安全页面](https://github.com/lllyasviel/FramePack/security)
-- [隐私或安全说明](https://github.com/lllyasviel/FramePack/security)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

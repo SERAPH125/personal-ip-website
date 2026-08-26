@@ -7,6 +7,8 @@ setupSummary: "安装官方扩展并登录 GitHub 账号约需 10 分钟；具�
 privacySummary: "代码上下文和提示可能发送到 GitHub Copilot 服务；私有仓库、组织策略和内容排除设置需先核对。"
 origin: international
 category: ai-coding
+toolType: plugin
+difficulty: beginner
 accessTypes: [desktop]
 platforms: [windows, macos, linux]
 pricing: freemium
@@ -67,7 +69,7 @@ GitHub Copilot 是安装在桌面 IDE 中的 AI 编程助手。它可以补全�
 
 > 请只修改这个函数：为空输入返回空数组，并补充对应测试。不要更改依赖或其他文件。
 
-第一次成功的标准不是功能用得多，而是：变更范围符合任务；测试能捕获行为；Git diff 没有无关修改。
+这次代码任务通过的标准是：变更范围符合任务、测试能捕获目标行为，而且 Git diff 没有无关修改。
 
 ## 常见问题
 
@@ -97,6 +99,5 @@ GitHub Copilot 是安装在桌面 IDE 中的 AI 编程助手。它可以补全�
 - [GitHub Copilot 官方文档](https://docs.github.com/en/copilot)
 - [GitHub Copilot Quickstart](https://docs.github.com/en/copilot/get-started/quickstart)
 - [GitHub 隐私声明](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)
-- [隐私或安全说明](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

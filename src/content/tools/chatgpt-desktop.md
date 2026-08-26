@@ -2,13 +2,15 @@
 title: "ChatGPT Desktop 安装与入门：在电脑上完成第一次安全对话"
 toolName: "ChatGPT Desktop"
 description: "安装 ChatGPT 官方桌面应用，完成登录、快捷呼出、文件使用和隐私设置检查。"
-audience: "希望在 Windows 或 macOS 上使用官方 ChatGPT 客户端，并减少误下第三方仿冒软件的普通用户。"
+audience: "希望在 Windows、macOS 或 Linux 上使用官方 ChatGPT 客户端，并减少误下第三方仿冒软件的普通用户。"
 setupSummary: "从官方页面下载安装约需 10 分钟；登录、地区可用性与具体功能以账号和当前版本为准。"
 privacySummary: "桌面应用仍会把输入内容发送到 OpenAI 服务；上传文件、截图或语音前应先移除敏感信息。"
 origin: international
 category: language-model
+toolType: desktop-client
+difficulty: beginner
 accessTypes: [desktop, web]
-platforms: [windows, macos]
+platforms: [windows, macos, linux]
 pricing: freemium
 openSource: false
 license: "Proprietary"
@@ -41,7 +43,7 @@ ChatGPT Desktop 适合希望在电脑上快速提问、处理普通文件和继�
 
 <p class="tool-image-source">原创步骤示意，根据 <a href="https://chatgpt.com/download/">官方安装资料</a> 整理 · 核验于 2026-08-26</p>
 
-打开官方下载页，让页面识别当前系统后再选择安装包。不要从软件下载站、网盘或搜索广告下载所谓绿色版。
+打开官方下载页，让页面识别当前系统后再选择 Windows、macOS 或 Linux 的安装方式。若下载页尚未显示与你设备匹配的按钮，先查看官方桌面应用文档与系统要求，不要改从软件下载站、网盘或搜索广告获取所谓绿色版。
 
 ![ChatGPT Desktop 安装时需要确认的三个关键点](/personal-ip-website/assets/tools/chatgpt-desktop/setup-screen.svg)
 
@@ -67,7 +69,7 @@ ChatGPT Desktop 适合希望在电脑上快速提问、处理普通文件和继�
 
 > 请把下面三条公开信息整理成表格，只使用我提供的内容，并把不确定项标为“待核验”。
 
-第一次成功的标准不是功能用得多，而是：回答遵守格式；没有补造事实；知道如何删除测试对话。
+这次试用通过的标准是：回答遵守指定格式、没有补造事实，并且你能找到删除测试对话的入口。
 
 ## 常见问题
 
@@ -95,8 +97,8 @@ ChatGPT Desktop 适合希望在电脑上快速提问、处理普通文件和继�
 ## 官方资料与核验日期
 
 - [ChatGPT 官方下载](https://chatgpt.com/download/)
+- [ChatGPT Desktop 官方文档](https://learn.chatgpt.com/docs/app)
 - [OpenAI Help Center](https://help.openai.com/)
 - [OpenAI 隐私政策](https://openai.com/policies/privacy-policy/)
-- [隐私或安全说明](https://openai.com/policies/privacy-policy/)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

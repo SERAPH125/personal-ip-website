@@ -2,6 +2,7 @@
 title: "Fable 5：Mythos 戴上「安全锁」之后"
 description: "Fable 5 与 Mythos 5 使用同一个底层模型，但公开版增加了安全分类器与回退机制。超过 95% 指未触发回退的早期会话占比，不是能力得分。"
 publishedAt: 2026-08-13
+sourcesCheckedAt: 2026-08-26
 series: observe
 sequence: 2
 cover: "assets/covers/fable-5.jpg"

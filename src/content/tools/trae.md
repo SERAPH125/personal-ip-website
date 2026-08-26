@@ -7,6 +7,8 @@ setupSummary: "从 TRAE 官网选择对应系统安装包，安装后登录并�
 privacySummary: "代码上下文可能交由在线模型处理；使用前应查看当前隐私规则，不要打开含密钥或客户数据的目录。"
 origin: china
 category: ai-coding
+toolType: editor
+difficulty: beginner
 accessTypes: [desktop]
 platforms: [windows, macos, linux]
 pricing: freemium

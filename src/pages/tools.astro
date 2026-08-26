@@ -33,7 +33,7 @@ const schema = {
 
 <BaseLayout
   title="AI 工具指南"
-  description="20 款电脑端 AI 工具的图文安装与使用指南，覆盖语言模型、图片模型、AI 编程和视频工具。"
+  description="20 款 AI 工具的图文安装与使用指南，覆盖语言模型与客户端、图像生成、AI 编程和视频生成与剪辑。"
   canonicalPath="tools.html"
   activeNav="tools"
   structuredData={schema}
@@ -41,17 +41,17 @@ const schema = {
 >
   <main class="page page--tools" id="tools-page" data-od-id="tools-page" tabindex="-1">
     <section class="tools-shell" aria-label="AI 工具目录">
-      <aside class="tools-sidebar" data-tool-sidebar aria-label="模型目录侧栏">
+      <aside class="tools-sidebar" data-tool-sidebar aria-label="工具目录侧栏">
         <div class="tools-sidebar__sticky">
           <div class="tools-sidebar__intro">
             <p class="eyebrow eyebrow--muted">Tool Directory</p>
-            <h2>模型目录</h2>
+            <h2>工具目录</h2>
             <p>{directoryGroups.length} 个类别 · {tools.length} 款工具</p>
           </div>
 
           <details class="tool-directory-disclosure" data-tool-directory-disclosure open>
             <summary>
-              <span>模型目录</span>
+              <span>工具目录</span>
               <small>{directoryGroups.length} 类 · {tools.length} 款</small>
             </summary>
             <nav class="tool-directory" aria-label="按类别浏览工具">
@@ -83,7 +83,7 @@ const schema = {
           <p class="eyebrow eyebrow--muted">Install · First run · Troubleshoot</p>
           <h1>AI 工具指南</h1>
           <p class="lede">从官方入口、安装和第一次使用讲起，也把费用、隐私、开源状态与常见故障说清楚。</p>
-          <p class="tools-count">当前收录 <strong>{tools.length}</strong> 款电脑端工具，每篇均标注官方资料与核验日期。</p>
+          <p class="tools-count">当前收录 <strong>{tools.length}</strong> 款 AI 工具，包含网页服务、客户端、编辑器、插件与本地工作流；每篇均标注官方资料与核验日期。</p>
         </header>
 
         {directoryGroups.map((group) => (

@@ -7,6 +7,8 @@ setupSummary: "从官网下载对应系统安装包，安装后登录并选择�
 privacySummary: "代码上下文可能被发送给在线模型处理；使用前应阅读当前隐私模式，不要打开含敏感数据的目录。"
 origin: international
 category: ai-coding
+toolType: editor
+difficulty: beginner
 accessTypes: [desktop]
 platforms: [windows, macos, linux]
 pricing: freemium

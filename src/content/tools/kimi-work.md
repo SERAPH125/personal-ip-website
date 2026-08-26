@@ -7,6 +7,8 @@ setupSummary: "当前官方产品页提供 macOS 下载；下载安装后需登�
 privacySummary: "桌面任务可能读取你主动选择的本地文件并上传必要内容；不要直接授权整个个人目录或含敏感信息的文件夹。"
 origin: china
 category: language-model
+toolType: desktop-client
+difficulty: beginner
 accessTypes: [desktop, web]
 platforms: [macos]
 pricing: freemium
@@ -67,7 +69,7 @@ Kimi Work 是 Kimi 的桌面工作应用，定位不只是聊天，还包括连�
 
 > 请列出这个测试文件夹中的文件名，并分别用一句话概括；无法读取的文件只报告状态，不要猜测内容。
 
-第一次成功的标准不是功能用得多，而是：授权范围只有测试目录；文件清单与实际一致；能撤销文件访问权限。
+这次文件任务通过的标准是：授权范围只有测试目录、文件清单与实际一致，并且你能撤销文件访问权限。
 
 ## 常见问题
 
@@ -97,6 +99,5 @@ Kimi Work 是 Kimi 的桌面工作应用，定位不只是聊天，还包括连�
 - [Kimi 官方下载](https://www.kimi.com/en/products/download)
 - [Kimi 隐私政策](https://www.kimi.com/user/agreement/userPrivacy?version=v2)
 - [Kimi 官方网站](https://www.kimi.com/)
-- [隐私或安全说明](https://www.kimi.com/user/agreement/userPrivacy?version=v2)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

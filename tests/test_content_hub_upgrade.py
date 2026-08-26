@@ -25,6 +25,7 @@ ARTICLE_PATHS = [
     "notes/ai-code-acceptance-checklist.html",
     "notes/agent-task-boundaries.html",
     "notes/ai-coding-productivity.html",
+    "notes/shipping-vibe-coded-site.html",
     "notes/ai-video-roadmap.html",
     "notes/ai-video-prompt-formula.html",
     "notes/character-consistency.html",
@@ -41,11 +42,11 @@ VIDEO_ARTICLE_PATHS = {
 LEARNING_PATHS = {
     "vibe-coding": {
         1: "notes/vibe-coding-roadmap.html",
-        2: "notes/writing-agent-tasks.html",
-        3: "notes/git-for-vibe-coding.html",
+        2: "notes/git-for-vibe-coding.html",
+        3: "notes/writing-agent-tasks.html",
         4: "notes/ai-code-acceptance-checklist.html",
         5: "notes/agent-task-boundaries.html",
-        6: "notes/ai-coding-productivity.html",
+        6: "notes/shipping-vibe-coded-site.html",
     },
     "ai-video": {
         1: "notes/ai-video-roadmap.html",
@@ -173,7 +174,7 @@ class ContentHubUpgradeTests(unittest.TestCase):
             {BASE_PATH + path for path in VIDEO_ARTICLE_PATHS},
         )
 
-    def test_knowledge_base_lists_seventeen_real_articles_without_search(self):
+    def test_knowledge_base_lists_eighteen_real_articles_without_search(self):
         notes = parse("notes.html")
         article_links = {
             attrs.get("href")
@@ -344,7 +345,7 @@ class ContentHubUpgradeTests(unittest.TestCase):
             },
         )
 
-    def test_knowledge_base_filters_all_seventeen_articles_by_series(self):
+    def test_knowledge_base_filters_all_eighteen_articles_by_series(self):
         notes = parse("notes.html")
         roots = [
             attrs
@@ -366,7 +367,7 @@ class ContentHubUpgradeTests(unittest.TestCase):
             for tag, attrs in notes.tags
             if tag == "li" and attrs.get("data-filter-item") is not None
         ]
-        self.assertEqual(len(items), 17)
+        self.assertEqual(len(items), 18)
         self.assertEqual(
             {item.get("data-series") for item in items},
             {"agent", "observe", "aivideo", "industry"},
@@ -426,10 +427,10 @@ class ContentHubUpgradeTests(unittest.TestCase):
                 self.assertTrue(posting.get(field), relative_path + " missing " + field)
             self.assertTrue(posting["image"].startswith("https://"))
 
-    def test_rss_and_sitemap_include_all_seventeen_articles(self):
+    def test_rss_and_sitemap_include_all_eighteen_articles(self):
         rss = ET.parse(DIST / "rss.xml").getroot()
         items = rss.findall("./channel/item")
-        self.assertEqual(len(items), 17)
+        self.assertEqual(len(items), 18)
         rss_links = {item.findtext("link") for item in items}
 
         sitemap = ET.parse(DIST / "sitemap-0.xml").getroot()

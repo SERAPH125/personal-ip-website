@@ -7,6 +7,8 @@ setupSummary: "先安装 Krita 5.2 或更高版本，再导入插件 ZIP；本�
 privacySummary: "本地托管模式可在设备处理图像；在线服务和自定义远程 ComfyUI 会改变数据去向。"
 origin: international
 category: image-model
+toolType: plugin
+difficulty: intermediate
 accessTypes: [desktop, local-service]
 platforms: [windows, macos, linux]
 pricing: free
@@ -68,7 +70,7 @@ Krita AI Diffusion 把生成、扩图和局部重绘带进 Krita 的图层工作
 
 > soft blue ceramic cup on a clean desk, simple illustration, no text
 
-第一次成功的标准不是功能用得多，而是：Docker 正常显示；本地后端连接成功；生成结果进入新图层。
+这次插件验收只看三项：Docker 状态正常、本地后端连接成功、生成结果进入新的可编辑图层。
 
 ## 常见问题
 
@@ -98,6 +100,5 @@ Krita AI Diffusion 把生成、扩图和局部重绘带进 Krita 的图层工作
 - [插件官方仓库](https://github.com/Acly/krita-ai-diffusion)
 - [官方安装说明](https://github.com/Acly/krita-ai-diffusion/blob/main/docs/src/content/docs/installation.mdx)
 - [官方安全页面](https://github.com/Acly/krita-ai-diffusion/security)
-- [隐私或安全说明](https://github.com/Acly/krita-ai-diffusion/security)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

@@ -5,14 +5,11 @@ publishedAt: 2026-08-24
 sourcesCheckedAt: 2026-08-23
 series: observe
 sequence: 11
-cover: "assets/covers/learning-vibe-06.png"
-coverAlt: "AI 编程到底提效了吗？为什么真实研究给出不同答案学习路线第 6 步封面"
+cover: "assets/covers/ai-coding-productivity.svg"
+coverAlt: "AI 编程效率研究延伸阅读封面"
 featured: false
 tags: ["AI 编程","效率研究","开发者工具"]
 draft: false
-learning:
-  track: vibe-coding
-  step: 6
 ---
 
 

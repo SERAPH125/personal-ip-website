@@ -7,6 +7,8 @@ setupSummary: "Windows 与 macOS 可从下载页安装；Linux 按官方 apt 或
 privacySummary: "Claude Desktop 可以访问你主动连接的文件或扩展；授权范围越大，越需要先核对用途和数据政策。"
 origin: international
 category: language-model
+toolType: desktop-client
+difficulty: beginner
 accessTypes: [desktop, web]
 platforms: [windows, macos, linux]
 pricing: freemium
@@ -67,7 +69,7 @@ Windows 和 macOS 使用官方下载安装包；Linux 优先按 Anthropic 文档
 
 > 请把这段公开说明改写成三条行动项；不要加入原文没有的日期、负责人或承诺。
 
-第一次成功的标准不是功能用得多，而是：基础聊天可用；扩展保持未授权；能找到账号与隐私设置。
+这次客户端验收只看三项：基础聊天可用、未使用的扩展仍未授权、账号与隐私设置都能找到。
 
 ## 常见问题
 
@@ -97,6 +99,5 @@ Windows 与 macOS 使用官方更新机制；Linux 使用系统包管理更新�
 - [Claude Desktop 官方下载](https://claude.ai/download)
 - [Claude Desktop 安装说明](https://support.claude.com/en/articles/10065433-install-claude-desktop)
 - [Anthropic 隐私政策](https://www.anthropic.com/legal/privacy)
-- [隐私或安全说明](https://www.anthropic.com/legal/privacy)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

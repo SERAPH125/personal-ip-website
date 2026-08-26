@@ -5,14 +5,14 @@ publishedAt: 2026-08-24
 sourcesCheckedAt: 2026-08-23
 series: agent
 sequence: 8
-cover: "assets/covers/learning-vibe-03.png"
-coverAlt: "不会 Git 也敢 Vibe Coding？先学会保存、比较和撤回学习路线第 3 步封面"
+cover: "assets/covers/learning-vibe-git.svg"
+coverAlt: "用 Git 保存、比较和撤回的 Vibe Coding 学习路线第 2 步封面"
 featured: false
 tags: ["Git","Vibe Coding","版本管理"]
 draft: false
 learning:
   track: vibe-coding
-  step: 3
+  step: 2
 ---
 
 
@@ -49,14 +49,21 @@ git status
 
 确认现有修改属于谁。不要把自己还没完成的内容误当成垃圾清理掉。
 
-如果当前状态正确，可以保存一个基线：
+先检查项目是否已有 `.gitignore`，并确认 `.env`、私钥、客户资料、数据库导出和本机配置没有进入待提交列表。不要把 `git status` 当成内容审查，它只显示状态，不会替你判断文件里是否含有秘密。
+
+优先暂存明确的文件：
 
 ```bash
-git add .
+git add src/需要保存的文件
+git diff --cached
 git commit -m "保存修改前基线"
 ```
 
-这样即使后面的尝试完全失败，也有清楚的返回点。
+文件较多时，可以使用 `git add -p` 逐块选择。只有确认 `.gitignore` 正确、待提交文件都属于当前任务，并用 `git diff --cached` 看过将要提交的内容后，才考虑使用 `git add .`。
+
+> **禁止提交**：`.env`、API 密钥、SSH 私钥、访问令牌、客户数据、未脱敏日志和包含个人绝对路径的配置。发现敏感信息已经暂存时，先取消暂存并撤销密钥，不要只删掉文件后继续提交。
+
+这样即使后面的尝试完全失败，也有清楚的返回点，而且不会为了“做备份”把秘密一起写进 Git 历史。
 
 ## `git diff` 比「看起来没问题」可靠
 

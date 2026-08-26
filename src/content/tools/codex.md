@@ -3,10 +3,12 @@ title: "Codex 安装与入门：从命令行完成第一个编程任务"
 toolName: "Codex"
 description: "面向普通用户的 Codex CLI 安装、登录、首次使用与安全审阅指南。"
 audience: "想用自然语言完成代码阅读、修改与验证，并愿意接触命令行的学习者和开发者。"
-setupSummary: "先准备 Node.js，再安装官方 npm 包；全程约 10—20 分钟。"
+setupSummary: "优先使用与系统对应的官方独立安装器；仅选择 npm 方案时需要 Node.js。全程约 10—20 分钟。"
 privacySummary: "Codex 会按你的授权读取项目并可能执行命令；不要把密钥、客户数据或无关私人文件放进工作目录。"
 origin: international
 category: ai-coding
+toolType: command-line-tool
+difficulty: beginner
 accessTypes: [cli]
 platforms: [windows, macos, linux]
 pricing: freemium
@@ -32,9 +34,9 @@ Codex 适合“项目已经在电脑上，希望 AI 帮你读代码、改代码�
 ## 安装前检查
 
 1. 准备一个无敏感数据的练习项目，并确认你知道它的完整路径。
-2. 安装当前受支持的 Node.js LTS；在终端运行 `node --version` 和 `npm --version`，两条命令都应返回版本号。
+2. 打开官方文档，选择独立安装器、npm、Homebrew 或 Releases；只有使用 npm 时才需要 Node.js。
 3. 如果项目使用 Git，先运行 `git status`，保存或提交自己的修改，便于随时比较和撤销 AI 产生的变更。
-4. 公司电脑、受管设备或代理网络可能限制全局 npm 安装，请先遵守组织的 IT 规则。
+4. 公司电脑、受管设备或代理网络可能限制安装脚本、全局 npm 或二进制下载，请先遵守组织的 IT 规则。
 
 Codex 本身开源，但使用的账户、模型和额度规则可能变化。安装前应在官方页面确认当前登录方式和可用计划。
 
@@ -42,14 +44,28 @@ Codex 本身开源，但使用的账户、模型和额度规则可能变化。�
 
 ![Codex 从环境检查到审阅首个任务的六步流程图](/personal-ip-website/assets/tools/codex/install-flow.svg)
 
-通用的 npm 安装方式如下：
+macOS 或 Linux 可使用官方独立安装器：
+
+```bash
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+codex --version
+```
+
+Windows PowerShell 可使用官方安装脚本：
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
+codex --version
+```
+
+如果你已经在使用受支持的 Node.js，也可以选择 npm 分支：
 
 ```bash
 npm install -g @openai/codex
 codex --version
 ```
 
-若第一条命令出现权限错误，不要随意关闭系统安全策略。优先检查 Node.js 的安装方式，或按照 Codex 官方页面中与你系统对应的安装标签操作。
+如果安装脚本或 npm 出现权限、安全软件或代理错误，不要为了通过安装而关闭系统防护。回到官方文档切换安装方式，或联系设备管理员。
 
 ![OpenAI Codex 官方开源仓库及 Apache-2.0 许可证页面](/personal-ip-website/assets/tools/codex/step-01.webp)
 
@@ -80,24 +96,24 @@ codex
 
 ## 常见问题
 
-**提示找不到 `codex` 命令**：关闭并重新打开终端，再运行 `npm config get prefix` 检查全局可执行文件目录是否已进入系统 PATH。
+**提示找不到 `codex` 命令**：关闭并重新打开终端，确认安装器提示的目录已进入 PATH。只有 npm 安装才需要运行 `npm config get prefix` 检查全局可执行文件目录。
 
 **登录页面打不开**：检查系统时间、默认浏览器和网络代理；公司网络环境下请联系管理员，不要复制来历不明的令牌。
 
 **AI 想修改太多文件**：立即暂停，把任务缩小到一个目录或一个文件，并要求它先列计划和验证方法。用 `git diff` 检查真实变更。
 
-**命令执行失败**：把完整错误信息交给 Codex解释，但不要让它通过关闭防火墙、杀毒软件或系统权限控制来“解决”。
+**命令执行失败**：把完整错误信息交给 Codex 解释，但不要让它通过关闭防火墙、杀毒软件或系统权限控制来“解决”。
 
 ## 更新与卸载
 
-使用 npm 安装时，可以通过相同渠道更新：
+优先通过最初使用的安装渠道更新。使用 npm 安装时，可以运行：
 
 ```bash
 npm install -g @openai/codex@latest
 codex --version
 ```
 
-卸载命令：
+使用 npm 安装时，卸载命令为：
 
 ```bash
 npm uninstall -g @openai/codex

@@ -7,15 +7,17 @@ setupSummary: "安装器本身较快，模型下载会占用更多时间和空�
 privacySummary: "本地生成可让素材留在设备上，但模型下载、更新和可选服务仍可能联网；模型许可证需单独检查。"
 origin: international
 category: image-model
+toolType: workflow
+difficulty: intermediate
 accessTypes: [desktop, local-service]
 platforms: [windows, macos, linux]
 pricing: free
 openSource: true
 license: "Apache-2.0"
-officialUrl: "https://invoke-ai.github.io/InvokeAI/installation/quick_start/"
-downloadUrl: "https://github.com/invoke-ai/InvokeAI/releases"
+officialUrl: "https://invoke.ai/start-here/installation/"
+downloadUrl: "https://github.com/invoke-ai/launcher/releases/latest"
 repositoryUrl: "https://github.com/invoke-ai/InvokeAI"
-versionChecked: "InvokeAI main release channel"
+versionChecked: "Invoke Launcher stable release channel"
 verifiedAt: 2026-08-26
 cover: "/assets/tools/invokeai/cover.svg"
 coverAlt: "InvokeAI 电脑端安装和首次使用流程示意图"
@@ -33,26 +35,26 @@ InvokeAI 是面向本地扩散模型创作的开源应用，提供生成、画�
 
 1. 记录显卡型号和可用显存。
 2. 预留安装、模型与输出空间。
-3. 从官方文档或 Releases 获取安装器。
+3. 从 InvokeAI 安装页进入 Invoke Launcher，并从独立的 Launcher Releases 下载对应平台安装包。
 4. 决定一个固定的模型目录。
 
 ## 图解安装
 
 ![InvokeAI 从检查到首次使用的六步安装流程](/personal-ip-website/assets/tools/invokeai/install-flow.svg)
 
-<p class="tool-image-source">原创步骤示意，根据 <a href="https://github.com/invoke-ai/InvokeAI/releases">官方安装资料</a> 整理 · 核验于 2026-08-26</p>
+<p class="tool-image-source">原创步骤示意，根据 <a href="https://invoke.ai/start-here/installation/">官方安装资料</a> 整理 · 核验于 2026-08-26</p>
 
-从官方安装文档选择当前支持的安装方式。不要先下载大量模型；用一个官方文档推荐的基础模型验证环境最容易排错。
+从官方安装页下载 Invoke Launcher。Launcher 支持 Windows、Apple Silicon macOS 与 Linux，会管理所需 Python、安装、更新和启动；不要把主项目 Releases 误当成桌面安装器。首次只安装一个基础模型，最容易排错。
 
 ![InvokeAI 安装时需要确认的三个关键点](/personal-ip-website/assets/tools/invokeai/setup-screen.svg)
 
-<p class="tool-image-source">原创步骤示意，根据 <a href="https://invoke-ai.github.io/InvokeAI/installation/quick_start/">官方产品或项目说明</a> 整理 · 核验于 2026-08-26</p>
+<p class="tool-image-source">原创步骤示意，根据 <a href="https://github.com/invoke-ai/launcher/releases/latest">Invoke Launcher 官方发布页</a> 整理 · 核验于 2026-08-26</p>
 
 安装目录、模型目录和输出目录尽量分清。空间不足时先迁移模型库，不要直接删除不认识的缓存或环境文件。
 
 ![InvokeAI 第一次使用的目标与验收标准](/personal-ip-website/assets/tools/invokeai/first-use.svg)
 
-<p class="tool-image-source">原创步骤示意，根据 <a href="https://invoke-ai.github.io/InvokeAI/installation/quick_start/">官方使用资料</a> 整理 · 核验于 2026-08-26</p>
+<p class="tool-image-source">原创步骤示意，根据 <a href="https://invoke.ai/start-here/installation/">官方使用资料</a> 整理 · 核验于 2026-08-26</p>
 
 新建低分辨率任务，保持采样与批量参数为默认值，只修改提示词。先确认能稳定生成和保存，再进入画布、ControlNet 或批处理。
 
@@ -68,7 +70,7 @@ InvokeAI 是面向本地扩散模型创作的开源应用，提供生成、画�
 
 > 一张简洁的蓝白色工作台插画，柔和光线，主体居中，无文字，无品牌标识。
 
-第一次成功的标准不是功能用得多，而是：任务无报错完成；图片进入图库；知道模型与输出所在目录。
+第一次验收只看三件事：任务无报错完成、图片进入图库、模型与输出目录都能找到。
 
 ## 常见问题
 
@@ -95,9 +97,9 @@ InvokeAI 是面向本地扩散模型创作的开源应用，提供生成、画�
 
 ## 官方资料与核验日期
 
-- [InvokeAI 安装文档](https://invoke-ai.github.io/InvokeAI/installation/quick_start/)
+- [InvokeAI 安装文档](https://invoke.ai/start-here/installation/)
+- [Invoke Launcher 官方发布页](https://github.com/invoke-ai/launcher/releases/latest)
 - [InvokeAI 官方仓库](https://github.com/invoke-ai/InvokeAI)
 - [InvokeAI 安全策略](https://github.com/invoke-ai/InvokeAI/security)
-- [隐私或安全说明](https://github.com/invoke-ai/InvokeAI/security)
 
 本文最后核验：**2026-08-26**。安装入口、系统要求、模型能力、价格与隐私规则会变化，实际操作时请再次查看官方页面。

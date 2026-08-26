@@ -6,10 +6,12 @@ import {
   formatDate,
   toolAccessMeta,
   toolCategoryMeta,
+  toolDifficultyMeta,
   toolOriginMeta,
   toolPath,
   toolPlatformMeta,
   toolPricingMeta,
+  toolTypeMeta,
   toolUrl,
   withBase,
 } from "../lib/site";
@@ -34,6 +36,7 @@ const canonical = toolUrl(entry.id);
 const accessLabels = data.accessTypes.map((value) => toolAccessMeta[value].label);
 const platformLabels = data.platforms.map((value) => toolPlatformMeta[value].label);
 const setupLabel = data.accessTypes.length === 1 && data.accessTypes[0] === "web" ? "免安装" : "需要安装";
+const pricingLabel = data.pricingNote?.split("；")[0] ?? toolPricingMeta[data.pricing].label;
 const schema = {
   "@context": "https://schema.org",
   "@graph": [
@@ -46,7 +49,7 @@ const schema = {
       inLanguage: "zh-CN",
       image: absoluteUrl(data.cover),
       mainEntityOfPage: canonical,
-      proficiencyLevel: "Beginner",
+      proficiencyLevel: toolDifficultyMeta[data.difficulty].schemaLabel,
       author: {
         "@type": "Person",
         "@id": `${absoluteUrl("")}#creator`,
@@ -100,10 +103,12 @@ const schema = {
           <ul class="tool-guide__meta" aria-label="工具信息">
             <li>{toolOriginMeta[data.origin].label}</li>
             <li>{toolCategoryMeta[data.category].label}</li>
+            <li>{toolTypeMeta[data.toolType].label}</li>
+            <li>{toolDifficultyMeta[data.difficulty].label}</li>
             <li>{setupLabel}</li>
             <li>{accessLabels.join(" / ")}</li>
             <li>{platformLabels.join(" / ")}</li>
-            <li>{toolPricingMeta[data.pricing].label}</li>
+            <li>{pricingLabel}</li>
             <li>{data.openSource ? `开源 · ${data.license}` : "非开源"}</li>
             <li>核验 {formatDate(data.verifiedAt)}</li>
           </ul>
@@ -128,7 +133,7 @@ const schema = {
           <dl>
             <div><dt>适合谁</dt><dd>{data.audience}</dd></div>
             <div><dt>准备成本</dt><dd>{data.setupSummary}</dd></div>
-            <div><dt>费用概况</dt><dd>{toolPricingMeta[data.pricing].label}，实时额度与价格以官方页面为准。</dd></div>
+            <div><dt>费用概况</dt><dd>{data.pricingNote ?? `${toolPricingMeta[data.pricing].label}，实时额度与价格以官方页面为准。`}</dd></div>
             <div><dt>隐私提醒</dt><dd>{data.privacySummary}</dd></div>
           </dl>
         </section>

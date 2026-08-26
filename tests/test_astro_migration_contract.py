@@ -14,11 +14,11 @@ EXISTING_SLUGS = {
 }
 LEARNING_ARTICLES = {
     "vibe-coding-roadmap": ("vibe-coding", 1),
-    "writing-agent-tasks": ("vibe-coding", 2),
-    "git-for-vibe-coding": ("vibe-coding", 3),
+    "git-for-vibe-coding": ("vibe-coding", 2),
+    "writing-agent-tasks": ("vibe-coding", 3),
     "ai-code-acceptance-checklist": ("vibe-coding", 4),
     "agent-task-boundaries": ("vibe-coding", 5),
-    "ai-coding-productivity": ("vibe-coding", 6),
+    "shipping-vibe-coded-site": ("vibe-coding", 6),
     "ai-video-roadmap": ("ai-video", 1),
     "ai-video-prompt-formula": ("ai-video", 2),
     "character-consistency": ("ai-video", 3),
@@ -26,7 +26,14 @@ LEARNING_ARTICLES = {
     "cloud-vs-local-ai-video": ("ai-video", 5),
     "ai-video-rights-checklist": ("ai-video", 6),
 }
-SLUGS = EXISTING_SLUGS | set(LEARNING_ARTICLES)
+NON_ROUTE_ARTICLES = {"ai-coding-productivity"}
+FACT_CHECKED_ARTICLES = {
+    "ai-refund-fraud-report",
+    "fable-5-safety-lock",
+    "seedance-2-workflows",
+    "shipping-vibe-coded-site",
+}
+SLUGS = EXISTING_SLUGS | NON_ROUTE_ARTICLES | set(LEARNING_ARTICLES)
 REQUIRED_FRONTMATTER = {
     "title",
     "description",
@@ -86,7 +93,7 @@ class AstroMigrationContractTests(unittest.TestCase):
         self.assertIn("base:", config)
         self.assertIn("site:", config)
 
-    def test_seventeen_articles_are_markdown_content_entries(self):
+    def test_eighteen_articles_are_markdown_content_entries(self):
         content_dir = ROOT / "src" / "content" / "notes"
         markdown_files = {path.stem: path for path in content_dir.glob("*.md")}
         self.assertEqual(set(markdown_files), SLUGS)
@@ -116,7 +123,7 @@ class AstroMigrationContractTests(unittest.TestCase):
             self.assertTrue(path.is_file(), f"{slug} 学习文章不存在")
             markdown = path.read_text(encoding="utf-8")
             block = frontmatter_block(markdown)
-            self.assertRegex(block, r"(?m)^sourcesCheckedAt:\s*2026-08-23$")
+            self.assertRegex(block, r"(?m)^sourcesCheckedAt:\s*\d{4}-\d{2}-\d{2}$")
             self.assertRegex(block, rf"(?m)^  track:\s*{re.escape(track)}$")
             self.assertRegex(block, rf"(?m)^  step:\s*{step}$")
             self.assertNotIn("\nstatus:", block)
@@ -124,6 +131,18 @@ class AstroMigrationContractTests(unittest.TestCase):
 
         self.assertEqual(steps_by_track["vibe-coding"], set(range(1, 7)))
         self.assertEqual(steps_by_track["ai-video"], set(range(1, 7)))
+
+    def test_fact_dense_articles_record_when_sources_were_checked(self):
+        content_dir = ROOT / "src" / "content" / "notes"
+        for slug in FACT_CHECKED_ARTICLES:
+            block = frontmatter_block(
+                (content_dir / f"{slug}.md").read_text(encoding="utf-8")
+            )
+            self.assertRegex(
+                block,
+                r"(?m)^sourcesCheckedAt:\s*2026-08-26$",
+                f"{slug} 缺少资料核验日期",
+            )
 
     def test_content_collection_validates_article_metadata(self):
         config = (ROOT / "src" / "content.config.ts").read_text(encoding="utf-8")

@@ -2,6 +2,7 @@
 title: "Seedance 2.0 四种玩法，附提示词"
 description: "替换场景、复刻动作、分镜成片与角色乱斗。关键不是堆形容词，而是写清每份参考素材负责什么。"
 publishedAt: 2026-08-13
+sourcesCheckedAt: 2026-08-26
 series: aivideo
 sequence: 4
 cover: "assets/covers/seedance-2.jpg"
